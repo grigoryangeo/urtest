@@ -66,8 +66,8 @@ class Customer(models.Model):
     email = models.EmailField("e-mail", max_length=50)
 
     class Meta:
-        verbose_name = "разработчик"
-        verbose_name_plural = "разработчики"
+        verbose_name = "заказчик"
+        verbose_name_plural = "заказчики"
 
     def __unicode__(self):
         return self.name
@@ -76,7 +76,7 @@ class Customer(models.Model):
 class PhysCustomer(models.Model):
     """Модель физического лица"""
     customer = models.OneToOneField('Customer', related_name='phys_customer',
-                                verbose_name="id")
+                                verbose_name="заказчик")
     passport_serial = models.IntegerField("серия", max_length=4)
     passport_number = models.IntegerField("номер", max_length=6)
     passport_when = models.DateField("когда")
@@ -87,8 +87,8 @@ class PhysCustomer(models.Model):
                                 verbose_name="способ оплаты")
 
     class Meta:
-        verbose_name = "заказчик"
-        verbose_name_plural = "заказчики"
+        verbose_name = "физическое лицо"
+        verbose_name_plural = "физические лица"
 
     def __unicode__(self):
         return self.name
@@ -97,7 +97,7 @@ class PhysCustomer(models.Model):
 class UrCustomer(models.Model):
     """Модель юридического лица"""
     customer = models.OneToOneField('Customer', related_name='ur_customer',
-                                verbose_name="id")
+                                verbose_name="заказчик")
     name = models.CharField("название компании", max_length=100)
     inn = models.CharField("ИНН", max_length=10)
     bank_account = models.CharField("счет в банке", max_length=50)
@@ -113,8 +113,8 @@ class UrCustomer(models.Model):
                                 verbose_name="способ оплаты")
 
     class Meta:
-        verbose_name = "компания"
-        verbose_name_plural = "компании"
+        verbose_name = "юридическое лицо"
+        verbose_name_plural = "юридические лица"
 
     def __unicode__(self):
         return self.name
