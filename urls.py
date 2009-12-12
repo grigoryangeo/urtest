@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from django.views.generic.simple import direct_to_template
 from django.views.generic import list_detail
-from urtest.bugtracker.models import Project, Company, Tester
+from urtest.bugtracker.models import Bug, Project, Customer, PhysCustomer, UrCustomer, Tester
 
 project_info = {
 	"queryset": Project.objects.all(),
@@ -17,7 +17,7 @@ project_info = {
 }
 
 company_info = {
-	"queryset": Company.objects.all(),
+	"queryset": Customer.objects.all(),
 	"template_name": "company_list.html",
 	"template_object_name": "company",
 }
@@ -27,15 +27,20 @@ tester_info = {
 	"template_name": "tester_list.html",
 	"template_object_name": "tester",
 }
+bug_info = {
+	"queryset": Bug.objects.all(),
+	"template_name": "bug_list.html",
+	"template_object_name": "bug",
+}
 
 # Родные для сайта виды
 # Импорт делается автоматически
 urlpatterns = patterns('urtest.bugtracker.views',
     # Главная страница
-    (r'^$', direct_to_template, {'template': 'base.html'}),
+    #(r'^$', direct_to_template, {'template': 'base.html'}),
 
     # Старые примеры работы с багами
-    (r'^bugs/$', 'bugs_list'),
+    (r'^bugs/$',  list_detail.object_list, bug_info),
     (r'^bugs/add$', 'add_bug'),
 
     # Страницы для тестеров:
@@ -50,9 +55,9 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Список всех компаний
     (r'^companies/$', list_detail.object_list, company_info),
     # Личная страница компании
-    (r'^companies/(\d+)$', 'company_detail'),
+#    (r'^companies/(\d+)$', 'company_detail'),
     # Регистрация новой компании
-    (r'^companies/register$', 'company_registraion'),
+#    (r'^companies/register$', 'company_registraion'),
 
     # Страницы проектов:
     # Список всех проектов
@@ -60,7 +65,10 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Страница проекта
     (r'^projects/(\d+)', 'project_detail'),
     # Добавление проекта
-    (r'^projects/new$', 'new_project'),
+    #(r'^projects/new$', 'new_project'),
+
+    # Баги
+    (r'^(projects/\d+/)?bugs/(?P<pk>\d+)$', 'bugs_list'),
 
     # Example:
     # (r'^urtest/', include('urtest.foo.urls')),
@@ -75,9 +83,17 @@ urlpatterns += patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
+# XXX:
+# Предпросмотр форм
+# Заменяем ProjectForm на другое имя формы
+from bugtracker.forms import *
+urlpatterns += patterns('',
+    (r'^formpreview$', StupidFormPreview(ProjectForm)),
+)
+
 urlpatterns += patterns('django.contrib.auth.views',
     # Авторизация
-    (r'^login$', 'login', {'template_name': 'login.html'}),
+    (r'^$', 'login', {'template_name': 'main.html'}),
     # Выход
     (r'^logout$', 'logout', {'template_name': 'logout.html'}),
 )

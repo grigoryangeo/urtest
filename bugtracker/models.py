@@ -1,34 +1,36 @@
-﻿# File encoding: utf-8
+# File encoding: utf-8
 from django.db import models
 from django.contrib.auth.models import User
 
-class Tester(User):
-    """Модель тестера"""
-    QUALIFICATION_CHOICES = (
-        ('l', 'Начинающий'),
-        ('m', 'Любитель'),
-        ('h', 'Опытный тестировщик'),
-        ('g', 'Профессиональный тестировщик'),
-    )
-    user = models.OneToOneField(User, parent_link=True)
-    # Имя, фамилия, email наследуются
-    birthdate = models.DateField("дата рождения")
-    address = models.CharField("адрес", max_length=200)
 
-    # Участие в проектах
+class Tester(models.Model):
+    """Модель тестера"""
+
+    user = models.OneToOneField(User, parent_link=True)
+    # password находятся в User
+    surname = models.CharField("фамилия", max_length=80)
+    first_name = models.CharField("имя", max_length=30)
+    second_name = models.CharField("отчество", max_length=50, blank=True)
+    email = models.EmailField("e-mail", max_length=50)
+
+    osystems = models.ManyToManyField('OSystem',
+                                        related_name='testers',
+                                        verbose_name="ОС")
+    program_languages = models.ManyToManyField('ProgramLang',
+                                        related_name='testers',
+                                        verbose_name="языки программирования")
+    testing_types = models.ManyToManyField('TestingType',
+                                        related_name='testers',
+                                        verbose_name="виды тестирования")
+    browsers = models.ManyToManyField('Browser',
+                                        related_name='testers',
+                                        verbose_name="браузеры")
     projects = models.ManyToManyField('Project', blank=True,
                                         related_name='testers',
                                         verbose_name="проекты")
 
-    languages = models.CharField("языки общения", max_length=100)
-    program_languages = models.CharField("языки программирования", max_length=200)
-    
-    experience = models.IntegerField("опыт (лет)")
-    qualification = models.CharField("квалификация", max_length=1,
-                                     choices=QUALIFICATION_CHOICES,
-                                     default='l')
-                                     
-    about = models.TextField("о себе", blank=True)
+    description = models.TextField("о себе", blank=True, max_length=300)
+    foto = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
 
     def _get_full_name(self):
         full_name = self.user.get_full_name()
@@ -38,7 +40,7 @@ class Tester(User):
             return self.user.get_full_name()
 
     name = property(_get_full_name)
-    
+
     class Meta:
         verbose_name = "тестер"
         verbose_name_plural = "тестеры"
@@ -47,21 +49,69 @@ class Tester(User):
         return self.name
 
 
-class Company(User):
-    """Модель компании"""
+class Customer(models.Model):
+    """Модель Заказчика"""
     TYPE_CHOICES = (
         ('y', 'Юридическое лицо'),
         ('f', 'Физическое лицо'),
     )
-    user = models.OneToOneField(User, parent_link=True)
-    # Наследуются имя, фамилия.
-    # Либо сделать их ФИО ответственного, либо игнорировать
-    name = models.CharField("название компании", max_length=100)
     type = models.CharField("Лицо", max_length=1, choices=TYPE_CHOICES,
                             default='y')
-    #email = models.EmailField("e-mail")
-    address = models.CharField("адрес", max_length=200)
-    
+
+    user = models.OneToOneField(User, parent_link=True)
+    # password находятся в User
+    surname = models.CharField("фамилия", max_length=80)
+    first_name = models.CharField("имя", max_length=30)
+    second_name = models.CharField("отчество", max_length=50, blank=True)
+    email = models.EmailField("e-mail", max_length=50)
+
+    class Meta:
+        verbose_name = "разработчик"
+        verbose_name_plural = "разработчики"
+
+    def __unicode__(self):
+        return self.name
+
+
+class PhysCustomer(models.Model):
+    """Модель физического лица"""
+    customer = models.OneToOneField('Customer', related_name='phys_customer',
+                                verbose_name="id")
+    passport_serial = models.IntegerField("серия", max_length=4)
+    passport_number = models.IntegerField("номер", max_length=6)
+    passport_when = models.DateField("когда")
+    passport_who = models.IntegerField("кем выдан", max_length=100)
+    telefon = models.CharField("контактный телефон", max_length=50)
+    other_connect = models.CharField("другие контактные данные", max_length=100)
+    pay_type = models.ForeignKey('PayingType', related_name='PhysCustomers',
+                                verbose_name="способ оплаты")
+
+    class Meta:
+        verbose_name = "заказчик"
+        verbose_name_plural = "заказчики"
+
+    def __unicode__(self):
+        return self.name
+
+
+class UrCustomer(models.Model):
+    """Модель юридического лица"""
+    customer = models.OneToOneField('Customer', related_name='ur_customer',
+                                verbose_name="id")
+    name = models.CharField("название компании", max_length=100)
+    inn = models.CharField("ИНН", max_length=10)
+    bank_account = models.CharField("счет в банке", max_length=50)
+    bank = models.CharField("банк", max_length=50)
+    reggos_number = models.CharField("номер свидетельства о государственной регистрации", max_length=50)
+    telefon = models.CharField("контактный телефон", max_length=50)
+    www = models.URLField("адрес сайта", max_length=100)
+    address_ur = models.TextField("юридический адрес компании", max_length=300)
+    address_real = models.TextField("физический адрес компании", max_length=300)
+    description = models.TextField("о компании", max_length=300)
+    member_phone = models.CharField("телефон", max_length=50)
+    pay_type = models.ForeignKey('PayingType', related_name='UrCustomers',
+                                verbose_name="способ оплаты")
+
     class Meta:
         verbose_name = "компания"
         verbose_name_plural = "компании"
@@ -72,27 +122,20 @@ class Company(User):
 
 class Project(models.Model):
     """Модель проекта"""
-    LEVEL_CHOICES = (
-        ('l', 'Небольшой'),
-        ('m', 'Нормальный такой'),
-        ('h', 'Пацанский'),
-        ('g', 'Как у негра'),
-    )
-    name = models.CharField("название", max_length=100)
-    company = models.ForeignKey('Company', related_name='projects',
-                                verbose_name="разработчик")
-    description = models.TextField("описание")
+    customer = models.ForeignKey('Customer', related_name='projects',
+                                verbose_name="заказчик")
+    name = models.CharField("название", max_length=50)
+    size = models.IntegerField("размер в SLOC")
+    program_language = models.ManyToManyField('ProgramLang',
+                                        related_name='projects',
+                                        verbose_name="язык программирования")
+    document_languages = models.ManyToManyField('Language',
+                                        related_name='projects',
+                                        verbose_name="язык документации")
 
-    level = models.CharField("размер", max_length=1, choices=LEVEL_CHOICES,
-                             default='l')
+    project_description = models.TextField("описание проекта", max_length=300)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
-    planned_date = models.DateField("предполагаемая дата сдачи")
-
-    document_languages = models.CharField("язык документации", max_length=100)
-    program_languages = models.CharField("язык программирования", max_length=100)
-
-    paid = models.IntegerField("выплачено", blank=True, null=True)
-    bugget = models.IntegerField("бюджет", blank=True, null=True)
+    #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
     class Meta:
         verbose_name = "проект"
@@ -108,21 +151,109 @@ class Bug(models.Model):
         ('l', 'Низкая'),
         ('m', 'Средняя'),
         ('h', 'Высокая'),
-        ('g', 'OMG PEOPLE ARE DYING'),
     )
-    name = models.CharField("название", max_length=100)
+    STATUS_CHOICES = (
+        ('new', 'Баг не рассматривался'),
+        ('sh', 'Баг на рассмотрении'),
+        ('yes', 'Баг рассмотрен и признан в качестве бага'),
+        ('no', 'Баг рассмотрен и не признан в качестве бага'),
+        ('cor', 'Баг рассмотрен и устранён'),
+    )
+    tester = models.ForeignKey('Tester', related_name='bugs',
+                                verbose_name="Автор")
+
+    short_description = models.TextField("краткое описание бага", max_length=100)
+    test_plan_point = models.CharField("пункт тестплана", max_length=100)
     severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
-    submit_date = models.DateField("дата добавления", auto_now_add=True)
-    description = models.TextField("описание")
+    finding_description = models.TextField("как был получен", max_length=600)
+    full_description = models.TextField("детальное описание бага", max_length=600)
+    file = models.FileField("файл", upload_to="/home/media", blank=True, max_length=100)
+    commet = models.TextField("комментарии к файлу", blank=True, max_length=150)
+    submit_date = models.DateTimeField("дата/время добавления", auto_now_add=True)
+    status = models.CharField("статус бага", max_length=3, choices=SEVERITY_CHOICES,
+                                default='new')
+    status_comment = models.TextField("примечание к статусу", blank=True, max_length=300)
+    status_date = models.DateTimeField("дата/время изменения статуса", auto_now_add=True)
 
     project = models.ForeignKey('Project', related_name='bugs',
                                 verbose_name="проект")
-    tester = models.ForeignKey('Tester', related_name='bugs',
-                                verbose_name="тестировщик")
+
 
     class Meta:
         verbose_name = "баг"
         verbose_name_plural = "баги"
+
+    def __unicode__(self):
+        return self.name
+
+
+class OSystem(models.Model):
+    """Модель ОС"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "операционная система"
+        verbose_name_plural = "операционные системы"
+
+    def __unicode__(self):
+        return self.name
+
+
+class Browser(models.Model):
+    """Модель Браузеров"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "браузер"
+        verbose_name_plural = "браузеры"
+
+    def __unicode__(self):
+        return self.name
+
+
+class ProgramLang(models.Model):
+    """Модель ЯП"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "язык программирования"
+        verbose_name_plural = "языки программирования"
+
+    def __unicode__(self):
+        return self.name
+
+
+class TestingType(models.Model):
+    """Модель видов тестирования"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "вид тестирования"
+        verbose_name_plural = "виды тестирования"
+
+    def __unicode__(self):
+        return self.name
+
+
+class PayingType(models.Model):
+    """Модель видов оплаты"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "вид оплаты"
+        verbose_name_plural = "виды оплаты"
+
+    def __unicode__(self):
+        return self.name
+
+
+class Language(models.Model):
+    """Модель языка"""
+    name = models.CharField("название", max_length=30)
+
+    class Meta:
+        verbose_name = "язык"
+        verbose_name_plural = "языки"
 
     def __unicode__(self):
         return self.name

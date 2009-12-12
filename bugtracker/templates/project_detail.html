@@ -3,8 +3,8 @@
 
 {% block content%}
 <h1>Проект {{ project.name }}</h1>
-<p>Этот проект был разработан компанией <a href="/companies/{{ project.company.pk }}">{{ project.company.name }}</a></p>
-<p>{{ project.description }}</p>
+<p>Этот проект был разработан компанией <a href="/company/{{ project.customer.pk }}">{{ project.customers.name }}</a></p>
+<p>{{ project.project_description }}</p>
 <p>Этот проект тестируется следующими тестировщиками:
 <ul>
     {% for tester in testers %}

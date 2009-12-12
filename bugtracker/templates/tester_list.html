@@ -4,7 +4,7 @@
 {% block content%}
 <h1>Список всех тестировщиков</h1>
 <ul>
-    {% for tester in tester_list %}
+    {% for tester in testers %}
     <li><a href="/testers/{{ tester.pk }}">{{ tester.name }}</a></li>
     {% endfor %}
 </ul>

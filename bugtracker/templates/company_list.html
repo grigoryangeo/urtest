@@ -4,10 +4,18 @@
 {% block content%}
 <h1>Список всех  компаний</h1>  
 <ul>
-    {% for company in company_list %}
-    <li><a href="/companies/{{ company.pk }}">{{ company.name }}</a></li>
+    <h2>Список физических лиц</h2>
+    {%  for customer in PhysCustomer_list %}
+    <li><a href="/customers/{{ customer.pk }}">{{ customer.name }}</a></li>
     {% empty %}
-    <li>Компаний нет. Увы.</li>
-    {% endfor %}
+    <li>Клиентов нет. Увы.</li>
+    {%endfor %}
+
+     <h2>Список юредических лиц </h2>
+     {%  for customer in UrCustomer_list %}
+    <li><a href="/customers/{{ customer.pk }}">{{ customer.name }}</a></li>
+    {% empty %}
+    <li>Клиентов нет. Увы.</li>
+    {%endfor %}
 </ul>
 {% endblock %}

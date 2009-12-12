@@ -80,6 +80,7 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.webdesign',
+    'django.contrib.formtools',
     'urtest.bugtracker',
 )
 

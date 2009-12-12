@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}RuTest login{% endblock %}
+{% block content%}
+
+{% if user.is_authenticated  %}
+    <li>Приветствуем, {{ user.username }}</li> <BR>
+{%else%}
+    <form method="post" action="{% url django.contrib.auth.views.login %}">
+        {{ form.as_p }}
+        <input type="submit" value="Войти" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+{%endif%}
+
+<p>Пипец какая крутая компания Рутест предоставляет услуги по краудсорсингу</p>
+{% if not user.is_authenticated  %}
+    <a href="/companies/register">Регистрация компании</a>
+    <a href="/testers/register">Регистрация тестировщиков</a>
+{% endif %}
+
+{% endblock %}

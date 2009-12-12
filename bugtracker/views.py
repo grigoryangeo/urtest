@@ -5,10 +5,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from models import Bug, Company, Project, Tester
-from forms import BugForm, ProjectForm, TesterForm, CompanyForm
+from models import Bug, Customer, PhysCustomer, UrCustomer, Project, Tester
+from forms import BugForm, ProjectForm, TesterForm
 
-
+#  те кто занимаются формами .это надо удалить
 def bugs_list(request):
     bugs = Bug.objects.all()
     return render_to_response('buglist.html', {'bugs': bugs},
@@ -28,27 +28,27 @@ def add_bug(request):
 
 
 # компании
-def company_registraion(request):
-    if request.method == 'POST':
-        form = CompanyForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/companies/')
-    else:
-        form = CompanyForm()
-    return render_to_response('company_registraion.html',{'form': form})
+#def company_registraion(request):
+#    if request.method == 'POST':
+#        form = CompanyForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return HttpResponseRedirect('/companies/')
+#    else:
+#        form = CompanyForm()
+#    return render_to_response('company_registraion.html',{'form': form})
 
-@login_required
-def company_detail(request, pk):
-    try:
-        company = Company.objects.get(pk=pk)
-    except Company.DoesNotExist:
-        raise Http404
-    projects = company.projects.all()
-    return render_to_response('company_detail.html', locals(),
-                              context_instance=RequestContext(request))
+#@login_required
+#def company_detail(request, pk):
+#    try:
+#        company = Company.objects.get(pk=pk)
+#    except Company.DoesNotExist:
+#        raise Http404
+#    projects = company.projects.all()
+#    return render_to_response('company_detail.html', locals(),
+#                              context_instance=RequestContext(request))
 
-       
+                              
 # тестеры
 def tester_registraion(request):
     if request.method == 'POST':
@@ -72,15 +72,15 @@ def tester_detail(request, pk):
 
 
 # проекты
-def new_project(request):
-    if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/projects/')
-    else:
-        form = ProjectForm()
-    return render_to_response('new_project.html',{'form': form})
+#def new_project(request):
+#    if request.method == 'POST':
+#        form = ProjectForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return HttpResponseRedirect('/projects/')
+#    else:
+#        form = ProjectForm()
+#    return render_to_response('new_project.html',{'form': form})
 
 @login_required
 def project_detail(request, pk):
