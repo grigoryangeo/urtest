@@ -22,7 +22,6 @@ company_info = {
         "template_object_name": "customer",
 }
 
-
 tester_info = {
 	"queryset": Tester.objects.all(),
 	"template_name": "tester_list.html",
@@ -37,6 +36,7 @@ urlpatterns = patterns('urtest.bugtracker.views',
 
 
     # Страницы для тестеров:
+    (r'^testers/$', list_detail.object_list, tester_info),
     # Личная страница тестера
     (r'^testers/(\d+)$', 'tester_detail'),
     # Регистрация нового тестера

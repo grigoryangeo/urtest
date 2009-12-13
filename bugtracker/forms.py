@@ -46,6 +46,7 @@ class TesterForm(forms.Form):
     last_name = forms.CharField(label="Фамилия")
     first_name = forms.CharField(label="Имя")
     second_name = forms.CharField(label="Отчество")
+    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
 
     os = forms.ModelMultipleChoiceField(queryset=models.OSystem.objects.all())
     program_languages = forms.ModelMultipleChoiceField(queryset=models.ProgramLang.objects.all())

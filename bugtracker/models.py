@@ -30,7 +30,7 @@ class Tester(models.Model):
                                         verbose_name="проекты")
 
     description = models.TextField("о себе", blank=True, max_length=300)
-    foto = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
+    #foto = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
 
     def _get_full_name(self):
         full_name = self.user.get_full_name()

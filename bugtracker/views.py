@@ -71,6 +71,7 @@ def tester_registraion(request):
             tester.first_name = form.cleaned_data['first_name']
             tester.second_name = form.cleaned_data['second_name']
             tester.email = form.cleaned_data['email']
+            tester.description = form.cleaned_data['description']
             tester.save()
             tester.osystems = form.cleaned_data['os']
             tester.program_languages = form.cleaned_data['program_languages']
@@ -82,13 +83,11 @@ def tester_registraion(request):
         form = TesterForm()
     return render_to_response('tester_registraion.html',{'form': form})
 
-@login_required
+
 def tester_detail(request, pk):
-    try:
-        tester = Tester.objects.get(pk=pk)
-    except Tester.DoesNotExist:
-        raise Http404
+    tester = get_object_or_404(Tester, pk=pk)
     projects = tester.projects.all()
+    fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
     return render_to_response('tester_detail.html', locals(),
                               context_instance=RequestContext(request))
 

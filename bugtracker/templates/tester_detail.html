@@ -3,7 +3,9 @@
 
 {% block content%}
 <h1>Личная страница тестирировщика {{ tester.name }}</h1>
-<p>Сий тестер тестирует уже {{ tester.experience }} лет</p>
+{% for n,v in fields %}
+<li>{{ n|capfirst }} --- {{ v }}</li>
+{% endfor %}
 <p>Сий тестер участвует в следующих проектах:
 <ul>
     {% for project in projects %}
