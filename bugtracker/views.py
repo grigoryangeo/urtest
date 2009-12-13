@@ -6,14 +6,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from models import Bug, Customer, PhysCustomer, UrCustomer, Project, Tester
-from forms import BugForm, ProjectForm, TesterForm
-
-#  те кто занимаются формами .это надо удалить
-def bugs_list(request):
-    bugs = Bug.objects.all()
-    return render_to_response('buglist.html', {'bugs': bugs},
-                              context_instance=RequestContext(request))
+from models import *
+from forms import *
 
 
 def add_bug(request):
@@ -29,26 +23,36 @@ def add_bug(request):
 
 
 # компании
-#def company_registraion(request):
-#    if request.method == 'POST':
-#        form = CompanyForm(request.POST)
-#        if form.is_valid():
-#            form.save()
-#            return HttpResponseRedirect('/companies/')
-#    else:
-#        form = CompanyForm()
-#    return render_to_response('company_registraion.html',{'form': form})
+def company_registraion_phys(request):
+    if request.method == 'POST':
+        form = PhysCustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = PhysCustomerForm()
+    return render_to_response('company_registraion.html',{'form': form})
 
-#@login_required
-#def company_detail(request, pk):
-#    try:
-#        company = Company.objects.get(pk=pk)
-#    except Company.DoesNotExist:
-#        raise Http404
-#    projects = company.projects.all()
-#    return render_to_response('company_detail.html', locals(),
-#                              context_instance=RequestContext(request))
-
+def company_registraion(request, type):
+    if type == 'y':
+        form_type = UrCustomerForm
+    elif type == 'f':
+        form_type = PhysCustomerForm
+    if request.method == 'POST':
+        form = form_type(request.POST)
+        if form.is_valid():
+            ur_customer = form.save(commit=False)
+            user = User()
+            user.username = user.email = form.cleaned_data['email']
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            customer = Customer.objects.create(type=type, user=user)
+            ur_customer.customer = customer
+            ur_customer.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = form_type()
+    return render_to_response('company_registraion.html',{'form': form, 'type': type})
                               
 # тестеры
 def tester_registraion(request):

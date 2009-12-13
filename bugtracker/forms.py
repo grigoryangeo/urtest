@@ -18,6 +18,26 @@ class ProjectForm(forms.ModelForm):
         exclude = ['customer']
 
 
+class UserForm(forms.ModelForm):
+    email = forms.EmailField(label='Контактный E-mail')
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(username=email).count() > 0:
+            raise forms.ValidationError('Пользователь с таким адресом уже существует')
+        return email
+    
+    def clean_password_confirm(self):
+        cleaned_data = self.cleaned_data
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+        return password_confirm
+
+
 class TesterForm(forms.Form):
     email = forms.EmailField()
 
@@ -40,21 +60,29 @@ class TesterForm(forms.Form):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-        password = cleaned_data['password']
-        password_confirm = cleaned_data['password_confirm']
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data('password_confirm')
         if password != password_confirm:
             raise forms.ValidationError('Пароль и подтверждение не совпадают')
         return cleaned_data
 
 
-class UrCustomerForm(forms.ModelForm):
+class UrCustomerForm(UserForm):
+    type = forms.CharField(widget=forms.HiddenInput, initial='y')
+
     class Meta:
         model = models.UrCustomer
+        exclude = ['customer']
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.UrCustomer._meta.fields[2:]]
 
 
-class PhysCustomerForm(forms.ModelForm):
+class PhysCustomerForm(UserForm):
+    type = forms.CharField(widget=forms.HiddenInput, initial='f')
+    
     class Meta:
         model = models.PhysCustomer
+        exclude = ['customer']
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]]
 
 
 

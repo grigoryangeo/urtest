@@ -5,7 +5,8 @@
 <h1>Регистрация заказчиков</h1>
 
 <!-- надо  регистрировать в зависимости от того Физическое или юредическое лицо -->
-<form action="/companies/register" method="post">
+<form action="/companies/register_{{ type }}" method="post">
+
 {{ form.as_p }}
 <input type="submit" value="Зарегистрироваться" />
 </form>

@@ -12,9 +12,10 @@
     </form>
 {%endif%}
 
-<p>Пипец какая крутая компания Рутест предоставляет услуги по краудсорсингу</p>
+<p>Компания Рутест предоставляет услуги по краудсорсингу</p>
 {% if not user.is_authenticated  %}
-    <a href="/companies/register">Регистрация компании</a>
+    <a href="/companies/register_f">Регистрация физического лица</a>
+    <a href="/companies/register_y">Регистрация юридического лица</a>
     <a href="/testers/register">Регистрация тестировщиков</a>
 {% endif %}
 

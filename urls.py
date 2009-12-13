@@ -16,21 +16,10 @@ project_info = {
 	"template_object_name": "project",
 }
 
-company_info = {
-	"queryset": Customer.objects.all(),
-	"template_name": "company_list.html",
-	"template_object_name": "company",
-}
-
 tester_info = {
 	"queryset": Tester.objects.all(),
 	"template_name": "tester_list.html",
 	"template_object_name": "tester",
-}
-bug_info = {
-	"queryset": Bug.objects.all(),
-	"template_name": "bug_list.html",
-	"template_object_name": "bug",
 }
 
 # Родные для сайта виды
@@ -39,13 +28,8 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Главная страница
     #(r'^$', direct_to_template, {'template': 'base.html'}),
 
-    # Старые примеры работы с багами
-    (r'^bugs/$',  list_detail.object_list, bug_info),
-    (r'^bugs/add$', 'add_bug'),
 
     # Страницы для тестеров:
-    # Список всех тестеров
-    (r'^testers/$', list_detail.object_list, tester_info),
     # Личная страница тестера
     (r'^testers/(\d+)$', 'tester_detail'),
     # Регистрация нового тестера
@@ -53,11 +37,11 @@ urlpatterns = patterns('urtest.bugtracker.views',
 
     # Страницы компаний:
     # Список всех компаний
-    (r'^companies/$', list_detail.object_list, company_info),
     # Личная страница компании
-#    (r'^companies/(\d+)$', 'company_detail'),
+    #(r'^companies/(\d+)$', 'company_detail'),
     # Регистрация новой компании
-#    (r'^companies/register$', 'company_registraion'),
+    (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
+    (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
 
     # Страницы проектов:
     # Список всех проектов
@@ -68,7 +52,7 @@ urlpatterns = patterns('urtest.bugtracker.views',
     #(r'^projects/new$', 'new_project'),
 
     # Баги
-    (r'^(projects/\d+/)?bugs/(?P<pk>\d+)$', 'bugs_list'),
+    #(r'^(projects/\d+/)?bugs/(?P<pk>\d+)$', 'bugs_list'),
 
     # Example:
     # (r'^urtest/', include('urtest.foo.urls')),
