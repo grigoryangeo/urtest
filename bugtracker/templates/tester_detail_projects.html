@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}RuTest tester{% endblock %}
+
+{% block content%}
+<h1>Личная страница тестирировщика {{ tester.name }}</h1>
+<p>Этот тестер участвует в следующих проектах:
+<ul>
+    {% for project in projects %}
+    <li><a href="/projects/{{ project.pk }}">{{ project.name }}</a></li>
+    {% empty %}
+    <li>Проектов нет</li>
+    {% endfor %}
+</ul>
+</p>
+{% endblock %}

@@ -3,7 +3,8 @@
 
 {% block content%}
 <h1>Проект {{ project.name }}</h1>
-<p>Этот проект был разработан компанией <a href="/company/{{ project.customer.pk }}">{{ project.customers.name }}</a></p>
+<p>Этот проект был разработан компанией <a href="/companies/{{ project.customer.pk }}">{{ project.customer.name }}</a></p>
+<p>Размер в SLOC: {{ project.size }}</p>
 <p>{{ project.project_description }}</p>
 <p>Этот проект тестируется следующими тестировщиками:
 <ul>
@@ -18,5 +19,10 @@
     <li>{{ bug.name}}</li>
     {% endfor %}
 </ul>
+
+{% if user.tester %}
+<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+{% endif %}
+
 </p>
 {% endblock %}

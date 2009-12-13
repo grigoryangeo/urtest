@@ -13,9 +13,14 @@ class BugForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if models.Project.objects.filter(name=name).count() > 0:
+            raise forms.ValidationError('Проект с таким названием уже существует')
+        return name
     class Meta:
         model = models.Project
-        exclude = ['customer']
+        exclude = ['customer', 'testers']
 
 
 class UserForm(forms.ModelForm):

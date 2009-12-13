@@ -28,6 +28,12 @@ tester_info = {
 	"template_object_name": "tester",
 }
 
+bug_info = {
+    "queryset": Bug.objects.all(),
+    "template_name": "bug_list.html",
+    "template_object_name": "bug",
+}
+
 # Родные для сайта виды
 # Импорт делается автоматически
 urlpatterns = patterns('urtest.bugtracker.views',
@@ -38,7 +44,7 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Страницы для тестеров:
     (r'^testers/$', list_detail.object_list, tester_info),
     # Личная страница тестера
-    (r'^testers/(\d+)$', 'tester_detail'),
+    (r'^testers/(\d+)(/[a-z]+)?$', 'tester_detail'),
     # Регистрация нового тестера
     (r'^testers/register$', 'tester_registraion'),
 
@@ -55,12 +61,13 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Список всех проектов
     (r'^projects/$', list_detail.object_list, project_info),
     # Страница проекта
-    (r'^projects/(\d+)', 'project_detail'),
+    (r'^projects/(\d+)$', 'project_detail'),
     # Добавление проекта
-    #(r'^projects/new$', 'new_project'),
+    (r'^projects/new$', 'new_project'),
 
     # Баги
-    #(r'^(projects/\d+/)?bugs/(?P<pk>\d+)$', 'bugs_list'),
+    (r'^bugs/$', list_detail.object_list, bug_info),
+    (r'^projects/(\d+)/addbug$', 'add_bug'),
 
     # Example:
     # (r'^urtest/', include('urtest.foo.urls')),

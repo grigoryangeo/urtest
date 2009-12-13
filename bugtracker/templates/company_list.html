@@ -5,7 +5,6 @@
 {% block content%}
 <h1>Список всех  компаний</h1>  
 <ul>
-    <h2>Список физических лиц</h2>
     {% for customer in customer_list %}
     <li><a href="/companies/{{ customer.pk }}">{{ customer.user.username }}</a></li>
     {% empty %}

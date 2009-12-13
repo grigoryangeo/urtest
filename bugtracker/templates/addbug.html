@@ -3,9 +3,7 @@
 {% block content %}
 <h1>Добавить баг:</h1>
 
-<!--  ошибка в форме -->
-
-<form action="/bugs/add" method="post">
+<form action="./addbug" method="post">
 {{ form.as_p }}
 <input type="submit" value="Добавить" />
 </form>

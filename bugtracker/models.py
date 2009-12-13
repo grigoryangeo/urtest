@@ -25,9 +25,6 @@ class Tester(models.Model):
     browsers = models.ManyToManyField('Browser',
                                         related_name='testers',
                                         verbose_name="браузеры")
-    projects = models.ManyToManyField('Project', blank=True,
-                                        related_name='testers',
-                                        verbose_name="проекты")
 
     description = models.TextField("о себе", blank=True, max_length=300)
     #foto = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
@@ -66,6 +63,13 @@ class Customer(models.Model):
             return self.phys_customer
         else:
             return self.ur_customer
+
+    def _get_full_name(self):
+        if self.type == 'f':
+            return self.phys_customer.full_name
+        else:
+            return self.ur_customer.name
+    name = property(_get_full_name)
     
     class Meta:
         verbose_name = "заказчик"
@@ -151,9 +155,16 @@ class Project(models.Model):
                                         related_name='projects',
                                         verbose_name="язык документации")
     project_description = models.TextField("описание проекта", max_length=300)
+    testers = models.ManyToManyField('Tester', blank=True,
+                                        related_name='projects',
+                                        verbose_name="тестеры")
     submit_date = models.DateField("дата размещения", auto_now_add=True)
     #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
+    def add_tester(self, tester):
+        self.testers += tester
+        self.save(force_update)
+    
     class Meta:
         verbose_name = "проект"
         verbose_name_plural = "проекты"
@@ -183,8 +194,8 @@ class Bug(models.Model):
     severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
     finding_description = models.TextField("как был получен", max_length=600)
     full_description = models.TextField("детальное описание бага", max_length=600)
-    file = models.FileField("файл", upload_to="/home/media", blank=True, max_length=100)
-    commet = models.TextField("комментарии к файлу", blank=True, max_length=150)
+    #file = models.FileField("файл", upload_to="/home/media", blank=True, max_length=100)
+    #commet = models.TextField("комментарии к файлу", blank=True, max_length=150)
     submit_date = models.DateTimeField("дата/время добавления", auto_now_add=True)
     status = models.CharField("статус бага", max_length=10, choices=STATUS_CHOICES,
                                 default='new')
@@ -193,6 +204,10 @@ class Bug(models.Model):
 
     project = models.ForeignKey('Project', related_name='bugs',
                                 verbose_name="проект")
+
+    def _get_name(self):
+        return self.short_description
+    name = property(_get_name)
 
     class Meta:
         verbose_name = "баг"

@@ -1,6 +1,7 @@
 # File encoding: utf-8
 
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -8,18 +9,6 @@ from django.contrib.auth.decorators import login_required
 
 from models import *
 from forms import *
-
-
-def add_bug(request):
-    if request.method == 'POST':
-        form = BugForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/bugs/')
-    else:
-        form = BugForm()
-    return render_to_response('addbug.html',{'form': form},
-                              context_instance=RequestContext(request))
 
 
 # компании
@@ -84,26 +73,37 @@ def tester_registraion(request):
     return render_to_response('tester_registraion.html',{'form': form})
 
 
-def tester_detail(request, pk):
+def tester_detail(request, pk, page=''):
+    print pk, page
     tester = get_object_or_404(Tester, pk=pk)
-    projects = tester.projects.all()
-    fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
-    return render_to_response('tester_detail.html', locals(),
+    if page == None:
+        fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
+        return render_to_response('tester_detail.html', locals(),
                               context_instance=RequestContext(request))
+    elif page == '/projects':
+        projects = tester.projects.all()
+        return render_to_response('tester_detail_projects.html', locals(),
+            context_instance=RequestContext(request))
+    else:
+        raise Http404
+
 
 
 # проекты
-#def new_project(request):
-#    if request.method == 'POST':
-#        form = ProjectForm(request.POST)
-#        if form.is_valid():
-#            form.save()
-#            return HttpResponseRedirect('/projects/')
-#    else:
-#        form = ProjectForm()
-#    return render_to_response('new_project.html',{'form': form})
+def new_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.customer = get_user(request).customer
+            project.save()
+            return HttpResponseRedirect('/projects/')
+    else:
+        form = ProjectForm()
+    return render_to_response('new_project.html',{'form': form},
+        context_instance=RequestContext(request))
 
-@login_required
+
 def project_detail(request, pk):
     try:
         project = Project.objects.get(pk=pk)
@@ -114,4 +114,25 @@ def project_detail(request, pk):
     return render_to_response('project_detail.html', locals(),
                               context_instance=RequestContext(request))
 
+# баги
+def bug_list(request):
+    return render_to_response('bug_list.html')
+
+def bug_details(request):
+    return render_to_response('bug_detail.html')
+
+def add_bug(request, project_pk):
+    project = get_object_or_404(Project, pk=project_pk)
+    if request.method == 'POST':
+        form = BugForm(request.POST)
+        if form.is_valid():
+            bug = form.save(commit=False)
+            bug.project = project
+            bug.tester = get_user(request).tester
+            bug.save()
+            return HttpResponseRedirect('/projects/%s' % project_pk)
+    else:
+        form = BugForm()
+    return render_to_response('addbug.html',{'form': form},
+                              context_instance=RequestContext(request))
 
