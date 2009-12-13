@@ -2,7 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
@@ -23,15 +23,17 @@ def add_bug(request):
 
 
 # компании
-def company_registraion_phys(request):
-    if request.method == 'POST':
-        form = PhysCustomerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
+def company_detail(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if customer.type == 'f':
+        template = 'PhysCustomer_detail.html'
     else:
-        form = PhysCustomerForm()
-    return render_to_response('company_registraion.html',{'form': form})
+        template = 'UrCustomer_detail.html'
+    detail = customer.get_detail()
+    fields = [(f.verbose_name, getattr(detail, f.name)) for f in detail._meta.fields[2:]]
+    return render_to_response(template, {'fields': fields, 'detail': detail},
+        context_instance=RequestContext(request))
+
 
 def company_registraion(request, type):
     if type == 'y':

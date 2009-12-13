@@ -2,7 +2,12 @@
 {% block title %}RuTest companies{% endblock %}
 {% block content%}
 
-<h1>Личная страница компании {{ UrCustomer.name }}</h1>
+<h1>Личная страница компании {{ detail.name }}</h1>
+<ul>
+{% for n,v in fields %}
+<li>{{ n|capfirst }} --- {{ v }}</li>
+{% endfor %}
+</ul>
 <p>Эта компания разработала следующие проекты:</p>
 <ul>
     {% for project in projects %}

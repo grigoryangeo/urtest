@@ -60,6 +60,12 @@ class Customer(models.Model):
 
     user = models.OneToOneField(User)
     # password находятся в User
+
+    def get_detail(self):
+        if self.type == 'f':
+            return self.phys_customer
+        else:
+            return self.ur_customer
     
     class Meta:
         verbose_name = "заказчик"

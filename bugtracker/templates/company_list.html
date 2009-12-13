@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
+
 {% block title %}RuTest companies{% endblock %}
 
 {% block content%}
 <h1>Список всех  компаний</h1>  
 <ul>
     <h2>Список физических лиц</h2>
-    {%  for customer in PhysCustomer_list %}
-    <li><a href="/customers/{{ customer.pk }}">{{ customer.name }}</a></li>
-    {% empty %}
-    <li>Клиентов нет. Увы.</li>
-    {%endfor %}
-
-     <h2>Список юредических лиц </h2>
-     {%  for customer in UrCustomer_list %}
-    <li><a href="/customers/{{ customer.pk }}">{{ customer.name }}</a></li>
+    {% for customer in customer_list %}
+    <li><a href="/companies/{{ customer.pk }}">{{ customer.user.username }}</a></li>
     {% empty %}
     <li>Клиентов нет. Увы.</li>
     {%endfor %}

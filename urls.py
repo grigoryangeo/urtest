@@ -16,6 +16,13 @@ project_info = {
 	"template_object_name": "project",
 }
 
+company_info = {
+	"queryset": Customer.objects.all(),
+	"template_name": "company_list.html",
+        "template_object_name": "customer",
+}
+
+
 tester_info = {
 	"queryset": Tester.objects.all(),
 	"template_name": "tester_list.html",
@@ -37,8 +44,9 @@ urlpatterns = patterns('urtest.bugtracker.views',
 
     # Страницы компаний:
     # Список всех компаний
+    (r'^companies/$', list_detail.object_list, company_info),
     # Личная страница компании
-    #(r'^companies/(\d+)$', 'company_detail'),
+    (r'^companies/(\d+)$', 'company_detail'),
     # Регистрация новой компании
     (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
     (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
