@@ -61,7 +61,7 @@ class TesterForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
         password = cleaned_data.get('password')
-        password_confirm = cleaned_data('password_confirm')
+        password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
             raise forms.ValidationError('Пароль и подтверждение не совпадают')
         return cleaned_data
