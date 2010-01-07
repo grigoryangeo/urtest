@@ -40,7 +40,6 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Главная страница
     #(r'^$', direct_to_template, {'template': 'base.html'}),
 
-
     # Страницы для тестеров:
     (r'^testers/$', list_detail.object_list, tester_info),
     # Личная страница тестера
@@ -52,23 +51,23 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Список всех компаний
     (r'^companies/$', list_detail.object_list, company_info),
     # Личная страница компании
-    (r'^companies/(\d+)$', 'company_detail'),
+    (r'^companies/(\d+)(/[a-z]+)?$', 'company_detail'),
     # Регистрация новой компании
     (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
     (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
-
+(r'^projects/(\d+)/addbug$', 'add_bug'),
     # Страницы проектов:
     # Список всех проектов
     (r'^projects/$', list_detail.object_list, project_info),
     # Страница проекта
-    (r'^projects/(\d+)$', 'project_detail'),
+    (r'^projects/(\d+)(/[a-z]+)?$', 'project_detail'),
     # Добавление проекта
     (r'^projects/new$', 'new_project'),
-
+    (r'^dogovor$', 'dogovor'),
     # Баги
     (r'^bugs/$', list_detail.object_list, bug_info),
-    (r'^projects/(\d+)/addbug$', 'add_bug'),
-
+    
+    (r'^bugs/(\d+)$', list_detail.object_list, bug_info),
     # Example:
     # (r'^urtest/', include('urtest.foo.urls')),
 
@@ -95,6 +94,12 @@ urlpatterns += patterns('django.contrib.auth.views',
     (r'^$', 'login', {'template_name': 'main.html'}),
     # Выход
     (r'^logout$', 'logout', {'template_name': 'logout.html'}),
+)
+
+# Подгрузка JS для интернационализации
+# Требуется для виджета с множественным выбором
+urlpatterns += patterns('',
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
 )
 
 # Статические файлы: CSS и тд

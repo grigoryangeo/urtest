@@ -10,7 +10,7 @@ class Tester(models.Model):
     # password находятся в User
     surname = models.CharField("фамилия", max_length=80)
     first_name = models.CharField("имя", max_length=30)
-    second_name = models.CharField("отчество", max_length=50, blank=True)
+    second_name = models.CharField("отчество", max_length=30, blank=True)
     email = models.EmailField("e-mail", max_length=50)
 
     osystems = models.ManyToManyField('OSystem',
@@ -70,7 +70,7 @@ class Customer(models.Model):
         else:
             return self.ur_customer.name
     name = property(_get_full_name)
-    
+
     class Meta:
         verbose_name = "заказчик"
         verbose_name_plural = "заказчики"
@@ -94,12 +94,12 @@ class PhysCustomer(models.Model):
     passport_who = models.CharField("кем выдан", max_length=100)
     telefon = models.CharField("контактный телефон", max_length=50)
     other_connect = models.CharField("другие контактные данные", max_length=100)
-    pay_type = models.ForeignKey('PayingType', related_name='PhysCustomers',
+    pay_type = models.ManyToManyField('PayingType', related_name='PhysCustomers',
                                 verbose_name="способ оплаты")
     def _get_full_name(self):
         return "%s %s %s" % (self.surname, self.first_name, self.second_name)
     full_name = property(_get_full_name)
-    
+
     class Meta:
         verbose_name = "физическое лицо"
         verbose_name_plural = "физические лица"
@@ -114,7 +114,7 @@ class UrCustomer(models.Model):
     customer = models.OneToOneField('Customer', related_name='ur_customer',
                                 verbose_name="заказчик")
     email = models.EmailField("e-mail", max_length=50)
-    name = models.CharField("название компании", max_length=100)
+    name = models.CharField("название компании", max_length=50)
     inn = models.CharField("ИНН", max_length=10)
     bank_account = models.CharField("счет в банке", max_length=50)
     bank = models.CharField("банк", max_length=50)
@@ -130,7 +130,7 @@ class UrCustomer(models.Model):
     repr_first_name = models.CharField("имя представителя", max_length=30)
     repr_second_name = models.CharField("отчество представителя", max_length=50, blank=True)
     repr_phone = models.CharField("контактный телефон представителя", max_length=50)
-    pay_type = models.ForeignKey('PayingType', related_name='UrCustomers',
+    pay_type = models.ManyToManyField('PayingType', related_name='UrCustomers',
         verbose_name="способ оплаты")
 
     class Meta:
@@ -143,7 +143,7 @@ class UrCustomer(models.Model):
 
 class Project(models.Model):
     """Модель проекта"""
-    
+
     customer = models.ForeignKey('Customer', related_name='projects',
                                 verbose_name="заказчик")
     name = models.CharField("название", max_length=50)
@@ -159,12 +159,14 @@ class Project(models.Model):
                                         related_name='projects',
                                         verbose_name="тестеры")
     submit_date = models.DateField("дата размещения", auto_now_add=True)
+
+    #file = models.FileField("исполняемый файл", upload_to="/home/media", blank=True)
     #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
     def add_tester(self, tester):
         self.testers += tester
         self.save(force_update)
-    
+
     class Meta:
         verbose_name = "проект"
         verbose_name_plural = "проекты"
@@ -201,6 +203,7 @@ class Bug(models.Model):
                                 default='new')
     status_comment = models.TextField("примечание к статусу", blank=True, max_length=300)
     status_date = models.DateTimeField("дата/время изменения статуса", auto_now_add=True)
+
 
     project = models.ForeignKey('Project', related_name='bugs',
                                 verbose_name="проект")

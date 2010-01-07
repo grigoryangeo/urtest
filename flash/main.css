@@ -1,0 +1,155 @@
+div.navi{
+    background-image:url('Images/Orange.jpg');
+    height:40px;
+    border:1px solid;
+    font-size:20px;
+    text-align:left;
+}
+
+table.navi{
+    border-spacing: 20pt 0pt;
+    text-decoration:underline;
+}
+
+table.page{
+    width:1000px;
+    height:800px;
+    border-spacing:0px 10px;
+    background-color:#607588;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top{
+    background-color:#607588;
+}
+
+td.top{
+    width:50%;
+}
+
+.title{
+    font-size:20px;
+    font-style:italic;
+    font-family:serif;
+    color:orange;
+}
+
+table.content{
+    background-color:white;
+    text-align:justify;
+}
+
+table.content2{
+    width:98%;
+    background-color:white;
+    text-align:justify;
+}
+
+td.contents{
+    width:50%;
+    border:1px solid;
+    text-align:justify;
+    padding:0px;
+}
+
+td.pt{
+    width:1%;
+}
+
+div.contents{
+    width:90%;
+    margin-left:  auto;
+    margin-right: auto;
+    text-align:justify;
+    text-indent:20px;
+    padding:15px;
+}
+
+td.ugly{
+    background-image:url('Images/Window.jpg');
+}
+
+table.reg{
+    width:90%;
+    margin-left:  auto;
+    margin-right: auto;
+    background-position:center;
+    border-spacing:10px 0px;
+}
+
+td.bodyReg{
+    width:50%;
+    text-align:left;
+}
+
+.titleReg{
+    width:50%;
+    text-align:center;
+    font-size:20px;
+    font-style:italic;
+    font-family:serif;
+    color:orange;
+}
+
+table.regButton{
+    width:100%;
+    background-image:url('Images/WindowBottom.jpg');
+    border-spacing:0px 0px;
+}
+
+td.regButton{
+    text-align:center;
+    font-size:20px;
+    font-family:serif;
+    letter-spacing:5px;
+    width:50%;
+}
+
+table.bottom{
+}
+
+td.bottom{
+    text-align:center;
+}
+
+table.bottom{
+    width:100%;
+    background-image:url('Images/Grey.jpg');
+}
+
+#logo       {width:50%;}
+#login      {width:100%; text-align:right;}
+#field      {background-color:#607588;}
+#textfield  {background-color:white;}
+#reg        {width:100%;}
+#email      {text-decoration:underline;}
+#intro{
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:justify;
+}
+
+#whitespace{
+    height:30px;
+}
+
+#bottom{
+    background-image:url('Images/Grey.jpg');
+    height:30px;
+}
+
+#cpright    {text-align:right;}
+#list{
+    height:250px;
+    vertical-align:middle;
+    text-align:justify;
+    text-indent:0px;
+    padding-left:30px;
+    padding-right:30px;
+}
+
+a:link      {color: black; text-decoration: none}
+a:visited   {color: black; text-decoration: none}
+a:hover     {color: black; text-decoration: none}   

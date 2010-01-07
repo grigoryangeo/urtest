@@ -1,15 +1,49 @@
 {% extends 'base.html' %}
 {% block title %}RuTest tester{% endblock %}
-
+{% block sidebar %}
+          <ul>
+               <li><a href="/testers/{{ user.tester.pk }}">Мои данные</a></li>
+               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
+           </ul>
+{% endblock %}
 {% block content%}
-<h1>Личная страница тестирировщика {{ tester.name }}</h1>
-<p>Этот тестер участвует в следующих проектах:
-<ul>
+<h1>Мои проекты </h1>
+<!-- Красива таблица( кто нибудь сделайте)-->
+    <TABLE border="3">
+        <THEAD>
+             <tr>
+                <td> Название проекта</td>
+                <td> Размер в SLOC</td>
+                <td> ЯП</td>
+                <td> Язык документации </td>
+                <td> Колличество багов</td>
+             </tr>
+        </THEAD
     {% for project in projects %}
-    <li><a href="/projects/{{ project.pk }}">{{ project.name }}</a></li>
-    {% empty %}
-    <li>Проектов нет</li>
+        <TBODY>
+            <tr>
+               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
+               <td> {{ project.size  }}  </td>
+               <td>  
+                   {% for Progr_Lang in project.program_language.all %}
+                      {{Progr_Lang}}<BR>
+                   {%endfor%}
+               </td>
+               <td>
+                    {% for Doc_lang in project.document_languages.all %}
+                       {{Doc_lang}}<BR>
+                    {%endfor%}
+               </td>
+               <td> {{ project.bugs.count }}</td>
+               <td>
+                   {% if user.is_authenticated %}
+                      {% if user.tester %}
+                      <a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+                   {% endif %}
+    {% endif %}
+               </td>
+            </tr>
+        </TBODY>
     {% endfor %}
-</ul>
-</p>
+     </TABLE>
 {% endblock %}

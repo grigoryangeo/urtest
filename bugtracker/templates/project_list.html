@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}RuTest project{% endblock %}
-
 {% block content%}
-<h1>Список всех проектов</h1>
-<ul>
-    {% for project in project_list %}
-    <li><a href="/projects/{{ project.pk }}">{{ project.name }}</a></li>
-    {% empty %}
-    <li>Проектов нет</li>
-    {% endfor %}
-</ul>
+<h1>Проекты в разработкке</h1>
+<TABLE border="3">
+    <THEAD>
+	<tr>
+	    <td> №</td>
+	    <td> Название</td>
+	    <td> Заказчик </td>
+	    <td> Число тестировщиков </td>
+	    <td> Число багов</td>
+	    <td> Дата</td>
+	</tr>
+    </THEAD>
+    <TBODY>
+	{% for project in project_list %}
+	<tr>
+	    <td>{{ project.pk }}</td>
+	    <td><a href="/projects/{{ project.pk }}">{{ project.name }}</a></td>
+	    <td>{{ project.customer }}</td>
+	    <td>{{ project.testers.count }} </td>
+	    <td>{{ project.bugs.count }} </td>
+	    <td>{{ project.submit_date }}</td>
+	</tr>
+	{% endfor %}
+    </TBODY>
+</TABLE>
 {% endblock %}

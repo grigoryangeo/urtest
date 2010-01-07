@@ -12,16 +12,25 @@ from forms import *
 
 
 # компании
-def company_detail(request, pk):
-    customer = get_object_or_404(Customer, pk=pk)
-    if customer.type == 'f':
-        template = 'PhysCustomer_detail.html'
-    else:
-        template = 'UrCustomer_detail.html'
-    detail = customer.get_detail()
-    fields = [(f.verbose_name, getattr(detail, f.name)) for f in detail._meta.fields[2:]]
-    return render_to_response(template, {'fields': fields, 'detail': detail},
+def company_detail(request, pk, page=''):
+     print pk, page
+     customer = get_object_or_404(Customer, pk=pk)
+     if page == None:
+        if customer.type == 'f':
+           template = 'PhysCustomer_detail.html'
+        else:
+           template = 'UrCustomer_detail.html'
+        detail = customer.get_detail()
+        projects=  customer.projects.all()
+        fields = [(f.verbose_name, getattr(detail, f.name)) for f in detail._meta.fields[2:]]
+        return render_to_response(template, {'fields': fields, 'detail': detail,'projects':projects},
         context_instance=RequestContext(request))
+     elif page == '/projects':
+        projects=  customer.projects.all()
+        return render_to_response('customer_project_detail.html',{'projects':projects},
+            context_instance=RequestContext(request))
+     else:
+        raise Http404
 
 
 def company_registraion(request, type):
@@ -87,7 +96,8 @@ def tester_detail(request, pk, page=''):
     else:
         raise Http404
 
-
+def dogovor(request):
+    return render_to_response('dogovor.html')
 
 # проекты
 def new_project(request):
@@ -97,6 +107,7 @@ def new_project(request):
             project = form.save(commit=False)
             project.customer = get_user(request).customer
             project.save()
+	    form.save_m2m()
             return HttpResponseRedirect('/projects/')
     else:
         form = ProjectForm()
@@ -104,15 +115,25 @@ def new_project(request):
         context_instance=RequestContext(request))
 
 
-def project_detail(request, pk):
+def project_detail(request, pk, page=''):
+    print pk, page
     try:
         project = Project.objects.get(pk=pk)
     except Project.DoesNotExist:
         raise Http404
     testers = project.testers.all()
     bugs = project.bugs.all()
-    return render_to_response('project_detail.html', locals(),
+    if page == None:
+       return render_to_response('project_detail.html', locals(),
                               context_instance=RequestContext(request))
+    elif page == '/bugs':
+        return render_to_response('project_bugs.html', locals(),
+            context_instance=RequestContext(request))
+    elif page == '/testers':
+        return render_to_response('project_testers.html', locals(),
+            context_instance=RequestContext(request))
+    else:
+        raise Http404
 
 # баги
 def bug_list(request):

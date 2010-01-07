@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}RuTest project{% endblock %}
-
+{% block sidebar %}
+<ul>
+    <li><a href="/projects">Наши проекты</a></li>
+    <li><a href="/projects/{{ project.pk}}">Описание</a></li>
+    <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
+    <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
+</ul>
+{% endblock %}
 {% block content%}
-<h1>Проект {{ project.name }}</h1>
-<p>Этот проект был разработан компанией <a href="/companies/{{ project.customer.pk }}">{{ project.customer.name }}</a></p>
-<p>Размер в SLOC: {{ project.size }}</p>
-<p>{{ project.project_description }}</p>
-<p>Этот проект тестируется следующими тестировщиками:
-<ul>
-    {% for tester in testers %}
-    <li><a href="/testers/{{ tester.pk }}">{{ tester.name}}</a></li>
-    {% endfor %}
-</ul>
-</p>
-<p>В этом проекте были найдены следующие баги:
-<ul>
-    {% for bug in bugs %}
-    <li>{{ bug.name}}</li>
-    {% endfor %}
-</ul>
 
+<p>Название:    {{ project.name }}<p>
+<p>Размер в SLOC: {{ project.size }}</p>
+<p>Язык программирования:<BR>
+{% for Progr_Lang in project.program_language.all %}
+{{Progr_Lang}}<BR>
+{%endfor%}
+</p>
+<p>Язык документации:<BR>
+{% for Doc_lang in project.document_languages.all %}
+{{Doc_lang}}<BR>
+{%endfor%}
+</p>
+<p>Описание:{{ project.project_description }}</p>
+
+{% if user.is_authenticated %}
 {% if user.tester %}
-<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+<!-- кнопка присоедениться к проекту -->
+{% endif %}
 {% endif %}
 
-</p>
 {% endblock %}

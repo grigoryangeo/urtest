@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}RuTest regestration {% endblock %}
 {% block header %}RuTest company  registration {% endblock %}
+{% block sidebar %}
+
+{% endblock %}
 {% block content%}
 <h1>Регистрация заказчиков</h1>
+<a href="/companies/register_f">Регистрация физического лица</a>
+<a href="/companies/register_y">Регистрация юридического лица</a>
 
 <!-- надо  регистрировать в зависимости от того Физическое или юредическое лицо -->
 <form action="/companies/register_{{ type }}" method="post">
+    <table>
+        {{ form }}
+    </table>
 
-{{ form.as_p }}
-<input type="submit" value="Зарегистрироваться" />
+    <input type="checkbox" /> Я принимаю условия пользовательского договора
+    <br>
+    <br>
+    <input type="submit" value="Зарегистрироваться" />
+    <input type="button" onClick="location.href='/'" value="Не регистрироваться"/>
 </form>
+
+
 {% endblock %}
 

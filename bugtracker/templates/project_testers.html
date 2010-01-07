@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}RuTest project{% endblock %}
+{% block sidebar %}
+<ul>
+    <li><a href="/projects">Наши проекты</a></li>
+    <li><a href="/projects/{{ project.pk}}">Описание</a></li>
+    <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
+    <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
+</ul>
+{% endblock %}
+{% block content%}
+<h1> Тестировщики </h1>
+<ul>
+    <TABLE border="3">
+	<THEAD>
+	    <tr>
+		<td>№</td>
+		<td>Фамилия</td>
+		<td>Имя </td>
+		<td>Отчество </td>
+		<td>E-mail</td>
+		<td>Колличество найденных багов</td>
+	    </tr>
+	</THEAD>
+	<TBODY>
+	{% for tester in testers %}
+	    <tr>
+		<td>{{ tester.pk }}</td>
+		<td>{{ tester.surname}}</td>
+		<td>{{ tester.first_name}}</td>
+		<td>{{ tester.second_name}} </td>
+		<td><a href="/testers/{{ tester.pk }}">{{ tester.name}}</a></td>
+		<td>{{ tester.bugs.count }}</td>
+	    </tr>
+	{% endfor %}
+	</TBODY>
+    </TABLE>
+</ul>
+<p>
+{% if user.is_authenticated %}
+{% if user.tester %}
+<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+{% endif %}
+{% endif %}
+
+</p>
+{% endblock %}

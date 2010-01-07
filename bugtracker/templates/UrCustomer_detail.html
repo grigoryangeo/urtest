@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}RuTest companies{% endblock %}
+{% block sidebar %}
+          <ul>
+                <li><a href="/companies/{{ user.customer.id }}">Мои данные</a></li>
+                <li><a href="/companies/{{ user.customer.id }}/projects">Мои проекты</a></li>
+           </ul>
+{% endblock %}
 {% block content%}
 
 <h1>Личная страница компании {{ detail.name }}</h1>
@@ -8,14 +14,5 @@
 <li>{{ n|capfirst }} --- {{ v }}</li>
 {% endfor %}
 </ul>
-<p>Эта компания разработала следующие проекты:</p>
-<ul>
-    {% for project in projects %}
-    <li><a href="/projects/{{ project.pk }}">{{ project.name }}</a></li>
-    {% endfor %}
-</ul>
 
-
-{# БОЛЬШАЯ кнопка для добавления проекта#}
-<a href="/projects/new">Добавить проект</a>
 {% endblock %}

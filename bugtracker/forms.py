@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 import bugtracker.models as models
 from django.contrib.auth.models import User
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class BugForm(forms.ModelForm):
@@ -44,19 +45,20 @@ class UserForm(forms.ModelForm):
 
 
 class TesterForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(label='E-mail')
 
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
     last_name = forms.CharField(label="Фамилия")
     first_name = forms.CharField(label="Имя")
     second_name = forms.CharField(label="Отчество")
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
 
-    os = forms.ModelMultipleChoiceField(queryset=models.OSystem.objects.all())
-    program_languages = forms.ModelMultipleChoiceField(queryset=models.ProgramLang.objects.all())
-    testing_types = forms.ModelMultipleChoiceField(queryset=models.TestingType.objects.all())
-    browsers = forms.ModelMultipleChoiceField(queryset=models.Browser.objects.all())
+    os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
+    #os = forms.ModelMultipleChoiceField(queryset=models.OSystem.objects.all())
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all(), widget=FilteredSelectMultiple(u'языки', False))
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -75,20 +77,23 @@ class TesterForm(forms.Form):
 
 class UrCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='y')
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = models.UrCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.UrCustomer._meta.fields[2:]]
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.UrCustomer._meta.fields[2:]] + [f.name for f in models.UrCustomer._meta.many_to_many]
 
 
 class PhysCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='f')
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+
     
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]]
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
 
 
 

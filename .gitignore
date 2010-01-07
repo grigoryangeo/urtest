@@ -5,3 +5,4 @@
 *~
 urtest.db
 *.swp
+.DS_Store

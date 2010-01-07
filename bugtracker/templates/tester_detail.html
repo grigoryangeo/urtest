@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}RuTest tester{% endblock %}
-
+{% block sidebar %}
+          <ul>
+                <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
+               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
+           </ul>
+{% endblock %}
 {% block content%}
-<h1>Личная страница тестирировщика {{ tester.name }}</h1>
+<h1>Личный кабинет тестирировщика {{ tester.name }}</h1>
+<!--надо красиво расписать личную  -->
 <ul>
 {% for n,v in fields %}
 <li>{{ n|capfirst }} --- {{ v }}</li>
 {% endfor %}
 </ul>
-<a href="/testers/{{ tester.pk }}/projects">Мои проекты</a>
-</p>
 {% endblock %}

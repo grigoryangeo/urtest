@@ -1,21 +1,78 @@
 {% extends 'base.html' %}
 {% block title %}RuTest companies{% endblock %}
+{% block sidebar %}
+          <ul>
+                <li><a href="/companies/{{ user.customer.id }}">Мои данные</a></li>
+                <li><a href="/companies/{{ user.customer.id }}/projects">Мои проекты</a></li>
+           </ul>
+{% endblock %}
 {% block content%}
 
-<h1>Личная страница компании</h1>
-<ul>
-{% for n,v in fields %}
-<li>{{ n|capfirst }} --- {{ v }}</li>
-{% endfor %}
-</ul>
-<p>Эта компания разработала следующие проекты:</p>
-<ul>
-    {% for project in projects %}
-    <li><a href="/projects/{{ project.pk }}">{{ project.name }}</a></li>
-    {% endfor %}
-</ul>
-=
 
+<script type="text/javascript">
+
+	function add_project(){
+	                $($('#add').load('/projects/new')).dialog({
+	                    bgiframe: true,
+	                    autoOpen: false,
+	                    width: "600px",
+	                    modal: true,
+	                    position: "top",
+	                    close: function(event, ui) {
+                            $('#container').load('/companies/{{ user.customer.id }}/projects');
+                        },
+	                    buttons: {
+	                    'Закрыть': function() {
+	                        $(this).dialog('close');
+	                        }
+	                    }
+	                }).dialog('open');
+	            }
+</script>
+
+<h1>Мои проекты</h1>
+
+<!-- здесь красиво распмсаны  таблица с  данными по проекту -->
+
+<ul>
+    <TABLE border="3">
+        <THEAD>
+           <tr>
+               <td> Название проекта</td>
+               <td> Размер в SLOC</td>
+               <td> ЯП</td>
+               <td> Язык документации </td>
+               <td> Колличество тестировщиков</td>
+               <td> Дата</td>
+           </tr>
+        </THEAD>
+    {% for project in projects %}
+        <TBODY>
+            <tr>
+               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
+               <td> {{ project.size }}</td>
+               <td>
+                   {% for Progr_Lang in project.program_language.all %}
+                      {{Progr_Lang}}<BR>
+                   {%endfor%}
+               </td>
+               <td> 
+                   {% for Doc_lang in project.document_languages.all %}
+                       {{Doc_lang}}<BR>
+                   {%endfor%}
+               </td>
+               <td>  {{ project.testers.count }}</td>
+               <td> {{ project.submit_date  }}</td>
+            </tr>
+        </TBODY>
+    {% endfor %}
+    </TABLE>
+</ul>
+
+{% if user.is_authenticated %}
 {# БОЛЬШАЯ кнопка для добавления проекта#}
-<a href="/projects/new">Добавить проект</a>
+<a href="javascript:add_project();void(0);">Добавить проект</a>
+<div title="Добавление проекта" id="add"> </div>
+{% endif %}
+
 {% endblock %}
