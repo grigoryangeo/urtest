@@ -30,20 +30,20 @@
 	            }
 </script>
 
-<h1>Мои проекты</h1>
+<h1> Мои проекты</h1>
 
 <!-- здесь красиво распмсаны  таблица с  данными по проекту -->
 
 <ul>
-    <TABLE border="3">
+    <TABLE border="3" algin="center">
         <THEAD>
-           <tr>
-               <td> Название проекта</td>
-               <td> Размер в SLOC</td>
-               <td> ЯП</td>
-               <td> Язык документации </td>
-               <td> Колличество тестировщиков</td>
-               <td> Дата</td>
+           <tr >
+               <th> Название</th>
+               <th> Размер в SLOC<br>(количество строк кода)</th>
+               <th> ЯП</th>
+               <th> Язык документации </th>
+               <th> Колличество тестировщиков</th>
+               <th> Дата</th>
            </tr>
         </THEAD>
     {% for project in projects %}
@@ -56,7 +56,7 @@
                       {{Progr_Lang}}<BR>
                    {%endfor%}
                </td>
-               <td> 
+               <td>
                    {% for Doc_lang in project.document_languages.all %}
                        {{Doc_lang}}<BR>
                    {%endfor%}
@@ -70,9 +70,11 @@
 </ul>
 
 {% if user.is_authenticated %}
-{# БОЛЬШАЯ кнопка для добавления проекта#}
-<a href="javascript:add_project();void(0);">Добавить проект</a>
-<div title="Добавление проекта" id="add"> </div>
+    <div style="float:left; width:600px">&nbsp </div>
+    <form >
+         <input id="radius" type="button" onClick="javascript:add_project();void(0);" value="Добавить проект"/>
+    </form>
+    <div title="Добавление проекта" id="add"> </div>
 {% endif %}
 
-{% endblock %}
+{% endblock %}}

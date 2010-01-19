@@ -2,27 +2,24 @@
 {% block title %}RuTest project{% endblock %}
 {% block sidebar %}
 <ul>
-    <li><a href="/projects">Наши проекты</a></li>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
     <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
     <li><a href="/projects/{{ project.pk}}/testers">Тестировщики</a></li>
 </ul>
 {% endblock %}
 {% block content%}
-
-<!-- должна быть таблица -->
-
-<h1>Баги</h1>
+<br>
+<h1 algin="CENTER">Баги</h1>
 <ul>
     <TABLE border="3">
 	<THEAD>
 	    <tr>
-		<td>№</td>
-		<td>Описание</td>
-		<td>Автор</td>
-		<td>Критичность </td>
-		<td>Статус</td>
-		<td>Дата</td>
+		<th>№ &nbsp</th>
+		<th>Описание</th>
+		<th>Автор</th>
+		<th>Критичность </th>
+		<th>Статус</th>
+		<th>Дата</th>
 	    </tr>
 	</THEAD>
 	<TBODY>
@@ -56,7 +53,11 @@
 
 {% if user.is_authenticated %}
 {% if user.tester %}
-<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+   <div align="center">
+        <form>
+            <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+        </form>
+    </div>
 {% endif %}
 {% endif %}
 

@@ -2,24 +2,24 @@
 {% block title %}RuTest project{% endblock %}
 {% block sidebar %}
 <ul>
-    <li><a href="/projects">Наши проекты</a></li>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
     <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
     <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
 </ul>
 {% endblock %}
 {% block content%}
-<h1> Тестировщики </h1>
+<br>
+<h1 algin="center"> Тестировщики </h1>
 <ul>
-    <TABLE border="3">
+    <TABLE border="3" >
 	<THEAD>
 	    <tr>
-		<td>№</td>
-		<td>Фамилия</td>
-		<td>Имя </td>
-		<td>Отчество </td>
-		<td>E-mail</td>
-		<td>Колличество найденных багов</td>
+		<th>№ &nbsp</th>
+		<th>Фамилия &nbsp</th>
+		<th>Имя &nbsp </th>
+        <th>Отчество &nbsp</th>
+		<th>E-mail &nbsp</th>
+		<th>Колличество найденных багов</th>
 	    </tr>
 	</THEAD>
 	<TBODY>
@@ -39,7 +39,11 @@
 <p>
 {% if user.is_authenticated %}
 {% if user.tester %}
-<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+ <div align="center">
+        <form>
+            <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+        </form>
+    </div>
 {% endif %}
 {% endif %}
 
