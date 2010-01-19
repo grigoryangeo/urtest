@@ -8,16 +8,80 @@
 {% endblock %}
 {% block content%}
           
-<h1>Личная страница компании</h1>
+<h1> &nbsp Личная страница компании </h1>
 
 <ul>
-{% for n,v in fields %}
-<li>{{ n|capfirst }} --- {{ v }}</li>
-{% endfor %}
+    <table>
+        <tr>
+            <td><h3> Регистрационные данные </h3> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
+            <td>{{detail.email}} </td>
+        </tr>
+        <tr>
+            <td> <h3> Личная информация</h3></td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>Фамилия  заказчика:</td>
+            <td> {{detail.surname}}</td>
+        </tr>
+        <tr>
+            <td>Имя заказчика:</td>
+            <td>{{detail.first_name}} </td>
+        </tr>
+        <tr>
+            <td>Отчество заказчика:</td>
+            <td> {{detail.second_name }}</td>
+        </tr>
+        <tr>
+            <td><h3> Паспортные данные</h3></td>
+            <td> </td>
+        </tr>
+        <tr>
+           <td>Серия:</td>
+            <td> {{detail.passport_serial}}</td>
+        </tr>
+        <tr>
+            <td>Номер:</td>
+            <td>{{detail.passport_number}} </td>
+        </tr>
+        <tr>
+            <td>Дата выдачи:</td>
+            <td> {{detail.passport_when}}</td>
+        </tr>
+        <tr>
+            <td>Кем выдан:</td>
+            <td> {{detail.passport_who }}</td>
+        </tr>
+        <tr>
+            <td> <h3>Контактные данные</h3></td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>Контактный телефон:</td>
+            <td> {{detail.telefon}}</td>
+        </tr>
+        <tr>
+            <td>Другие:</td>
+            <td>{{detail.other_connect}} </td>
+        </tr>
+        <tr>
+            <td><h3> Способ оплаты </h3></td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td> <img src="/site_media/img/no.png">Web Money
+            </td>
+            <td><img src="/site_media/img/no.png">Банковский перевод </td>
+        </tr>
+        <tr>
+            <td> <img src="/site_media/img/yes.png">Яндекс Деньги</td>
+            <td><img src="/site_media/img/no.png">Наличные</td>
+        </tr>
+    </table>
 </ul>
-
-<!-- здесь красиво распмсаны личные данные -->
-
-
-
 {% endblock %}

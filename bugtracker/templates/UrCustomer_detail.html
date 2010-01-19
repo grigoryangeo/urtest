@@ -8,11 +8,92 @@
 {% endblock %}
 {% block content%}
 
-<h1>Личная страница компании {{ detail.name }}</h1>
+<h1> &nbsp Личная страница компании " {{detail.name }} "</h1>
 <ul>
-{% for n,v in fields %}
-<li>{{ n|capfirst }} --- {{ v }}</li>
-{% endfor %}
+    <table>
+        <tr>
+            <td><h3> Регистрационные данные </h3> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
+            <td>{{detail.email}} </td>
+        </tr>
+        <tr>
+            <td><h3> Информация о компании </h3></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Название компании: </td>
+            <td>{{detail.name}} </td>
+        </tr>
+        <tr>
+            <td>ИНН: </td>
+            <td>{{detail.inn}} </td>
+        </tr>
+        <tr>
+            <td> Номер счета:&nbsp {{detail.bank_account}}</td>
+            <td> Банк:&nbsp {{detail.bank}} </td>
+        </tr>
+        <tr>
+            <td> КПП:&nbsp {{detail.kpp}}</td>
+            <td>БИК:&nbsp {{detail.bik}} </td>
+        </tr>
+        <tr>
+            <td> ОГРН: </td>
+            <td>{{detail.ogrn}} </td>
+        </tr>
+        <tr>
+            <td> Кореспондентский счет:</td>
+            <td>{{detail.correspondent_account}} </td>
+        </tr>
+        <tr>
+            <td>Контактный телефон компании:</td>
+            <td> {{detail.phone}}</td>
+        </tr>
+        <tr>
+            <td>Адресс сайта компании:</td>
+            <td>{{detail.www}} </td>
+        </tr>
+        <tr>
+            <td>Юредический адресс компании:</td>
+            <td>{{detail.address_ur}} </td>
+        </tr>
+        <tr>
+            <td>Информация о компании:</td>
+            <td> {{detail.description}}</td>
+        </tr>
+        <tr>
+            <td> <h3> Личная информация о представителе</h3></td>
+            <td> <h3>  компании</h3></td>
+        </tr>
+        <tr>
+            <td>Фамилия  заказчика:</td>
+            <td> {{detail.repr_surname}}</td>
+        </tr>
+        <tr>
+            <td>Имя заказчика:</td>
+            <td>{{detail.repr_first_name}} </td>
+        </tr><tr>
+            <td>Отчество заказчика:</td>
+            <td> {{detail.repr_second_name }}</td>
+        </tr><tr>
+            <td>Контактный телефон:</td>
+            <td> {{detail.repr_phone}}</td>
+        </tr>
+        <tr>
+            <td><h3> Способ оплаты</h3></td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> <img src="/site_media/img/yes.png"> Web Money</td>
+            <td><img src="/site_media/img/no.png"> Банковский перевод</td>
+        </tr>
+        <tr>
+            <td><img src="/site_media/img/no.png"> Яндекс Деньги</td>
+            <td> <img src="/site_media/img/yes.png"> Наличные</td>
+        </tr>
+    </table>
 </ul>
 
 {% endblock %}
