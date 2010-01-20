@@ -8,9 +8,7 @@
 {% endblock %}
 {% block content%}
 
-
 <script type="text/javascript">
-
 	function add_project(){
 	                $($('#add').load('/projects/new')).dialog({
 	                    bgiframe: true,
@@ -29,11 +27,8 @@
 	                }).dialog('open');
 	            }
 </script>
-
-<h1> Мои проекты</h1>
-
-<!-- здесь красиво распмсаны  таблица с  данными по проекту -->
-
+<br>
+<h1> Мои проекты:</h1>
 <ul>
     <TABLE border="3" algin="center">
         <THEAD>
@@ -42,27 +37,27 @@
                <th> Размер в SLOC<br>(количество строк кода)</th>
                <th> ЯП</th>
                <th> Язык документации </th>
-               <th> Колличество тестировщиков</th>
+               <th> Количество тестировщиков</th>
                <th> Дата</th>
            </tr>
         </THEAD>
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
+               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}</td>
                <td>
                    {% for Progr_Lang in project.program_language.all %}
-                      {{Progr_Lang}}<BR>
-                   {%endfor%}
+                       {{ Progr_Lang }}<BR>
+                   {% endfor %}
                </td>
                <td>
                    {% for Doc_lang in project.document_languages.all %}
-                       {{Doc_lang}}<BR>
-                   {%endfor%}
+                       {{ Doc_lang }}<BR>
+                   {% endfor %}
                </td>
                <td>  {{ project.testers.count }}</td>
-               <td> {{ project.submit_date  }}</td>
+               <td> {{ project.submit_date }}</td>
             </tr>
         </TBODY>
     {% endfor %}
@@ -71,10 +66,10 @@
 
 {% if user.is_authenticated %}
     <div style="float:left; width:600px">&nbsp </div>
-    <form >
+    <form>
          <input id="radius" type="button" onClick="javascript:add_project();void(0);" value="Добавить проект"/>
     </form>
     <div title="Добавление проекта" id="add"> </div>
 {% endif %}
-
+<br>
 {% endblock %}}

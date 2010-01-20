@@ -2,11 +2,11 @@
 {% block title %}RuTest tester{% endblock %}
 {% block sidebar %}
           <ul>
-                <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
+               <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
                <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
            </ul>
 {% endblock %}
-{% block content%}
+{% block content %}
 <h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
 <ul>
     <table>
@@ -16,18 +16,18 @@
         </tr>
         <tr>
             <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
-            <td>{{tester.email}} </td>
+            <td>{{ tester.email }} </td>
         </tr>
         <tr>
             <td>Фамилия:</td>
-            <td> {{tester.surname}}</td>
+            <td> {{ tester.surname }}</td>
         </tr>
         <tr>
             <td>Имя:</td>
-            <td>{{tester.first_name}} </td>
+            <td>{{ tester.first_name }} </td>
         </tr><tr>
             <td>Отчество:</td>
-            <td> {{tester.second_name }}</td>
+            <td> {{ tester.second_name }}</td>
         </tr>
         <tr>
             <td><h3>Профессиональное:</h3> </td>
@@ -61,6 +61,5 @@
             <td></td>
         </tr>
    </table>
-
 </ul>
 {% endblock %}

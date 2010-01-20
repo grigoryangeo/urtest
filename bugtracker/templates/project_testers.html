@@ -11,14 +11,14 @@
 <br>
 <h1 algin="center"> Тестировщики </h1>
 <ul>
-    <TABLE border="3" >
+    <TABLE border="3">
 	<THEAD>
 	    <tr>
-		<th>№ &nbsp</th>
-		<th>Фамилия &nbsp</th>
-		<th>Имя &nbsp </th>
-        <th>Отчество &nbsp</th>
-		<th>E-mail &nbsp</th>
+		<th>№ </th>
+		<th>Фамилия </th>
+		<th>Имя</th>
+        <th>Отчество </th>
+		<th>E-mail </th>
 		<th>Колличество найденных багов</th>
 	    </tr>
 	</THEAD>
@@ -38,14 +38,14 @@
 </ul>
 <p>
 {% if user.is_authenticated %}
-{% if user.tester %}
- <div align="center">
-        <form>
-            <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
-        </form>
-    </div>
+    {% if user.tester %}
+        <div align="center">
+            <form>
+                <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+            </form>
+       </div>
+    {% endif %}
 {% endif %}
-{% endif %}
-
 </p>
+<br>
 {% endblock %}

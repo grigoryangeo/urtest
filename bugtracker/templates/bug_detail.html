@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Добавить баг{% endblock %}
 {% block content %}
-<h1>Добавить баг:</h1>
 
+<h1>Добавить баг:</h1>
 <form action="./addbug" method="post">
-{{ form.as_p }}
-<input type="submit" value="Добавить" />
+    {{ form.as_p }}
+    <input type="submit" value="Добавить" />
 </form>
+
 {% endblock %}

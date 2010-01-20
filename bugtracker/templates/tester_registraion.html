@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}RuTest regestration{% endblock %}
 {% block header %}RuTest tester regestration{% endblock %}
-{% block sidebar %}
-
-{% endblock %}
 {% block content%}
-<h1>Регистрация тестировщиков</h1>
 
+<h1>Регистрация тестировщиков</h1>
 <form action="/testers/register" method="post">
     <table>
-	{{ form }}
+        {{ form }}
     </table>
-     <a href="/dogovor"><h4>Пользовательский договор</h4></a>
+    <a href="/dogovor"><h4>Пользовательский договор</h4></a>
     <input type="checkbox" /> Я принимаю условия пользовательского договора
-    <br>
-    <br>
+    <br><br>
     <input id="radius" type="submit" value="Зарегистрироваться" />
     <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
 </form>
 {% endblock %}
-{% block footer%} {% endblock %}

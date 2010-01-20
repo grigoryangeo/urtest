@@ -9,11 +9,10 @@
 {% endblock %}
 {% block content%}
 <BR>
-<DIV ALIGN="CENTER">
-    <table align="CENTER">
+    <table>
         <tr>
            <td>Название: </td>
-           <td>{{ project.name }}</td>
+           <td><h3>{{ project.name }}</h3></td>
         </tr>
         <tr>
             <td>Размер в SLOC: </td>
@@ -23,16 +22,16 @@
             <td>Язык программирования: </td>
              <td>
                 {% for Progr_Lang in project.program_language.all %}
-                  {{Progr_Lang}}<BR>
-                {%endfor%}
+                  {{ Progr_Lang }}<BR>
+                {% endfor %}
             </td>
         </tr>
         <tr>
             <td>Язык документации: </td>
             <td>
                 {% for Doc_lang in project.document_languages.all %}
-                    {{Doc_lang}}<BR>
-                {%endfor%}
+                    {{ Doc_lang }}<BR>
+                {% endfor %}
             </td>
         </tr>
         <tr>
@@ -40,14 +39,12 @@
             <td>{{ project.project_description }} </td>
         </tr>
     </table>
-
 <BR>
 {% if user.is_authenticated %}
 {% if user.tester %}
     <form>
-        <input id="radius" type="button" value="Присоедениться к тестированию"/>
+        <input id="radius" type="button" value="Присоединиться к тестированию"/>
      </form>
 {% endif %}
 {% endif %}
-</DIV>
 {% endblock %}

@@ -7,9 +7,8 @@
            </ul>
 {% endblock %}
 {% block content%}
-          
-<h1> &nbsp Личная страница компании </h1>
-
+<br>
+<h1>Личная страница компании </h1>
 <ul>
     <table>
         <tr>
@@ -18,7 +17,7 @@
         </tr>
         <tr>
             <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
-            <td>{{detail.email}} </td>
+            <td>{{ detail.email }} </td>
         </tr>
         <tr>
             <td> <h3> Личная информация</h3></td>
@@ -26,15 +25,15 @@
         </tr>
         <tr>
             <td>Фамилия  заказчика:</td>
-            <td> {{detail.surname}}</td>
+            <td> {{ detail.surname }}</td>
         </tr>
         <tr>
             <td>Имя заказчика:</td>
-            <td>{{detail.first_name}} </td>
+            <td>{{ detail.first_name }} </td>
         </tr>
         <tr>
             <td>Отчество заказчика:</td>
-            <td> {{detail.second_name }}</td>
+            <td> {{ detail.second_name }}</td>
         </tr>
         <tr>
             <td><h3> Паспортные данные</h3></td>
@@ -42,19 +41,19 @@
         </tr>
         <tr>
            <td>Серия:</td>
-            <td> {{detail.passport_serial}}</td>
+            <td> {{ detail.passport_serial }}</td>
         </tr>
         <tr>
             <td>Номер:</td>
-            <td>{{detail.passport_number}} </td>
+            <td>{{ detail.passport_number }} </td>
         </tr>
         <tr>
             <td>Дата выдачи:</td>
-            <td> {{detail.passport_when}}</td>
+            <td> {{ detail.passport_when }}</td>
         </tr>
         <tr>
             <td>Кем выдан:</td>
-            <td> {{detail.passport_who }}</td>
+            <td> {{ detail.passport_who }}</td>
         </tr>
         <tr>
             <td> <h3>Контактные данные</h3></td>
@@ -62,11 +61,11 @@
         </tr>
         <tr>
             <td>Контактный телефон:</td>
-            <td> {{detail.telefon}}</td>
+            <td> {{ detail.telefon }}</td>
         </tr>
         <tr>
             <td>Другие:</td>
-            <td>{{detail.other_connect}} </td>
+            <td>{{ detail.other_connect }} </td>
         </tr>
         <tr>
             <td><h3> Способ оплаты </h3></td>
@@ -84,4 +83,5 @@
         </tr>
     </table>
 </ul>
+<br>
 {% endblock %}

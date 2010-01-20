@@ -30,7 +30,7 @@
                 <table width="100%">
                 <tr>
                     <td>
-                         <h1>{% block header %}RuTest{% endblock %}</h1>
+                         <h1>{% block header %}<a href="/">RuTest</a>{% endblock %}</h1>
                 {% if user.is_authenticated %} 
                     </td>
                     <td width="120px">
@@ -65,7 +65,6 @@
                 
             </div>
             <div id="topbar">
-            <hr>
                 <table align="center">
                     <tr>
 			{% block topbar %}

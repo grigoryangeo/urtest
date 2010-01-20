@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}RuTest regestration {% endblock %}
 {% block header %}RuTest company  registration {% endblock %}
-{% block sidebar %}{% endblock %}
 {% block content%}
 
 <form name="form1" >
-<p><h3>Регистрируемое лицо</h3></p>
+    <p><h3>Регистрируемое лицо</h3></p>
     <p><input type="radio" Name ="reg" onClick ="location.href='/companies/register_f' ;">Физическое</p>
     <p><input type="radio" Name ="reg" onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
 </form>
-
 <form action="/companies/register_{{ type }}" method="post">
     <table>
         {{ form }}
@@ -20,6 +18,5 @@
     <input id="radius" type="submit" value="Зарегистрироваться" />
     <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
 </form>
-
 
 {% endblock %}

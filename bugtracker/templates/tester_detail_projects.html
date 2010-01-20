@@ -6,8 +6,9 @@
                <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
            </ul>
 {% endblock %}
-{% block content%}
-<h1 align="CENTER">Мои проекты: </h1>
+{% block content %}
+<br>
+<h1>Мои проекты: </h1>
     <TABLE border="3">
         <THEAD>
              <tr>
@@ -21,17 +22,17 @@
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
-               <td> {{ project.size  }}  </td>
+               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
+               <td> {{ project.size }}  </td>
                <td>
                    {% for Progr_Lang in project.program_language.all %}
-                      {{Progr_Lang}}<BR>
-                   {%endfor%}
+                      {{ Progr_Lang }}<BR>
+                   {% endfor %}
                </td>
                <td>
                     {% for Doc_lang in project.document_languages.all %}
-                       {{Doc_lang}}<BR>
-                    {%endfor%}
+                       {{ Doc_lang }}<BR>
+                    {% endfor %}
                </td>
                <td> {{ project.bugs.count }}</td>
                <td >
@@ -47,4 +48,5 @@
         </TBODY>
     {% endfor %}
      </TABLE>
+     <br>
 {% endblock %}
