@@ -139,8 +139,16 @@ def project_detail(request, pk, page=''):
 def bug_list(request):
     return render_to_response('bug_list.html')
 
-def bug_details(request):
-    return render_to_response('bug_detail.html')
+def bug_details(request, pk,page,bk):
+    try:
+        bugs = Bug.objects.get(pk=bk)
+    except Bug.DoesNotExist:
+        raise Http404
+    if page == '/bugs/':
+        return render_to_response('bug_detail.html',{'bugs':bugs,'pk':pk,'bk':bk},
+                                       context_instance=RequestContext(request))
+    else:
+        raise Http404
 
 def add_bug(request, project_pk):
     project = get_object_or_404(Project, pk=project_pk)

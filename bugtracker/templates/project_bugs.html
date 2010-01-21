@@ -25,8 +25,8 @@
 	<TBODY>
 	    {% for bug in bugs %}
 	    <tr>
-		<td>{{ bug.pk }}</td>
-		<td> {{ bug.short_description }}</td>
+        <td><a href="bugs/{{ bug.pk }}">{{ bug.pk }}</a></td>
+		<td><a href="bugs/{{ bug.pk }}">{{ bug.short_description }}</a></td>
 		<td>
 		    {% for tester in bug.tester.name %}
 		        {{ tester }}
