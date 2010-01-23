@@ -17,19 +17,14 @@
                 switch(chosen)
                 {
                      case "v1":
-                     alert( chosen )
                      break;
                      case "v2":
-                     alert(chosen)
                      break;
                      case "v3":
-                     alert(chosen)
                      break;
                      case "v4":
-                     alert(chosen)
                      break;
                      case "v5":
-                     alert(chosen)
                      break;
                      default:
                      break;   
@@ -79,87 +74,91 @@
     </tr>
     {% if user.is_authenticated %}
         {% if  user.customer %}
-         <tr>
-            <td valign="top">Статус:</td>
-            <td>
-                <form name="status">
-                  <p> <input type="radio" name="var_status" value="v1">Баг не рассматривался </p>
-                  <p> <input type="radio" name="var_status" value="v2">Баг на рассмотрении </p>
-                  <p> <input type="radio" name="var_status" value="v3">Баг рассмотрен и признан в качестве бага </p>
-                  <p> <input type="radio" name="var_status" value="v4">Баг рассмотрен и не признан в качестве бага </p>
-                  <p> <input type="radio" name="var_status" value="v5">Баг рассмотрен и устранен </p>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Примечание:</td>
-           <td>
-                 {% ifequal bugs.status_comment '' %}
-                     Отсутствует
-                 {% endifequal %}
-                 {% ifnotequal bugs.status_comment '' %}
-                    {{ bugs.status_comment }}
-                 {% endifnotequal%}
-            </td>
-        </tr>
-        <br>
-        <tr>
-            <form>
-                <td>
+            {% for  project in  user.customer.projects.all %}
+                {% ifequal project.id pk %}
+                <tr>
+                    <td valign="top">Статус:</td>
+                    <td>
+                    <form name="status">
+                        <p> <input type="radio" name="var_status" value="v1">Баг не рассматривался </p>
+                        <p> <input type="radio" name="var_status" value="v2">Баг на рассмотрении </p>
+                        <p> <input type="radio" name="var_status" value="v3">Баг рассмотрен и признан в качестве бага </p>
+                        <p> <input type="radio" name="var_status" value="v4">Баг рассмотрен и не признан в качестве бага </p>
+                        <p> <input type="radio" name="var_status" value="v5">Баг рассмотрен и устранен </p>
+                    </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Примечание:</td>
+                    <td>
+                        {% ifequal bugs.status_comment '' %}
+                            Отсутствует
+                        {% endifequal %}
+                        {% ifnotequal bugs.status_comment '' %}
+                            {{ bugs.status_comment }}
+                        {% endifnotequal%}
+                    </td>
+                </tr>
+                <br>
+                <tr>
+                    <form>
+                    <td>
                     <br>
-                    <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
-                </td>
-                <td>
+                        <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                    </td>
+                    <td>
                     <br>
-                    <input id="radius" type="button" onClick="javascript:Change_status();" value="Изменить">
-                </td>
-            </form>
-        </tr>
+                        <input id="radius" type="button"  value="Изменить">
+                    </td>
+                    </form>
+                </tr>
+                {% endifequal %}
+            {% endfor %}
         {% else %}
          <tr>
-                <td>Статус:</td>
-            <td>
-                {% ifequal bugs.status  'new' %}
+             <td>Статус:</td>
+             <td>
+                 {% ifequal bugs.status  'new' %}
                     Баг не рассматривался
-                {% endifequal %}
-                {% ifequal bugs.status  'reviewed' %}
+                 {% endifequal %}
+                 {% ifequal bugs.status  'reviewed' %}
                     Баг на рассмотрении
-                {% endifequal %}
-                {% ifequal bugs.status  'accepted' %}
+                 {% endifequal %}
+                 {% ifequal bugs.status  'accepted' %}
                     Баг рассмотрен и признан в качестве бага
-                {% endifequal %}
-                {% ifequal bugs.status  'denied' %}
+                 {% endifequal %}
+                 {% ifequal bugs.status  'denied' %}
                     Баг рассмотрен и не признан в качестве бага
-                {% endifequal %}
-                {% ifequal bugs.status  'corrected' %}
+                 {% endifequal %}
+                 {% ifequal bugs.status  'corrected' %}
                    Баг рассмотрен и устранён
-                {% endifequal %}
-            </td>
-            </tr>
-        <tr>
-            <td>Примечание:</td>
-            <td>
+                 {% endifequal %}
+             </td>
+             </tr>
+         <tr>
+             <td>Примечание:</td>
+             <td>
                  {% ifequal bugs.status_comment '' %}
                      Отсутствует
                  {% endifequal %}
                  {% ifnotequal bugs.status_comment '' %}
                     {{ bugs.status_comment }}
                  {% endifnotequal%}
-            </td>
-        </tr>
-        <tr>
-            <td>Дата/время изменения статуса:</td>
-            <td> {{ bugs.status_date }} </td>
-        </tr>
-        <tr>
-           <br>
-            <form>
-                <td>
-                    <br>
-                    <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
-                </td>
-            </form>
-        </tr>
+             </td>
+         </tr>
+         <tr>
+             <td>Дата/время изменения статуса:</td>
+             <td> {{ bugs.status_date }} </td>
+         </tr>
+         <tr>
+         <br>
+             <form>
+                 <td>
+                 <br>
+                     <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                 </td>
+             </form>
+         </tr>
         {% endif %}
     {% endif %}
 </table>

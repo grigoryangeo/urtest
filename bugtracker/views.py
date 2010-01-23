@@ -97,7 +97,7 @@ def tester_detail(request, pk, page=''):
         raise Http404
 
 def dogovor(request):
-    return render_to_response('dogovor.html')
+    return render_to_response('dogovor.html', context_instance=RequestContext(request))
 
 # проекты
 def new_project(request):
@@ -139,13 +139,13 @@ def project_detail(request, pk, page=''):
 def bug_list(request):
     return render_to_response('bug_list.html')
 
-def bug_details(request, pk,page,bk):
+def bug_details(request, pk, page, bk):
     try:
         bugs = Bug.objects.get(pk=bk)
     except Bug.DoesNotExist:
         raise Http404
     if page == '/bugs/':
-        return render_to_response('bug_detail.html',{'bugs':bugs,'pk':pk,'bk':bk},
+        return render_to_response('bug_detail.html',{'bugs':bugs,'pk':int(pk),'bk':bk},
                                        context_instance=RequestContext(request))
     else:
         raise Http404
