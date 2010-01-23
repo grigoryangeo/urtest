@@ -1,27 +1,22 @@
 {% extends 'base.html' %}
 {% block title %}RuTest regestration {% endblock %}
 {% block header %}RuTest company  registration {% endblock %}
-{% block sidebar %}
-
-{% endblock %}
 {% block content%}
-<h1>Регистрация заказчиков</h1>
-<a href="/companies/register_f">Регистрация физического лица</a>
-<a href="/companies/register_y">Регистрация юридического лица</a>
 
-<!-- надо  регистрировать в зависимости от того Физическое или юредическое лицо -->
+<form name="form1" >
+    <p><h3>Регистрируемое лицо</h3></p>
+    <p><input type="radio" Name ="reg" onClick ="location.href='/companies/register_f' ;">Физическое</p>
+    <p><input type="radio" Name ="reg" onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
+</form>
 <form action="/companies/register_{{ type }}" method="post">
     <table>
         {{ form }}
     </table>
-
+    <a href="/dogovor"><h4>Пользовательский договор</h4></a>
     <input type="checkbox" /> Я принимаю условия пользовательского договора
-    <br>
-    <br>
-    <input type="submit" value="Зарегистрироваться" />
-    <input type="button" onClick="location.href='/'" value="Не регистрироваться"/>
+    <br><br>
+    <input id="radius" type="submit" value="Зарегистрироваться" />
+    <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
 </form>
 
-
 {% endblock %}
-

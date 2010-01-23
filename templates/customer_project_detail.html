@@ -8,9 +8,7 @@
 {% endblock %}
 {% block content%}
 
-
 <script type="text/javascript">
-
 	function add_project(){
 	                $($('#add').load('/projects/new')).dialog({
 	                    bgiframe: true,
@@ -29,40 +27,37 @@
 	                }).dialog('open');
 	            }
 </script>
-
-<h1>Мои проекты</h1>
-
-<!-- здесь красиво распмсаны  таблица с  данными по проекту -->
-
+<br>
+<h1> Мои проекты:</h1>
 <ul>
-    <TABLE border="3">
+    <TABLE border="3" algin="center">
         <THEAD>
-           <tr>
-               <td> Название проекта</td>
-               <td> Размер в SLOC</td>
-               <td> ЯП</td>
-               <td> Язык документации </td>
-               <td> Колличество тестировщиков</td>
-               <td> Дата</td>
+           <tr >
+               <th> Название</th>
+               <th> Размер в SLOC<br>(количество строк кода)</th>
+               <th> ЯП</th>
+               <th> Язык документации </th>
+               <th> Количество тестировщиков</th>
+               <th> Дата</th>
            </tr>
         </THEAD>
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
+               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}</td>
                <td>
                    {% for Progr_Lang in project.program_language.all %}
-                      {{Progr_Lang}}<BR>
-                   {%endfor%}
+                       {{ Progr_Lang }}<BR>
+                   {% endfor %}
                </td>
-               <td> 
+               <td>
                    {% for Doc_lang in project.document_languages.all %}
-                       {{Doc_lang}}<BR>
-                   {%endfor%}
+                       {{ Doc_lang }}<BR>
+                   {% endfor %}
                </td>
                <td>  {{ project.testers.count }}</td>
-               <td> {{ project.submit_date  }}</td>
+               <td> {{ project.submit_date }}</td>
             </tr>
         </TBODY>
     {% endfor %}
@@ -70,9 +65,11 @@
 </ul>
 
 {% if user.is_authenticated %}
-{# БОЛЬШАЯ кнопка для добавления проекта#}
-<a href="javascript:add_project();void(0);">Добавить проект</a>
-<div title="Добавление проекта" id="add"> </div>
+    <div style="float:left; width:600px">&nbsp </div>
+    <form>
+         <input id="radius" type="button" onClick="javascript:add_project();void(0);" value="Добавить проект"/>
+    </form>
+    <div title="Добавление проекта" id="add"> </div>
 {% endif %}
-
-{% endblock %}
+<br>
+{% endblock %}}

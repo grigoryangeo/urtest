@@ -55,7 +55,7 @@ urlpatterns = patterns('urtest.bugtracker.views',
     # Регистрация новой компании
     (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
     (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
-(r'^projects/(\d+)/addbug$', 'add_bug'),
+    (r'^projects/(\d+)/addbug$', 'add_bug'),
     # Страницы проектов:
     # Список всех проектов
     (r'^projects/$', list_detail.object_list, project_info),
@@ -68,6 +68,7 @@ urlpatterns = patterns('urtest.bugtracker.views',
     (r'^bugs/$', list_detail.object_list, bug_info),
     
     (r'^bugs/(\d+)$', list_detail.object_list, bug_info),
+    (r'^projects/(\d+)(/[a-z]+/)(\d+)?$','bug_details'),
     # Example:
     # (r'^urtest/', include('urtest.foo.urls')),
 

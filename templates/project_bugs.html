@@ -2,49 +2,46 @@
 {% block title %}RuTest project{% endblock %}
 {% block sidebar %}
 <ul>
-    <li><a href="/projects">Наши проекты</a></li>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
     <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
     <li><a href="/projects/{{ project.pk}}/testers">Тестировщики</a></li>
 </ul>
 {% endblock %}
-{% block content%}
-
-<!-- должна быть таблица -->
-
-<h1>Баги</h1>
+{% block content %}
+<br>
+<h1 algin="CENTER">Баги:</h1>
 <ul>
     <TABLE border="3">
 	<THEAD>
 	    <tr>
-		<td>№</td>
-		<td>Описание</td>
-		<td>Автор</td>
-		<td>Критичность </td>
-		<td>Статус</td>
-		<td>Дата</td>
+		<th>№</th>
+		<th>Описание</th>
+		<th>Автор</th>
+		<th>Критичность </th>
+		<th>Статус</th>
+		<th>Дата</th>
 	    </tr>
 	</THEAD>
 	<TBODY>
 	    {% for bug in bugs %}
 	    <tr>
-		<td>{{ bug.pk }}</td>
-		<td> {{ bug.short_description }}</td>
+        <td><a href="bugs/{{ bug.pk }}">{{ bug.pk }}</a></td>
+		<td><a href="bugs/{{ bug.pk }}">{{ bug.short_description }}</a></td>
 		<td>
 		    {% for tester in bug.tester.name %}
-		    {{ tester }}
-		    {%endfor%}
+		        {{ tester }}
+		    {% endfor %}
 		</td>
 		<td>
-		    {%ifequal bug.severity 'm' %}
-		    Средняя
-		    {%endifequal%}
-		    {%ifequal bug.severity 'l' %}
-		    Низкая
-		    {%endifequal%}
-		    {%ifequal bug.severity 'h' %}
-		    Высокая
-		    {%endifequal%}
+		    {% ifequal bug.severity 'm' %}
+                Средняя
+		    {% endifequal %}
+		    {% ifequal bug.severity 'l' %}
+                Низкая
+		    {% endifequal %}
+		    {% ifequal bug.severity 'h' %}
+                Высокая
+		    {% endifequal %}
 		</td>
 		<td>  {{ bug.status }}   </td>
 		<td> {{ bug.status_date }}</td>
@@ -55,9 +52,13 @@
 </ul>
 
 {% if user.is_authenticated %}
-{% if user.tester %}
-<a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+    {% if user.tester %}
+         <div align="center">
+            <form>
+              <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+            </form>
+         </div>
+    {% endif %}
 {% endif %}
-{% endif %}
-
+<br>
 {% endblock %}

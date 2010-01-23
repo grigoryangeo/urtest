@@ -2,16 +2,64 @@
 {% block title %}RuTest tester{% endblock %}
 {% block sidebar %}
           <ul>
-                <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
+               <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
                <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
            </ul>
 {% endblock %}
-{% block content%}
-<h1>Личный кабинет тестирировщика {{ tester.name }}</h1>
-<!--надо красиво расписать личную  -->
+{% block content %}
+<h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
 <ul>
-{% for n,v in fields %}
-<li>{{ n|capfirst }} --- {{ v }}</li>
-{% endfor %}
+    <table>
+        <tr>
+            <td><h3> Личная информация</h3></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
+            <td>{{ tester.email }} </td>
+        </tr>
+        <tr>
+            <td>Фамилия:</td>
+            <td> {{ tester.surname }}</td>
+        </tr>
+        <tr>
+            <td>Имя:</td>
+            <td>{{ tester.first_name }} </td>
+        </tr><tr>
+            <td>Отчество:</td>
+            <td> {{ tester.second_name }}</td>
+        </tr>
+        <tr>
+            <td><h3>Профессиональное:</h3> </td>
+        </tr>
+        <tr>
+            <td>ОС: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td>ЯП: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td>Виды тестирования: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td>Браузер: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td>О себе: </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    <input id="radius" type="submit" value="Загрузить фотографию" />
+                </form>
+            </td>
+            <td></td>
+        </tr>
+   </table>
 </ul>
 {% endblock %}

@@ -1,10 +1,167 @@
 {% extends 'base.html' %}
-{% block title %}Добавить баг{% endblock %}
+{% block title %}Страница бага{% endblock %}
 {% block content %}
-<h1>Добавить баг:</h1>
+<script language="JavaScript" type="text/javascript">
+             function Change_status()
+             {
+               chosen = ""
 
-<form action="./addbug" method="post">
-{{ form.as_p }}
-<input type="submit" value="Добавить" />
-</form>
+                for (i = 0; i <5; i++)
+                {
+                    if (document.status.var_status[i].checked)
+                    {
+                        chosen = document.status.var_status[i].value
+                    }
+                }
+
+                switch(chosen)
+                {
+                     case "v1":
+                     break;
+                     case "v2":
+                     break;
+                     case "v3":
+                     break;
+                     case "v4":
+                     break;
+                     case "v5":
+                     break;
+                     default:
+                     break;   
+                }
+	         }
+</script>
+
+<h1>Страница бага:</h1>
+<table>
+    <tr>
+        <td>Краткое описание:</td>
+        <td> {{ bugs.short_description }}</td>
+    </tr>
+    <tr>
+        <td>Пункт тест-плана:</td>
+        <td>{{ bugs.test_plan_point }}</td>
+    </tr>
+    <tr>
+        <td>Критичность:</td>
+        <td>
+            {% ifequal bugs.severity 'm' %}
+                Средняя
+		    {% endifequal %}
+		    {% ifequal bugs.severity 'l' %}
+                Низкая
+		    {% endifequal %}
+		    {% ifequal bugs.severity 'h' %}
+                Высокая
+		    {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td>Как был получен:</td>
+        <td>{{ bugs.finding_description }}</td>
+    </tr>
+    <tr>
+        <td>Описание:</td>
+        <td>{{ bugs.full_description }}</td>
+    </tr>
+    <tr>
+        <td>Дата/Время добавления:</td>
+        <td>{{ bugs.submit_date }}</td>
+    </tr>
+    <tr>
+        <td>Комментарии к файлу:</td>
+        <td> Отсутствуют</td>
+    </tr>
+    {% if user.is_authenticated %}
+        {% if  user.customer %}
+            {% for  project in  user.customer.projects.all %}
+                {% ifequal project.id pk %}
+                <tr>
+                    <td valign="top">Статус:</td>
+                    <td>
+                    <form name="status">
+                        <p> <input type="radio" name="var_status" value="v1">Баг не рассматривался </p>
+                        <p> <input type="radio" name="var_status" value="v2">Баг на рассмотрении </p>
+                        <p> <input type="radio" name="var_status" value="v3">Баг рассмотрен и признан в качестве бага </p>
+                        <p> <input type="radio" name="var_status" value="v4">Баг рассмотрен и не признан в качестве бага </p>
+                        <p> <input type="radio" name="var_status" value="v5">Баг рассмотрен и устранен </p>
+                    </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Примечание:</td>
+                    <td>
+                        {% ifequal bugs.status_comment '' %}
+                            Отсутствует
+                        {% endifequal %}
+                        {% ifnotequal bugs.status_comment '' %}
+                            {{ bugs.status_comment }}
+                        {% endifnotequal%}
+                    </td>
+                </tr>
+                <br>
+                <tr>
+                    <form>
+                    <td>
+                    <br>
+                        <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                    </td>
+                    <td>
+                    <br>
+                        <input id="radius" type="button"  value="Изменить">
+                    </td>
+                    </form>
+                </tr>
+                {% endifequal %}
+            {% endfor %}
+        {% else %}
+         <tr>
+             <td>Статус:</td>
+             <td>
+                 {% ifequal bugs.status  'new' %}
+                    Баг не рассматривался
+                 {% endifequal %}
+                 {% ifequal bugs.status  'reviewed' %}
+                    Баг на рассмотрении
+                 {% endifequal %}
+                 {% ifequal bugs.status  'accepted' %}
+                    Баг рассмотрен и признан в качестве бага
+                 {% endifequal %}
+                 {% ifequal bugs.status  'denied' %}
+                    Баг рассмотрен и не признан в качестве бага
+                 {% endifequal %}
+                 {% ifequal bugs.status  'corrected' %}
+                   Баг рассмотрен и устранён
+                 {% endifequal %}
+             </td>
+             </tr>
+         <tr>
+             <td>Примечание:</td>
+             <td>
+                 {% ifequal bugs.status_comment '' %}
+                     Отсутствует
+                 {% endifequal %}
+                 {% ifnotequal bugs.status_comment '' %}
+                    {{ bugs.status_comment }}
+                 {% endifnotequal%}
+             </td>
+         </tr>
+         <tr>
+             <td>Дата/время изменения статуса:</td>
+             <td> {{ bugs.status_date }} </td>
+         </tr>
+         <tr>
+         <br>
+             <form>
+                 <td>
+                 <br>
+                     <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                 </td>
+             </form>
+         </tr>
+        {% endif %}
+    {% endif %}
+</table>
+<br>
+
 {% endblock %}

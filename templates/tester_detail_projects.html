@@ -6,39 +6,41 @@
                <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
            </ul>
 {% endblock %}
-{% block content%}
-<h1>Мои проекты </h1>
-<!-- Красива таблица( кто нибудь сделайте)-->
+{% block content %}
+<br>
+<h1>Мои проекты: </h1>
     <TABLE border="3">
         <THEAD>
              <tr>
-                <td> Название проекта</td>
-                <td> Размер в SLOC</td>
-                <td> ЯП</td>
-                <td> Язык документации </td>
-                <td> Колличество багов</td>
+                <th> Название проекта</th>
+                <th> Размер в SLOC</th>
+                <th> ЯП</th>
+                <th> Язык документации </th>
+                <th> Колличество багов</th>
              </tr>
         </THEAD
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}">{{ project.name  }}</a></td>
-               <td> {{ project.size  }}  </td>
-               <td>  
+               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
+               <td> {{ project.size }}  </td>
+               <td>
                    {% for Progr_Lang in project.program_language.all %}
-                      {{Progr_Lang}}<BR>
-                   {%endfor%}
+                      {{ Progr_Lang }}<BR>
+                   {% endfor %}
                </td>
                <td>
                     {% for Doc_lang in project.document_languages.all %}
-                       {{Doc_lang}}<BR>
-                    {%endfor%}
+                       {{ Doc_lang }}<BR>
+                    {% endfor %}
                </td>
                <td> {{ project.bugs.count }}</td>
-               <td>
+               <td >
                    {% if user.is_authenticated %}
                       {% if user.tester %}
-                      <a href="/projects/{{ project.pk }}/addbug">Добавить баг</a>
+                       <form >
+                         <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+                        </form>
                    {% endif %}
     {% endif %}
                </td>
@@ -46,4 +48,5 @@
         </TBODY>
     {% endfor %}
      </TABLE>
+     <br>
 {% endblock %}

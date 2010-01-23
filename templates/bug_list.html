@@ -2,12 +2,13 @@
 {% block title %}RuTest Bugs{% endblock %}
 {% block header %}RuTest Bugs{% endblock %}
 {% block content%}
+
 <ul>
-{% for bug in bug_list %}
-<li>{{ bug.name }}</li>
-{% empty %}
-Багов нет. Пока нет.
-{% endfor %}
+    {% for bug in bug_list %}
+        <li>{{ bug.name }}</li>
+    {% empty %}
+        Багов нет. Пока нет.
+    {% endfor %}
 </ul>
 <a href="add">Добавить еще один</a>
 {% endblock %}

@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}RuTest project{% endblock %}
+{% block topbar %}
+                  <a href="/">Главная страница</a>
+{% endblock %}
 {% block content%}
-<h1>Проекты в разработкке</h1>
+<br>
+<h1>Проекты в разработке</h1>
 <TABLE border="3">
     <THEAD>
 	<tr>
-	    <td> №</td>
-	    <td> Название</td>
-	    <td> Заказчик </td>
-	    <td> Число тестировщиков </td>
-	    <td> Число багов</td>
-	    <td> Дата</td>
+	    <th> №</th>
+	    <th> Название</th>
+	    <th> Заказчик </th>
+	    <th> Число тестировщиков </th>
+	    <th> Число багов</th>
+	    <th> Дата</th>
 	</tr>
     </THEAD>
     <TBODY>

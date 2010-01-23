@@ -2,32 +2,49 @@
 {% block title %}RuTest project{% endblock %}
 {% block sidebar %}
 <ul>
-    <li><a href="/projects">Наши проекты</a></li>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
     <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
     <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
 </ul>
 {% endblock %}
 {% block content%}
-
-<p>Название:    {{ project.name }}<p>
-<p>Размер в SLOC: {{ project.size }}</p>
-<p>Язык программирования:<BR>
-{% for Progr_Lang in project.program_language.all %}
-{{Progr_Lang}}<BR>
-{%endfor%}
-</p>
-<p>Язык документации:<BR>
-{% for Doc_lang in project.document_languages.all %}
-{{Doc_lang}}<BR>
-{%endfor%}
-</p>
-<p>Описание:{{ project.project_description }}</p>
-
+<BR>
+    <table>
+        <tr>
+           <td>Название: </td>
+           <td><h3>{{ project.name }}</h3></td>
+        </tr>
+        <tr>
+            <td>Размер в SLOC: </td>
+            <td>{{ project.size }}</td>
+        </tr>
+        <tr>
+            <td>Язык программирования: </td>
+             <td>
+                {% for Progr_Lang in project.program_language.all %}
+                  {{ Progr_Lang }}<BR>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Язык документации: </td>
+            <td>
+                {% for Doc_lang in project.document_languages.all %}
+                    {{ Doc_lang }}<BR>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Описание: </td>
+            <td>{{ project.project_description }} </td>
+        </tr>
+    </table>
+<BR>
 {% if user.is_authenticated %}
 {% if user.tester %}
-<!-- кнопка присоедениться к проекту -->
+    <form>
+        <input id="radius" type="button" value="Присоединиться к тестированию"/>
+     </form>
 {% endif %}
 {% endif %}
-
 {% endblock %}
