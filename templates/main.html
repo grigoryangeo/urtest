@@ -19,7 +19,7 @@
 				<img src="/site_media/img/Logo.jpg" alt="Logo" id='logo'/>
 			    </td>
 			    <td class='top'>
-				<form name='input' action='main.html' method="get" id='login'>
+				<form name='input' action='{% url django.contrib.auth.views.login %}' method="post" id='login'>
 				    <input type='text'     name='login'    value='Логин' />
 				    <input type='password' name='password' value='Пароль'/>
 				    <input type='submit'   value='Вход' />
