@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from django.views.generic.simple import direct_to_template
 from django.views.generic import list_detail
-from urtest.bugtracker.models import Bug, Project, Customer, PhysCustomer, UrCustomer, Tester
+from bugtracker.models import Bug, Project, Customer, PhysCustomer, UrCustomer, Tester
 
 project_info = {
 	"queryset": Project.objects.all(),
@@ -36,7 +36,7 @@ bug_info = {
 
 # Родные для сайта виды
 # Импорт делается автоматически
-urlpatterns = patterns('urtest.bugtracker.views',
+urlpatterns = patterns('bugtracker.views',
     # Главная страница
     #(r'^$', direct_to_template, {'template': 'base.html'}),
 
