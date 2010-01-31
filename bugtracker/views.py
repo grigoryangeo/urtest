@@ -145,8 +145,11 @@ def bug_details(request, pk, page, bk):
     except Bug.DoesNotExist:
         raise Http404
     if page == '/bugs/':
-        return render_to_response('bug_detail.html',{'bugs':bugs,'pk':int(pk),'bk':bk},
-                                       context_instance=RequestContext(request))
+        pk = int(pk)
+        severity = bugs.get_severity_display()
+        status = bugs.get_status_display()
+        return render_to_response('bug_detail.html',locals(),
+            context_instance=RequestContext(request))
     else:
         raise Http404
 

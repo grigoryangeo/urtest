@@ -73,13 +73,11 @@
         </tr>
 
         <tr>
-            <td> <img src="/site_media/img/no.png">Web Money
+            <td>
+            {% for pay in detail.pay_type.all %}
+                {{ pay }}<br>
+            {% endfor %}
             </td>
-            <td><img src="/site_media/img/no.png">Банковский перевод </td>
-        </tr>
-        <tr>
-            <td> <img src="/site_media/img/yes.png">Яндекс Деньги</td>
-            <td><img src="/site_media/img/no.png">Наличные</td>
         </tr>
     </table>
 </ul>

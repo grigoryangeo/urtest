@@ -45,15 +45,7 @@
     <tr>
         <td>Критичность:</td>
         <td>
-            {% ifequal bugs.severity 'm' %}
-                Средняя
-		    {% endifequal %}
-		    {% ifequal bugs.severity 'l' %}
-                Низкая
-		    {% endifequal %}
-		    {% ifequal bugs.severity 'h' %}
-                Высокая
-		    {% endifequal %}
+            {{ severity }}
         </td>
     </tr>
     <tr>
@@ -118,21 +110,7 @@
          <tr>
              <td>Статус:</td>
              <td>
-                 {% ifequal bugs.status  'new' %}
-                    Баг не рассматривался
-                 {% endifequal %}
-                 {% ifequal bugs.status  'reviewed' %}
-                    Баг на рассмотрении
-                 {% endifequal %}
-                 {% ifequal bugs.status  'accepted' %}
-                    Баг рассмотрен и признан в качестве бага
-                 {% endifequal %}
-                 {% ifequal bugs.status  'denied' %}
-                    Баг рассмотрен и не признан в качестве бага
-                 {% endifequal %}
-                 {% ifequal bugs.status  'corrected' %}
-                   Баг рассмотрен и устранён
-                 {% endifequal %}
+                 {{ status }}
              </td>
              </tr>
          <tr>
