@@ -7,9 +7,8 @@
 	<script type="text/javascript" src="/site_media/js/swfobject.js" />
 	<script type="text/javascript">
 	swfobject.embedSWF("/site_media/flash/DInamicText.swf", "flash", "1024", "600", "9.0.0");
-	</script>
+	</script> 
     </head>
-
     <body id='field'>
 	<table class='page'>
 	    <tr><td>
@@ -18,12 +17,34 @@
 			    <td class='top'>
 				<img src="/site_media/img/Logo.jpg" alt="Logo" id='logo'/>
 			    </td>
-			    <td class='top'>
-				<form name='input' action='{% url django.contrib.auth.views.login %}' method="post" id='login'>
-				    <input type='text'     name='login'    value='Логин' />
-				    <input type='password' name='password' value='Пароль'/>
-				    <input type='submit'   value='Вход' />
-				</form>
+			    <td>
+                {% if user.is_authenticated %}
+                    </td>
+                    <td width="120px">
+                        {% if user.tester %}
+                        <a href="/testers/{{user.tester.id}}">Личный кабинет</a>
+                        {% else %}
+                        <a href="/companies/{{ user.customer.id }}">Личный кабинет</a>
+                        {% endif %}
+                    </td>
+                    <td width="60px"><a href="/logout">Выйти</a>
+                {% else %}
+                    </td>
+                    <td  width="300px">
+                    <form method="post" action="{% url django.contrib.auth.views.login %}"  name="login_form">
+                        <table>
+                            <tr>
+                                <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
+                                <td><input type="password" name="password" value="пароль" OnFocus="value=''" id="password"></td>
+                                <td><input type="submit" value="Войти" /></td>
+                            </tr>
+                        </table>
+                        {% if form.errors %}
+                          <p class="error">Сожалеем, вы неправильно ввели логин или пароль</p>
+                        {% endif %}
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </form>
+                {% endif %}
 			    </td>
 			</tr>
 		    </table>
