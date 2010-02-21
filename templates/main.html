@@ -6,8 +6,8 @@
 	<title>Главная</title>
 	<script type="text/javascript" src="/site_media/js/swfobject.js" />
 	<script type="text/javascript">
-	swfobject.embedSWF("/site_media/flash/DInamicText.swf", "flash", "1024", "600", "9.0.0");
-	</script> 
+	swfobject.registerObject("flash");
+	</script>
     </head>
     <body id='field'>
 	<table class='page'>
@@ -65,9 +65,17 @@
 		    <table class='content'>
 			<tr>
 			    <td align='right'>
-					<div id='flash'>
-						<p>Тут должен быть flash.</p>
-					</div>
+					<object id="flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1024" height="600">
+
+					        <param name="movie" value="/site_media/flash/DInamicText.swf" />
+					        <!--[if !IE]>-->
+					        <object type="application/x-shockwave-flash" data="/site_media/flash/DInamicText.swf" width="1024" height="600">
+					        <!--<![endif]-->
+					          <p>Тут должен быть flash.</p>
+					        <!--[if !IE]>-->
+					        </object>
+					        <!--<![endif]-->
+					      </object>
 			    </td>
 			</tr>
 
