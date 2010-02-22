@@ -1,3 +1,4 @@
+import models
 # File encoding: utf-8
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
@@ -5,7 +6,32 @@ import bugtracker.models as models
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+class  TesterDetail(forms.Form):
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
+    #os = forms.ModelMultipleChoiceField(queryset=models.OSystem.objects.all())
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all(), widget=FilteredSelectMultiple(u'языки', False))
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
+    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(username=email).count() > 0:
+            raise forms.ValidationError('Пользователь с таким адресом уже существует')
+        return email
 
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+        return cleaned_data
+
+
+    
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание")
     class Meta:

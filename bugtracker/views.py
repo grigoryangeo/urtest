@@ -86,8 +86,26 @@ def tester_detail(request, pk, page=''):
     print pk, page
     tester = get_object_or_404(Tester, pk=pk)
     if page == None:
-        fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
-        return render_to_response('tester_detail.html', locals(),
+        if request.method == 'POST':
+            form = TesterDetail(request.POST)
+            if form.is_valid():
+                tester = Tester()
+                user = User()
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                tester.osystems = form.cleaned_data['os']
+                tester.program_languages = form.cleaned_data['program_languages']
+                tester.testing_types = form.cleaned_data['testing_types']
+                tester.browsers = form.cleaned_data['browsers']
+                tester.save()
+                tester.user = user
+                tester.description = form.cleaned_data['description']
+                tester.save()
+                return HttpResponseRedirect('/')
+        else:
+            form = TesterDetail()
+            fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
+            return render_to_response('tester_detail.html', locals(),
                               context_instance=RequestContext(request))
     elif page == '/projects':
         projects = tester.projects.all()
