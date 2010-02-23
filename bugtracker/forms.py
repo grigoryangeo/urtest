@@ -96,6 +96,45 @@ class PhysCustomerForm(UserForm):
         fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
 
 
+class TesterDetailForm(forms.ModelForm):
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False))
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False))
+    
+    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all())
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all())
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all())
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all())
+
+    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
+
+    class Meta:
+        model = models.Tester
+        fields = ['password', 'password_confirm', 'osystems', 'program_languages', 'testing_types', 'browsers', 'description']
+
+    def save(self, *args, **kwargs):
+        """Обновление тестера с учетом смены пароля"""
+        assert(self.is_valid())
+        # Вызов оригинального save
+        data = self.cleaned_data
+        tester = super(TesterDetailForm, self).save(*args, **kwargs)
+        # Проверка на смену пароля
+        if data['password']:
+            # Пароль изменился
+            user = tester.user
+            user.set_password(data['password'])
+            user.save()
+        
+        return tester
+
+    def clean(self):
+        # Вызов оригинального clean()
+        data = super(TesterDetailForm, self).clean()
+        password = data.get('password')
+        password_confirm = data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+        return data
+
 
 # XXX:
 # Предпросмотр форм
