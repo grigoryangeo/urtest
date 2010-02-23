@@ -5,15 +5,20 @@
 
 <form name="form1" >
     <p><h3>Регистрируемое лицо</h3></p>
-    <p><input type="radio" Name ="reg" onClick ="location.href='/companies/register_f' ;">Физическое</p>
+    {% ifequal type 'f' %}
+    <p><input type="radio" Name ="reg" checked onClick ="location.href='/companies/register_f' ;"> Физическое</p>
     <p><input type="radio" Name ="reg" onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
+    {% else %}
+    <p><input type="radio" Name ="reg" onClick ="location.href='/companies/register_f' ;"> Физическое</p>
+    <p><input type="radio" Name ="reg" checked onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
+    {% endifequal %}
+
 </form>
 <form action="/companies/register_{{ type }}" method="post">
     <table>
         {{ form }}
     </table>
-    <a href="/dogovor"><h4>Пользовательский договор</h4></a>
-    <input type="checkbox" /> Я принимаю условия пользовательского договора
+    <a href="/dogovor" target="_blank"><h4>Пользовательский договор</h4></a>
     <br><br>
     <input id="radius" type="submit" value="Зарегистрироваться" />
     <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>

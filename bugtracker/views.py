@@ -49,7 +49,7 @@ def company_registraion(request, type):
             customer = Customer.objects.create(type=type, user=user)
             ur_customer.customer = customer
             ur_customer.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/thanks')
     else:
         form = form_type()
     return render_to_response('company_registraion.html',{'form': form, 'type': type})
@@ -76,7 +76,7 @@ def tester_registraion(request):
             tester.testing_types = form.cleaned_data['testing_types']
             tester.browsers = form.cleaned_data['browsers']
             tester.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/thanks')
     else:
         form = TesterForm()
     return render_to_response('tester_registraion.html',{'form': form})
@@ -98,6 +98,9 @@ def tester_detail(request, pk, page=''):
 
 def dogovor(request):
     return render_to_response('dogovor.html', context_instance=RequestContext(request))
+
+def thanks(request):
+    return render_to_response('thanks.html', context_instance=RequestContext(request))
 
 # проекты
 def new_project(request):
