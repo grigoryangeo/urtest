@@ -89,19 +89,9 @@ def tester_detail(request, pk, page=''):
         if request.method == 'POST':
             form = TesterDetail(request.POST)
             if form.is_valid():
-                tester = Tester()
-                user = User()
-                user.set_password(form.cleaned_data['password'])
-                user.save()
-                tester.osystems = form.cleaned_data['os']
-                tester.program_languages = form.cleaned_data['program_languages']
-                tester.testing_types = form.cleaned_data['testing_types']
-                tester.browsers = form.cleaned_data['browsers']
-                tester.save()
-                tester.user = user
                 tester.description = form.cleaned_data['description']
                 tester.save()
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(request.path)
         else:
             form = TesterDetail()
             fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]

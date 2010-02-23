@@ -9,7 +9,7 @@
 {% block content %}
 <h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
 <ul>
-   <form action="/testers/ {{ pk }}" method="post">
+    <form action="/testers/{{ pk }}" method="post">
     <table>
         <tr>
             <td><h3> Личная информация</h3></td>
@@ -18,14 +18,6 @@
         <tr>
             <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
             <td>{{ tester.email }} </td>
-        </tr>
-         <tr>
-            <td>Пароль</td>
-            <td> {{ form.password }}</td>
-        </tr>
-        <tr>
-            <td>Изменение пароля</td>
-            <td> {{ form.password_confirm }}</td>
         </tr>
         <tr>
             <td>Фамилия:</td>
@@ -43,32 +35,46 @@
         </tr>
         <tr>
             <td>ОС: </td>
-            <td>{{ form.os}}</td>
+            <td>
+                {% for osystems in  tester.osystems.all  %}
+                    {{ osystems }} <br>
+                {%endfor%}
+            </td>
         </tr>
          <tr>
             <td>ЯП: </td>
-            <td>{{ form.program_languages}}</td>
+            <td>
+                {% for program_languages in  tester.program_languages.all  %}
+                     {{ program_languages }} <br>
+                 {%endfor%}
+            </td>
         </tr>
          <tr>
             <td>Виды тестирования: </td>
-            <td>{{ form.testing_types}}</td>
+            <td>
+                {% for testing_types in  tester.testing_types.all  %}
+                     {{ testing_types }} <br>
+                 {%endfor%}
+            </td>
         </tr>
          <tr>
             <td>Браузер: </td>
-             <td>{{ form.browsers}}</td>
+            <td>
+                {% for browsers in  tester.browsers.all  %}
+                     {{ browsers }} <br>
+                 {%endfor%}
+            </td>
         </tr>
          <tr>
             <td>О себе: </td>
             <td>
                 {{ form.description }}
-                 <input id="radius" type="button" value="сохранить" />
-            </td>
-
-        </tr>
-        
+                 <input id="radius" type="submit" value="сохранить" />
+            </td
+        </tr>  
         <tr>
-            <td>
-                    <input id="radius" type="button" value="Загрузить фотографию" />
+            <td>   
+                    <input id="radius" type="button" value="Загрузить фотографию" />    
             </td>
             <td></td>
         </tr>
