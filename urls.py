@@ -43,7 +43,8 @@ urlpatterns = patterns('bugtracker.views',
     # Страницы для тестеров:
     (r'^testers/$', list_detail.object_list, tester_info),
     # Личная страница тестера
-    (r'^testers/(\d+)(/[a-z]+)?$', 'tester_detail'),
+    (r'^testers/(\d+)$', 'tester_detail'),
+    (r'^testers/(\d+)/projects$', 'tester_detail_projects'),
     # Регистрация нового тестера
     (r'^testers/register$', 'tester_registraion'),
 
