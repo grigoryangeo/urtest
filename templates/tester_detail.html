@@ -8,7 +8,6 @@
 {% endblock %}
 {% block content %}
 <h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
-<ul>
     <table>
         <tr>
             <td><h3> Личная информация</h3></td>
@@ -32,34 +31,61 @@
         <tr>
             <td><h3>Профессиональное:</h3> </td>
         </tr>
-        <tr>
-            <td>ОС: </td>
-            <td></td>
-        </tr>
-         <tr>
-            <td>ЯП: </td>
-            <td></td>
-        </tr>
-         <tr>
-            <td>Виды тестирования: </td>
-            <td></td>
-        </tr>
-         <tr>
-            <td>Браузер: </td>
-            <td></td>
-        </tr>
-         <tr>
-            <td>О себе: </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <form>
-                    <input id="radius" type="submit" value="Загрузить фотографию" />
-                </form>
-            </td>
-            <td></td>
-        </tr>
+		{% if form %}
+		<form action="{% url bugtracker.views.tester_detail tester.pk %}" method="POST">
+		{{ form }}
+		<tr>
+			<td colspan="2"><input type="submit"></td>
+		</tr>
+		</form>
+		{% else %}
+		<tr>
+			<td>Операционные системы</td>
+			<td>
+				<ul>
+				{% for os in tester.osystems.all %}
+					<li>{{ os }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>Языки программирования</td>
+			<td>
+				<ul>
+				{% for lang in tester.program_languages.all %}
+					<li>{{ lang }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>Типы тестирования</td>
+			<td>
+				<ul>
+				{% for t in tester.testing_types.all %}
+					<li>{{ t }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+		</tr>	
+		<tr>
+			<td>Браузеры</td>
+			<td>
+				<ul>
+				{% for browser in tester.browsers.all %}
+					<li>{{ browser }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+		</tr>	
+		<tr>
+			<td>О себе</td>
+			<td>
+				<p>{{ tester.description }}</p>
+			</td>
+		</tr>
+		{% endif %}
+
    </table>
-</ul>
 {% endblock %}
