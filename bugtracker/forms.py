@@ -47,8 +47,8 @@ class UserForm(forms.ModelForm):
 class TesterForm(forms.Form):
     email = forms.EmailField(label='E-mail')
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, required=False)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, required=False)
     last_name = forms.CharField(label="Фамилия")
     first_name = forms.CharField(label="Имя")
     second_name = forms.CharField(label="Отчество")
