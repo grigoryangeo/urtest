@@ -49,6 +49,7 @@ def company_registraion(request, type):
             customer = Customer.objects.create(type=type, user=user)
             ur_customer.customer = customer
             ur_customer.save()
+            form.save_m2m()
             return HttpResponseRedirect('/thanks')
     else:
         form = form_type()
