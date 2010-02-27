@@ -164,8 +164,10 @@ class Project(models.Model):
     #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
     def add_tester(self, tester):
-        self.testers += tester
-        self.save(force_update)
+        if tester in self.testers.all():
+            return
+        self.testers.add(tester)
+        self.save(force_update=True)
 
     class Meta:
         verbose_name = "проект"
