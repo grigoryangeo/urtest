@@ -8,6 +8,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание")
+    severity = forms.CharField(label="критичность", widget=forms.RadioSelect(choices=models.Bug.SEVERITY_CHOICES))
     class Meta:
         model = models.Bug
         exclude = ['tester', 'status', 'status_comment', 'project']

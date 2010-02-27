@@ -186,7 +186,7 @@ def add_bug(request, project_pk):
             bug.save()
             return HttpResponseRedirect('/projects/%s' % project_pk)
     else:
-        form = BugForm()
+        form = BugForm(initial={'severity': models.Bug.SEVERITY_CHOICES[0][0]})
     return render_to_response('addbug.html',{'form': form},
                               context_instance=RequestContext(request))
 
