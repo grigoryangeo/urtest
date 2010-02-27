@@ -47,8 +47,8 @@
                     <form method="post" action="{% url django.contrib.auth.views.login %}">
                         <table>
                             <tr>
-                                <td><input type="text" name="username" value="логин" id="username"></td>
-                                <td><input type="password" name="password" value="пароль" id="password"></td>
+                                <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
+                                <td><input type="password" name="password" value="пароль" OnFocus="value=''"  id="password"></td>
                                 <td><input type="submit" value="Войти" /></td>
                             </tr>
                         </table>
