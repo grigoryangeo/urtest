@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user
 from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -158,6 +159,16 @@ def project_detail(request, pk, page=''):
     elif page == '/testers':
         return render_to_response('project_testers.html', locals(),
             context_instance=RequestContext(request))
+    elif page == '/enlist':
+        user = request.user
+        if not user.is_authenticated():
+            raise PermissionDenied
+        # Текущий залогиненый пользователь должен быть тестером
+        if not hasattr(user, 'tester'):
+            raise PermissionDenied
+        tester = user.tester
+        project.add_tester(tester)
+        return HttpResponseRedirect('/projects/%i/testers' % project.pk)
     else:
         raise Http404
 
