@@ -148,8 +148,17 @@ def bug_details(request, pk, page, bk):
         pk = int(pk)
         severity = bugs.get_severity_display()
         status = bugs.get_status_display()
-        return render_to_response('bug_detail.html',locals(),
-            context_instance=RequestContext(request))
+        if request.method == 'POST':
+            form = BugDetail(request.POST,initial={'status':bugs.status, 'status_comment':bugs.status_comment})
+            if form.is_valid():
+                bugs.status=form.cleaned_data['status']
+                bugs.status_comment=form.cleaned_data['status_comment']
+                bugs.save()
+                return HttpResponseRedirect(request.path)
+        else:
+            form = BugDetail(initial={'status':bugs.status,'status_comment':bugs.status_comment})
+            return render_to_response('bug_detail.html',locals(),
+                context_instance=RequestContext(request))
     else:
         raise Http404
 
