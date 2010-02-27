@@ -28,13 +28,20 @@ class UserForm(forms.ModelForm):
     email = forms.EmailField(label='Контактный E-mail')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    accept = forms.BooleanField(label='Договор', required=False, help_text='Я согласен с условиями договора')
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
             raise forms.ValidationError('Пользователь с таким адресом уже существует')
         return email
-    
+
+    def clean_accept(self):
+        accept = self.cleaned_data.get('accept')
+        if accept == 0 :
+            raise forms.ValidationError('Необходимо подтверждение согласия с пользовательским договором')
+        return accept
+   
     def clean_password_confirm(self):
         cleaned_data = self.cleaned_data
         password = cleaned_data.get('password')
@@ -60,11 +67,19 @@ class TesterForm(forms.Form):
     testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
     browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
 
+    accept = forms.BooleanField(label='Договор', required=False, help_text='Я согласен с условиями договора')
+    
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
             raise forms.ValidationError('Пользователь с таким адресом уже существует')
         return email
+
+    def clean_accept(self):
+        accept = self.cleaned_data.get('accept')
+        if accept == 0 :
+            raise forms.ValidationError('Необходимо подтверждение согласия с пользовательским договором')
+        return accept
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -82,7 +97,7 @@ class UrCustomerForm(UserForm):
     class Meta:
         model = models.UrCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.UrCustomer._meta.fields[2:]] + [f.name for f in models.UrCustomer._meta.many_to_many]
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.UrCustomer._meta.fields[2:]] + [f.name for f in models.UrCustomer._meta.many_to_many] + ['accept']
 
 
 class PhysCustomerForm(UserForm):
@@ -93,8 +108,7 @@ class PhysCustomerForm(UserForm):
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
-
+        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many] + ['accept']
 
 class TesterDetailForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False))

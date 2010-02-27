@@ -57,6 +57,7 @@ urlpatterns = patterns('bugtracker.views',
     (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
     (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
     (r'^projects/(\d+)/addbug$', 'add_bug'),
+    (r'^thanks$', 'thanks'),
     # Страницы проектов:
     # Список всех проектов
     (r'^projects/$', list_detail.object_list, project_info),
