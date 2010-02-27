@@ -39,7 +39,7 @@
                    {% if user.is_authenticated %}
                       {% if user.tester %}
                        <form >
-                         <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+                         <input  type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
                         </form>
                    {% endif %}
     {% endif %}
