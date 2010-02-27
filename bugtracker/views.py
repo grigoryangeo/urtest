@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from models import *
 from forms import *
+from helpers import *
 
 
 # компании
@@ -82,19 +83,40 @@ def tester_registraion(request):
     return render_to_response('tester_registraion.html',{'form': form})
 
 
-def tester_detail(request, pk, page=''):
-    print pk, page
+# def tester_detail(request, pk, page=''):
+#    print pk, page
+#    tester = get_object_or_404(Tester, pk=pk)
+#    if page == None:
+#        form = TesterDetailForm(tester)
+#        return render_to_response('tester_detail.html', locals(),
+#                               context_instance=RequestContext(request))
+#     elif page == '/projects':
+#         projects = tester.projects.all()
+#         return render_to_response('tester_detail_projects.html', locals(),
+#             context_instance=RequestContext(request))
+#     else:
+#         raise Http404
+
+def tester_detail(request, pk):
     tester = get_object_or_404(Tester, pk=pk)
-    if page == None:
-        fields = [(f.verbose_name, getattr(tester, f.name)) for f in tester._meta.fields[2:]]
-        return render_to_response('tester_detail.html', locals(),
-                              context_instance=RequestContext(request))
-    elif page == '/projects':
-        projects = tester.projects.all()
-        return render_to_response('tester_detail_projects.html', locals(),
+    user = get_user(request)
+    viewing_self = hasattr(user, 'tester') and user.tester == tester
+    if viewing_self:
+        if request.method == "POST":
+            form = TesterDetailForm(request.POST, instance=tester)
+            if form.is_valid():
+                form.save()
+        else:
+            form = TesterDetailForm(instance=tester)
+        return render_to_request(request, 'tester_detail.html', {'tester': tester, 'form':form},
             context_instance=RequestContext(request))
     else:
-        raise Http404
+        return render_to_request(request, 'tester_detail.html', {'tester':tester})
+
+def tester_detail_projects(request, pk):
+    tester = get_object_or_404(Tester, pk=pk)
+    projects = tester.projects.all()
+    return render_to_request(request, 'tester_detail_projects.html', {'tester': tester, 'projects':projects})
 
 def dogovor(request):
     return render_to_response('dogovor.html', context_instance=RequestContext(request))
