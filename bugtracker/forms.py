@@ -12,6 +12,12 @@ class BugForm(forms.ModelForm):
         model = models.Bug
         exclude = ['tester', 'status', 'status_comment', 'project']
 
+class BugDetail(forms.ModelForm):
+    status = forms.CharField(label="Статус", widget=forms.RadioSelect(choices=models.Bug.STATUS_CHOICES))
+    status_comment = forms.CharField(label="Примичание", widget=forms.Textarea, required=False)
+    class Meta:
+        model = models.Bug
+        fields=['status','status_comment']
 
 class ProjectForm(forms.ModelForm):
     def clean_name(self):

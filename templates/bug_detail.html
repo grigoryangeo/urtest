@@ -64,46 +64,28 @@
         <td>Комментарии к файлу:</td>
         <td> Отсутствуют</td>
     </tr>
-    {% if user.is_authenticated %}
+{% if user.is_authenticated %}
         {% if  user.customer %}
             {% for  project in  user.customer.projects.all %}
                 {% ifequal project.id pk %}
-                <tr>
-                    <td valign="top">Статус:</td>
-                    <td>
-                    <form name="status">
-                        <p> <input type="radio" name="var_status" value="v1">Баг не рассматривался </p>
-                        <p> <input type="radio" name="var_status" value="v2">Баг на рассмотрении </p>
-                        <p> <input type="radio" name="var_status" value="v3">Баг рассмотрен и признан в качестве бага </p>
-                        <p> <input type="radio" name="var_status" value="v4">Баг рассмотрен и не признан в качестве бага </p>
-                        <p> <input type="radio" name="var_status" value="v5">Баг рассмотрен и устранен </p>
-                    </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Примечание:</td>
-                    <td>
-                        {% ifequal bugs.status_comment '' %}
-                            Отсутствует
-                        {% endifequal %}
-                        {% ifnotequal bugs.status_comment '' %}
-                            {{ bugs.status_comment }}
-                        {% endifnotequal%}
-                    </td>
-                </tr>
-                <br>
-                <tr>
-                    <form>
-                    <td>
-                    <br>
-                        <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
-                    </td>
-                    <td>
-                    <br>
-                        <input id="radius" type="button"  value="Изменить">
-                    </td>
-                    </form>
-                </tr>
+                <form action="/projects/{{ pk }}/bugs/{{ bk }}" method="post">
+                        <tr>
+                            <TD> Статус:</TD>
+                            <td>{{ form.status }}</td>
+                        </tr>
+                        <tr>
+                            <td>  Примичание</td>
+                            <td>  {{ form.status_comment }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                               <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                            </td>
+                            <td>
+                                <input id="radius" type="submit"  value="Изменить">
+                            </td>
+                        </tr>
+                 </form>
                 {% endifequal %}
             {% endfor %}
         {% else %}
