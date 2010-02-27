@@ -4,7 +4,9 @@
 
 <h1>Добавить баг:</h1>
 <form action="./addbug" method="post">
-    {{ form.as_p }}
+    <table>
+        {{ form }}
+    </table>
     <input type="submit" value="Добавить" />
     <input type="button" onClick="location.href=''"  value="Отмена" />
 </form>
