@@ -194,7 +194,7 @@ class Bug(models.Model):
     tester = models.ForeignKey('Tester', related_name='bugs',
                                 verbose_name="Автор")
     short_description = models.TextField("краткое описание бага", max_length=100)
-    test_plan_point = models.CharField("пункт тестплана", max_length=100)
+    test_plan_point = models.CharField("пункт тест-плана", max_length=100)
     severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
     finding_description = models.TextField("как был получен", max_length=600)
     full_description = models.TextField("детальное описание бага", max_length=600)

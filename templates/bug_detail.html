@@ -58,7 +58,7 @@
     </tr>
     <tr>
         <td>Дата/Время добавления:</td>
-        <td>{{ bugs.submit_date }}</td>
+        <td>{{ bugs.submit_date|date:"d.m.Y h:i" }}</td>
     </tr>
     <tr>
         <td>Комментарии к файлу:</td>
@@ -107,10 +107,11 @@
              </td>
          </tr>
          <tr>
-             <td>Дата/время изменения статуса:</td>
-             <td> {{ bugs.status_date }} </td>
+             <td>Дата/время установления статуса:</td>
+             <td> {{ bugs.status_date|date:"d.m.Y h:i" }} </td>
          </tr>
          <tr>
+             <td></td>
          <br>
              <form>
                  <td>
