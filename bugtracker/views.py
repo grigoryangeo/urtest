@@ -183,6 +183,13 @@ def bug_details(request, pk, page, bk):
         raise Http404
     if page == '/bugs/':
         pk = int(pk)
+        if request.user.is_authenticated():
+            try :
+                for  project in  request.user.customer.projects.all():
+                    if ( project.id == pk):
+                        customer_own=1
+            except :
+                temp=1
         severity = bugs.get_severity_display()
         status = bugs.get_status_display()
         if request.method == 'POST':
