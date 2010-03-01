@@ -110,9 +110,11 @@
              <td>Дата/время установления статуса:</td>
              <td> {{ bugs.status_date|date:"d.m.Y h:i" }} </td>
          </tr>
+        {% endif %}
+    {% endif %}
          <tr>
              <td></td>
-         <br>
+             <br>
              <form>
                  <td>
                  <br>
@@ -120,8 +122,6 @@
                  </td>
              </form>
          </tr>
-        {% endif %}
-    {% endif %}
 </table>
 <br>
 
