@@ -9,7 +9,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание")
     severity = forms.CharField(label="Критичность", widget=forms.RadioSelect(choices=models.Bug.SEVERITY_CHOICES))
-    file_comment=forms.CharField(label="Коментариии к файлу" ,widget=forms.Textarea, required=False)
+    #file_comment=forms.CharField(label="Комментариии к файлу" ,widget=forms.Textarea, required=False,max_length=150)
     class Meta:
         model = models.Bug
         exclude = ['tester', 'status', 'status_comment', 'project']
