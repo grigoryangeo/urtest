@@ -191,7 +191,7 @@ def bug_details(request, pk, page, bk):
                 bugs.status=form.cleaned_data['status']
                 bugs.status_comment=form.cleaned_data['status_comment']
                 bugs.save()
-                return HttpResponseRedirect(request.path)
+                return HttpResponseRedirect('/projects/%s/bugs' %pk)
         else:
             form = BugDetail(initial={'status':bugs.status,'status_comment':bugs.status_comment})
             return render_to_response('bug_detail.html',locals(),
