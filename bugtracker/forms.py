@@ -7,7 +7,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class BugForm(forms.ModelForm):
-    short_description = forms.CharField(label="Краткое описание")
+    short_description = forms.CharField(label="Краткое описание", max_length=100)
     severity = forms.CharField(label="Критичность", widget=forms.RadioSelect(choices=models.Bug.SEVERITY_CHOICES))
     #file_comment=forms.CharField(label="Комментариии к файлу" ,widget=forms.Textarea, required=False,max_length=150)
     class Meta:
@@ -16,7 +16,7 @@ class BugForm(forms.ModelForm):
 
 class BugDetail(forms.ModelForm):
     status = forms.CharField(label="Статус", widget=forms.RadioSelect(choices=models.Bug.STATUS_CHOICES))
-    status_comment = forms.CharField(label="Примичание", widget=forms.Textarea, required=False)
+    status_comment = forms.CharField(label="Примечание", widget=forms.Textarea, required=False, max_length=100)
     class Meta:
         model = models.Bug
         fields=['status','status_comment']
@@ -33,9 +33,9 @@ class ProjectForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    email = forms.EmailField(label='Контактный E-mail')
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    email = forms.EmailField(label='Контактный E-mail', max_length=50)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, max_length=30,  min_length=5)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, max_length=30, min_length=5)
     accept = forms.BooleanField(label='Договор', required=False, help_text='Я согласен с условиями договора')
 
     def clean_email(self):
@@ -49,7 +49,7 @@ class UserForm(forms.ModelForm):
         if accept == 0 :
             raise forms.ValidationError('Необходимо подтверждение согласия с пользовательским договором')
         return accept
-   
+
     def clean_password_confirm(self):
         cleaned_data = self.cleaned_data
         password = cleaned_data.get('password')
@@ -60,13 +60,13 @@ class UserForm(forms.ModelForm):
 
 
 class TesterForm(forms.Form):
-    email = forms.EmailField(label='E-mail')
+    email = forms.EmailField(label='E-mail', max_length=50)
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, required=False)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, required=False)
-    last_name = forms.CharField(label="Фамилия")
-    first_name = forms.CharField(label="Имя")
-    second_name = forms.CharField(label="Отчество", required=False)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, max_length=30, min_length=5)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, max_length=30, min_length=5)
+    last_name = forms.CharField(label="Фамилия", max_length=80)
+    first_name = forms.CharField(label="Имя", max_length=30)
+    second_name = forms.CharField(label="Отчество", max_length=30, required=False)
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
 
     os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
@@ -76,7 +76,7 @@ class TesterForm(forms.Form):
     browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
 
     accept = forms.BooleanField(label='Договор', required=False, help_text='Я согласен с условиями договора')
-    
+
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
@@ -112,22 +112,22 @@ class PhysCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='f')
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
 
-    
+
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
         fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many] + ['accept']
 
 class TesterDetailForm(forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False))
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False))
-    
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+
     osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all())
     program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all())
     testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all())
     browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all())
 
-    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
+    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
 
     class Meta:
         model = models.Tester
@@ -145,7 +145,7 @@ class TesterDetailForm(forms.ModelForm):
             user = tester.user
             user.set_password(data['password'])
             user.save()
-        
+
         return tester
 
     def clean(self):
