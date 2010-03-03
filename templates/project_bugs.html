@@ -60,7 +60,7 @@
                     Баг рассмотрен и устранён
                     {% endifequal %}
                 </td>
-		<td> {{ bug.status_date }}</td>
+		<td> {{ bug.status_date|date:"d.m.Y h:i" }}</td>
 	    </tr>
 	    {% endfor %}
 	</TBODY>
