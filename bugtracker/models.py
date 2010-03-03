@@ -8,9 +8,9 @@ class Tester(models.Model):
 
     user = models.OneToOneField(User, parent_link=True)
     # password находятся в User
-    surname = models.CharField("фамилия", max_length=80)
-    first_name = models.CharField("имя", max_length=30)
-    second_name = models.CharField("отчество", max_length=30, blank=True)
+    surname = models.CharField("Фамилия", max_length=80)
+    first_name = models.CharField("Имя", max_length=30)
+    second_name = models.CharField("Отчество", max_length=30, blank=True)
     email = models.EmailField("e-mail", max_length=50)
 
     osystems = models.ManyToManyField('OSystem',
@@ -84,18 +84,18 @@ class PhysCustomer(models.Model):
 
     customer = models.OneToOneField('Customer', related_name='phys_customer',
                                 verbose_name="заказчик")
-    surname = models.CharField("фамилия", max_length=80)
-    first_name = models.CharField("имя", max_length=30)
-    second_name = models.CharField("отчество", max_length=50, blank=True)
+    surname = models.CharField("Фамилия заказчика", max_length=80)
+    first_name = models.CharField("Имя заказчика", max_length=30)
+    second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
     email = models.EmailField("e-mail", max_length=50)
-    passport_serial = models.IntegerField("серия", max_length=4)
-    passport_number = models.IntegerField("номер", max_length=6)
-    passport_when = models.DateField("когда")
-    passport_who = models.CharField("кем выдан", max_length=100)
-    telefon = models.CharField("контактный телефон", max_length=50)
-    other_connect = models.CharField("другие контактные данные", max_length=100)
+    passport_serial = models.IntegerField("Серия паспорта", max_length=4)
+    passport_number = models.IntegerField("Номер паспорта", max_length=6)
+    passport_when = models.DateField("Дата выдачи")
+    passport_who = models.CharField("Кем выдан", max_length=100)
+    telefon = models.CharField("Контактный телефон", max_length=50)
+    other_connect = models.CharField("Другие контактные данные", max_length=100)
     pay_type = models.ManyToManyField('PayingType', related_name='PhysCustomers',
-                                verbose_name="способ оплаты")
+                                verbose_name="Способ оплаты")
     def _get_full_name(self):
         return "%s %s %s" % (self.surname, self.first_name, self.second_name)
     full_name = property(_get_full_name)
@@ -114,24 +114,24 @@ class UrCustomer(models.Model):
     customer = models.OneToOneField('Customer', related_name='ur_customer',
                                 verbose_name="заказчик")
     email = models.EmailField("e-mail", max_length=50)
-    name = models.CharField("название компании", max_length=50)
-    inn = models.CharField("ИНН", max_length=10)
-    bank_account = models.CharField("счет в банке", max_length=50)
-    bank = models.CharField("банк", max_length=50)
+    name = models.CharField("Название компании", max_length=50)
+    inn = models.IntegerField("ИНН", max_length=10)
+    bank_account = models.IntegerField("Номер счета", max_length=50)
+    bank = models.CharField("Банк", max_length=50)
     kpp = models.CharField("КПП", max_length=50)
     bik = models.CharField("БИК", max_length=50)
-    correspondent_account = models.CharField("корреспондентский счет", max_length=50)
+    correspondent_account = models.CharField("Корреспондентский счет", max_length=50)
     ogrn = models.CharField("ОГРН", max_length=50)
-    phone = models.CharField("контактный телефон", max_length=50)
-    www = models.URLField("адрес сайта", max_length=100)
-    address_ur = models.TextField("юридический адрес компании", max_length=300)
-    description = models.TextField("о компании", max_length=300)
-    repr_surname = models.CharField("фамилия представителя", max_length=80)
-    repr_first_name = models.CharField("имя представителя", max_length=30)
-    repr_second_name = models.CharField("отчество представителя", max_length=50, blank=True)
-    repr_phone = models.CharField("контактный телефон представителя", max_length=50)
+    phone = models.CharField("Контактный телефон компании", max_length=50)
+    www = models.URLField("Адрес сайта компании", max_length=100)
+    address_ur = models.TextField("Юридический адрес компании", max_length=300)
+    description = models.TextField("Информация о компании", max_length=300)
+    repr_surname = models.CharField("Фамилия заказчика", max_length=80)
+    repr_first_name = models.CharField("Имя заказчика", max_length=30)
+    repr_second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
+    repr_phone = models.CharField("Контактный телефон", max_length=50)
     pay_type = models.ManyToManyField('PayingType', related_name='UrCustomers',
-        verbose_name="способ оплаты")
+        verbose_name="Способ оплаты")
 
     class Meta:
         verbose_name = "юридическое лицо"
@@ -147,7 +147,7 @@ class Project(models.Model):
     customer = models.ForeignKey('Customer', related_name='projects',
                                 verbose_name="заказчик")
     name = models.CharField("название", max_length=50)
-    size = models.IntegerField("размер в SLOC")
+    size = models.IntegerField("размер в SLOC", max_length=50)
     program_language = models.ManyToManyField('ProgramLang',
                                         related_name='projects',
                                         verbose_name="язык программирования")
@@ -193,7 +193,7 @@ class Bug(models.Model):
     )
     tester = models.ForeignKey('Tester', related_name='bugs',
                                 verbose_name="Автор")
-    short_description = models.TextField("краткое описание бага", max_length=100)
+    short_description = models.CharField("краткое описание бага", max_length=100)
     test_plan_point = models.CharField("пункт тест-плана", max_length=100)
     severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
     finding_description = models.TextField("как был получен", max_length=600)
