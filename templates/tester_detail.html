@@ -7,6 +7,16 @@
            </ul>
 {% endblock %}
 {% block content %}
+<script language='JavaScript' type='text/javascript'>
+function show_foto_bag() {
+    document.all('foto_bug').innerHTML="<font color='red'>Данная функциональность разрабатывается</font>";
+}
+</script>
+<style type="text/css">
+#foto_bug {
+    display:inline;
+    }
+</style>
 <h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
     <table>
         <tr>
@@ -35,8 +45,16 @@
 		<form action="{% url bugtracker.views.tester_detail tester.pk %}" method="POST">
 		{{ form }}
 		<tr>
-			<td colspan="2"><input type="submit"></td>
+			<td colspan="2">
+                            <input type="submit" value="Сохранить">       
+                        </td>
 		</tr>
+                <tr>
+			<td colspan="2">
+                            <input type="button" onClick="show_foto_bag();" value="Загрузить фотографию">
+                            <div id="foto_bug"></div>
+                        </td>
+                </tr>
 		</form>
 		{% else %}
 		<tr>
