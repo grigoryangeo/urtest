@@ -66,7 +66,7 @@ class TesterForm(forms.Form):
     password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, required=False)
     last_name = forms.CharField(label="Фамилия")
     first_name = forms.CharField(label="Имя")
-    second_name = forms.CharField(label="Отчество")
+    second_name = forms.CharField(label="Отчество", required=False)
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
 
     os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
