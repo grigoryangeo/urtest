@@ -1,9 +1,21 @@
 {% extends 'customer_project_detail.html' %}
 {% block title %}RuTest project{% endblock %}
 {% block content%}
+<script language='JavaScript' type='text/javascript'>
+function show_file_bug(i) {
+    document.all('file_bug'+i).innerHTML="Данная функциональность находится в процессе разработки";
+}
+</script>
 <h1>Добавление проекта</h1>
 <form action="/projects/new" method="post">
-    {{ form.as_p }}
+    <table>
+        {{ form }}
+    </table>
+    <input type="button" onClick="show_file_bug(1);" value="Загрузить файл">
+    <div id="file_bug1"></div>
+    <input type="button" onClick="show_file_bug(2);" value="Загрузить исполняемый код">
+    <div id="file_bug2"></div>
+    <br>
     <input type="submit" value="Добавить" />
 </form>
 {% endblock %}
