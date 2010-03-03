@@ -43,7 +43,23 @@
                 Высокая
 		    {% endifequal %}
 		</td>
-		<td>  {{ bug.status }}   </td>
+		<td> 
+                    {% ifequal bug.status 'new' %}
+                    Баг не рассматривался
+                    {% endifequal %}
+                    {% ifequal bug.status 'reviewed' %}
+                    Баг на рассмотрении
+                    {% endifequal %}
+                    {% ifequal bug.status 'accepted' %}
+                    Баг рассмотрен и признан в качестве бага
+                    {% endifequal %}
+                    {% ifequal bug.status 'denied' %}
+                    Баг рассмотрен и не признан в качестве бага
+                    {% endifequal %}
+                    {% ifequal bug.status 'corrected' %}
+                    Баг рассмотрен и устранён
+                    {% endifequal %}
+                </td>
 		<td> {{ bug.status_date }}</td>
 	    </tr>
 	    {% endfor %}
