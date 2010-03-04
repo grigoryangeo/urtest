@@ -6,6 +6,8 @@ import bugtracker.models as models
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+fio_regexp = r'(?u)\w+(-\w+)?'
+generic_error = {"invalid": "Неправильно введены данные"}
 
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание", max_length=100)
@@ -27,7 +29,6 @@ class BugDetail(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
-
     name = forms.CharField(label='Название', max_length=50)
     size = forms.CharField(label='Размер в SLOC', max_length=50)
     program_language = forms.ModelMultipleChoiceField(label="ЯП", queryset=models.ProgramLang.objects.all(), widget=FilteredSelectMultiple(u'ЯП', False))
@@ -70,9 +71,9 @@ class TesterForm(forms.Form):
 
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput, max_length=30, min_length=5)
     password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, max_length=30, min_length=5)
-    last_name = forms.CharField(label="Фамилия", max_length=80)
-    first_name = forms.CharField(label="Имя", max_length=30)
-    second_name = forms.CharField(label="Отчество", max_length=30, required=False)
+    last_name = forms.RegexField(label="Фамилия", max_length=80, regex=fio_regexp, error_messages=generic_error)
+    first_name = forms.RegexField(label="Имя", max_length=30, regex=fio_regexp, error_messages=generic_error)
+    second_name = forms.RegexField(label="Отчество", max_length=30, required=False, regex=fio_regexp, error_messages=generic_error)
 
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
 
@@ -100,6 +101,9 @@ class TesterForm(forms.Form):
 
 class UrCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='y')
+    repr_surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
+    repr_first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
+    repr_second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
@@ -110,6 +114,9 @@ class UrCustomerForm(UserForm):
 
 class PhysCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='f')
+    surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
+    first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
+    second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
 
