@@ -1,6 +1,7 @@
 # File encoding: utf-8
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 import bugtracker.models as models
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -124,6 +125,7 @@ class UrCustomerForm(UserForm):
 class PhysCustomerForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='f')
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
 
 
     class Meta:
