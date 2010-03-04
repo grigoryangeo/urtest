@@ -40,7 +40,10 @@
                         <a href="/companies/{{ user.customer.id }}">Личный кабинет</a>
                         {% endif %}
                     </td>
-                    <td width="60px"><a href="/logout">Выйти</a>
+                    <td width="60px">
+                        <form>
+                            <input type="button" onClick="location.href='/logout'" value="выйти">
+                        </form>
                 {% else %}
                     </td>
                     <td  width="300px">
