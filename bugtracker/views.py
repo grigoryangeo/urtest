@@ -15,7 +15,6 @@ from helpers import *
 
 # компании
 def company_detail(request, pk, page=''):
-     print pk, page
      customer = get_object_or_404(Customer, pk=pk)
      if page == None:
         if customer.type == 'f':
@@ -85,20 +84,6 @@ def tester_registraion(request):
     return render_to_response('tester_registraion.html',{'reg_form': form})
 
 
-# def tester_detail(request, pk, page=''):
-#    print pk, page
-#    tester = get_object_or_404(Tester, pk=pk)
-#    if page == None:
-#        form = TesterDetailForm(tester)
-#        return render_to_response('tester_detail.html', locals(),
-#                               context_instance=RequestContext(request))
-#     elif page == '/projects':
-#         projects = tester.projects.all()
-#         return render_to_response('tester_detail_projects.html', locals(),
-#             context_instance=RequestContext(request))
-#     else:
-#         raise Http404
-
 def tester_detail(request, pk):
     tester = get_object_or_404(Tester, pk=pk)
     user = get_user(request)
@@ -157,7 +142,6 @@ def new_project(request):
 
 
 def project_detail(request, pk, page=''):
-    print pk, page
     try:
         project = Project.objects.get(pk=pk)
     except Project.DoesNotExist:
