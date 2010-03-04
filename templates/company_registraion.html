@@ -17,10 +17,15 @@
 <form action="/companies/register_{{ type }}" method="post">
     <table>
         {{ reg_form }}
+    <tr>
+        <th><label for="id_accept">Договор:</label></th>
+        <td><input type="checkbox" name="accept" id="id_accept" onClick="this.form.registr.disabled=!this.form.accept.checked;" />
+            Я согласен с условиями договора</td>
+    </tr>
     </table>
     <a href="/dogovor" target="_blank"><h4>Пользовательский договор</h4></a>
     <br><br>
-    <input id="radius" type="submit" value="Зарегистрироваться" />
+    <input id="radius" name="registr" type="submit" value="Зарегистрироваться" disabled />
     <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
 </form>
 
