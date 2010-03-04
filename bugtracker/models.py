@@ -204,7 +204,7 @@ class Bug(models.Model):
     status = models.CharField("статус бага", max_length=10, choices=STATUS_CHOICES,
                                 default='new')
     status_comment = models.TextField("примечание к статусу", blank=True, max_length=300)
-    status_date = models.DateTimeField("дата/время изменения статуса", auto_now_add=True)
+    status_date = models.DateTimeField("дата/время изменения статуса", auto_now=True)
 
 
     project = models.ForeignKey('Project', related_name='bugs',
