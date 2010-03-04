@@ -81,7 +81,7 @@ class TesterForm(forms.Form):
     first_name = forms.CharField(label="Имя", max_length=30)
     second_name = forms.CharField(label="Отчество", max_length=30, required=False)
 
-    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False)
+    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
 
     os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
     #os = forms.ModelMultipleChoiceField(queryset=models.OSystem.objects.all())
