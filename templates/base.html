@@ -34,11 +34,7 @@
                 {% if user.is_authenticated %} 
                     </td>
                     <td width="120px">
-                        {% if user.tester %}
-                        <a href="/testers/{{user.tester.id}}">Личный кабинет</a>
-                        {% else %}
-                        <a href="/companies/{{ user.customer.id }}">Личный кабинет</a>
-                        {% endif %}
+                        <a href="/my/account">Личный кабинет</a>
                     </td>
                     <td width="60px"><a href="/logout">Выйти</a>
                 {% else %}

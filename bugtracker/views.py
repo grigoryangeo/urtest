@@ -120,6 +120,20 @@ def tester_detail_projects(request, pk):
     projects = tester.projects.all()
     return render_to_request(request, 'tester_detail_projects.html', {'tester': tester, 'projects':projects})
 
+@login_required
+def redirect_to_self(request):
+    # Получение текущего пользователя
+    user = request.user
+    # Переход на админку для админа
+    if user.is_superuser:
+        return HttpResponseRedirect('/admin')
+    # Переход в личный кабинет для тестера/компании
+    if hasattr(user, 'tester'):
+        return HttpResponseRedirect('/testers/%s' % user.tester.pk)
+    if hasattr(user, 'customer'):
+        return HttpResponseRedirect('/companies/%s' % user.customer.pk)
+    raise Http404
+
 def dogovor(request):
     return render_to_response('dogovor.html', context_instance=RequestContext(request))
 

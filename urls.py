@@ -56,6 +56,10 @@ urlpatterns = patterns('bugtracker.views',
     # Регистрация новой компании
     (r'^companies/register_f$', 'company_registraion', {'type': 'f'}),
     (r'^companies/register_y$', 'company_registraion', {'type': 'y'}),
+    
+    # Общий переход в личный кабинет
+    (r'^my/account', 'redirect_to_self'),
+    
     (r'^projects/(\d+)/addbug$', 'add_bug'),
     (r'^thanks$', 'thanks'),
     # Страницы проектов:
