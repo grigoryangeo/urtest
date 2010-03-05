@@ -70,6 +70,54 @@ td.ugly{
     background-image:url('/site_media/img/Window.jpg');
 }
 
+.boldText {
+	font-weight: bold;
+}
+
+/* Форма регистрации */
+.registerFormTable {
+	margin: 0 auto;
+}
+.registerFormTop {
+	width: 897px;
+	background: url('/site_media/img/govnotop.gif') top center no-repeat;
+}
+.registerFormBottom {
+	width: 897px;
+	background: url('/site_media/img/govnobottom.gif') bottom center no-repeat;
+	padding-bottom: 10px;
+}
+.regHeaderText {
+	text-align: center;
+    font-size: 20px;
+    font-style: italic;
+    font-family: serif;
+	font-weight: bold;
+    color: orange;
+}
+.registerFormHalfLeft{
+	width: 50%;
+	padding: 20px 30px 0px 20px;
+	vertical-align: top;
+}
+.registerFormHalfRight{
+	width: 50%;
+	padding: 20px 20px 0px 30px;
+	vertical-align: top;
+}
+.registerFormList {
+	list-style: none;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+.registerFormListLi{
+    padding: 2px 0px 0px 20px;
+    background: url('/site_media/img/Circle.jpg') no-repeat left center;
+	margin-left: 0px;
+}
+
+/*!Форма регистрации */
+
 table.reg{
     width:90%;
     margin-left:  auto;
@@ -99,11 +147,10 @@ table.regButton{
 }
 
 td.regButton{
-    text-align:center;
+    /*text-align:center;*/
     font-size:20px;
     font-family:serif;
     letter-spacing:5px;
-    width:50%;
 }
 
 table.bottom{
