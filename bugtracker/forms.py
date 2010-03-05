@@ -39,7 +39,8 @@ class UserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
-            raise forms.ValidationError('Пользователь с таким адресом уже существует')
+           # raise forms.ValidationError('Пользователь с таким адресом уже существует')
+		   raise forms.ValidationError('Неправильно введены данные')
         return email
 
     def clean_accept(self):
@@ -53,7 +54,8 @@ class UserForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
-            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+            # raise forms.ValidationError('Пароль и подтверждение не совпадают')
+			raise forms.ValidationError('Неправильно введены данные')
         return password_confirm
 
 
@@ -78,7 +80,8 @@ class TesterForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
-            raise forms.ValidationError('Пользователь с таким адресом уже существует')
+            # raise forms.ValidationError('Пользователь с таким адресом уже существует')
+			raise forms.ValidationError('Неправильно введены данные')
         return email
 
     def clean_accept(self):
@@ -92,7 +95,8 @@ class TesterForm(forms.Form):
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
-            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+            # raise forms.ValidationError('Пароль и подтверждение не совпадают')
+			raise forms.ValidationError('Неправильно введены данные')
         return cleaned_data
 
 
@@ -152,7 +156,8 @@ class TesterDetailForm(forms.ModelForm):
         password = data.get('password')
         password_confirm = data.get('password_confirm')
         if password != password_confirm:
-            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+            # raise forms.ValidationError('Пароль и подтверждение не совпадают')
+			raise forms.ValidationError('Неправильно введены данные')
         return data
 
 

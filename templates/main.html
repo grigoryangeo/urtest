@@ -34,8 +34,8 @@
                     <form method="post" action="{% url django.contrib.auth.views.login %}"  name="login_form">
                         <table>
                             <tr>
-                                <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
-                                <td><input type="password" name="password" value="пароль" OnFocus="value=''" id="password"></td>
+                                <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username" /></td>
+                                <td><input type="password" name="password" value="пароль" OnFocus="value=''" id="password" /></td>
                                 <td><input type="submit" value="Войти" /></td>
                             </tr>
                         </table>
@@ -78,86 +78,99 @@
 					      </object>
 			    </td>
 			</tr>
-
+<tr>
+	<td>
+		<table cellpadding="0" cellspacing="0" class="registerFormTable">
 			<tr>
-			    <td class='ugly'>
-				<div >
-				    <table class='reg'>
-					<tr>
-					    <td class='titleReg'><strong><br/><br/>Заказчик</strong></td>
-					    <td class='titleReg'><strong><br/><br/>Тестировщик</strong></td>
-					</tr>
-
-					<tr>
-					    <td class='bodyReg'>
-						<table>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Ведение проекта
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Обеспечение безопасности передаваемых в систему данных
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Различные виды тестирования
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Предоставление услуги перевода
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Предоставление фокус-групп для бета-тестирования
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Проверка текстов документации и программ на соответствие принятым нормам языка
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Предоставление репозитория для каждого проекта
-						    </td></tr>
-						</table>
-					    </td>
-
-					    <td class='bodyReg'>
-						<table>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Список тестируемых проектов (стоимость различных типов проблем, количество найденных проблем)
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Личный кабинет с данными о найденных проблемах, переведенных текстах (заработанная сумма, дата выплаты, сумма выплаты)
-						    </td></tr>
-						    <tr><td><img src='/site_media/img/Circle.jpg'></td><td>
-							    Клиентское приложение, предоставляющее тестировщику ряд инструментов для удаленного тестирования (написание тест-скриптов, загрузка на сервер, исполнение)
-						    </td></tr>
-						</table>
-					    </td>
-					</tr>
-				    </table>
-
-				    <table class='regButton'>
-					<tr><td class='regButton'><strong><br/>На чьей ты стороне?<br/>Зарегистрируйся!</strong></td></tr>
+				<td class="registerFormTop">
+					<table cellpadding="0" cellspacing="0" width="100%">
+						<tr>
+							<td class="registerFormHalfLeft">
+								<center>
+									<span class="titleReg boldText">
+										Заказчик
+									</span>
+								</center>
+							</td>
+							<td class="registerFormHalfRight">
+								<center>
+									<span class="titleReg boldText">
+										Тестировщик
+									</span>
+								</center>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerFormHalfLeft">
+								<ul class="registerFormList">
+									<li class="registerFormListLi">
+										Ведение проекта
+									</li>
+									<li class="registerFormListLi">
+										Обеспечение безопасности передаваемых в систему данных
+									</li>
+									<li class="registerFormListLi">
+										Различные виды тестирования
+									</li>
+									<li class="registerFormListLi">
+										Предоставление услуги перевода
+									</li>
+									<li class="registerFormListLi">
+										Предоставление фокус-групп для бета-тестирования
+									</li>
+									<li class="registerFormListLi">
+										Проверка текстов документации и программ на соответствие принятым нормам языка
+									</li>
+									<li class="registerFormListLi">
+										Предоставление репозитория для каждого проекта
+									</li>
+								</ul>
+							</td>
+							<td class="registerFormHalfRight">
+								<ul class="registerFormList">
+									<li class="registerFormListLi">
+										Список тестируемых проектов (стоимость различных типов проблем, количество найденных проблем)
+									</li>
+									<li class="registerFormListLi">
+										Личный кабинет с данными о найденных проблемах, переведенных текстах (заработанная сумма, дата выплаты, сумма выплаты)
+									</li>
+									<li class="registerFormListLi">
+										Клиентское приложение, предоставляющее тестировщику ряд инструментов для удаленного тестирования (написание тест-скриптов, загрузка на сервер, исполнение)
+									</li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="registerFormBottom">
+					<table style="margin: 0 auto;">
+						<tr><td class='regButton'><center><strong>Регистрация</strong></center></td></tr>
 					<tr><td class='regButton'>
-						<img src="/site_media/img/Registration.jpg" alt="TOTALLY Ugly button!!" usemap="#regButton" />
-
-						<map name="regButton">
+							<img src="/site_media/img/Registration.jpg" alt="" usemap="#regButton" border="0" />
+						<map name="regButton" id="regButton">
 						    <area shape="rect" coords="0,0,130,50" href="/companies/register_f" alt="Customer" />
 						    <area shape="rect" coords="150,0,290,50" href="/testers/register" alt="Tester" />
 						</map>
 					</td></tr>
-					<tr height='30'></tr>
 				    </table>
-				</div>
-			    </td>
+				</td>
 			</tr>
-		    </table>
+		</table>
+	</td>
+</tr>
+			</table>
 
 
 	    </td></tr>
 
 	    <tr><td>
 		    <table class='bottom'>
-			<tr></tr>
 			<tr>
-			    <td id='phone'>Телефон: 8(495) 391-36-04</td>
-			    <td id='email'>E-mail: RuTest@gmail.com
-			    <td id='cpright'>© 2009 RuTest</td>
+			    <td id='phone'>Телефон: 8 (495) 391-3604</td>
+				<td id='email'>E-mail: RuTest@gmail.com</td>
+			    <td id='cpright'>© 2009–2010 RuTest</td>
 			</tr>
 		    </table>
 	    </td></tr>
