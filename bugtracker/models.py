@@ -2,22 +2,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+import enumerations.models as enum
+from accounts.models import Tester, Customer
 
 class Project(models.Model):
     """Модель проекта"""
-
-    customer = models.ForeignKey('Customer', related_name='projects',
+    customer = models.ForeignKey(Customer,
+                                related_name='projects',
                                 verbose_name="заказчик")
     name = models.CharField("название", max_length=50)
     size = models.IntegerField("размер в SLOC", max_length=50)
-    program_language = models.ManyToManyField('ProgramLang',
+    program_language = models.ManyToManyField(enum.ProgramLanguage,
                                         related_name='projects',
                                         verbose_name="язык программирования")
-    document_languages = models.ManyToManyField('Language',
+    languages = models.ManyToManyField(enum.Language,
                                         related_name='projects',
                                         verbose_name="язык документации")
-    project_description = models.TextField("описание проекта", max_length=300)
-    testers = models.ManyToManyField('Tester', blank=True,
+    description = models.TextField("описание проекта", max_length=300)
+    testers = models.ManyToManyField(Tester, blank=True,
                                         related_name='projects',
                                         verbose_name="тестеры")
     submit_date = models.DateField("дата размещения", auto_now_add=True)
@@ -26,8 +28,6 @@ class Project(models.Model):
     #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
     def add_tester(self, tester):
-        if tester in self.testers.all():
-            return
         self.testers.add(tester)
         self.save(force_update=True)
 
@@ -53,8 +53,10 @@ class Bug(models.Model):
         ('denied', 'Баг рассмотрен и не признан в качестве бага'),
         ('corrected', 'Баг рассмотрен и устранён'),
     )
-    tester = models.ForeignKey('Tester', related_name='bugs',
+    tester = models.ForeignKey(Tester, related_name='bugs',
                                 verbose_name="Автор")
+    project = models.ForeignKey(Project, related_name='bugs',verbose_name="проект")
+
     short_description = models.CharField("краткое описание бага", max_length=100)
     test_plan_point = models.CharField("пункт тест-плана", max_length=100)
     severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
@@ -68,17 +70,13 @@ class Bug(models.Model):
     status_comment = models.TextField("примечание к статусу", blank=True, max_length=300)
     status_date = models.DateTimeField("дата/время изменения статуса", auto_now=True)
 
-
-    project = models.ForeignKey('Project', related_name='bugs',
-                                verbose_name="проект")
-
-    def _get_name(self):
-        return self.short_description
-    name = property(_get_name)
-
     class Meta:
         verbose_name = "баг"
         verbose_name_plural = "баги"
+
+    @property
+    def name(self):
+        return self.short_description
 
     def __unicode__(self):
         return self.name
