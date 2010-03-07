@@ -14,7 +14,7 @@ class StaticItem(models.Model):
         return self.name
 
 
-class OSystem(StaticItem):
+class OS(StaticItem):
     """Модель операционной системы"""
     class Meta(StaticItem.Meta):
         verbose_name = "операционная система"
@@ -28,7 +28,7 @@ class Browser(StaticItem):
         verbose_name_plural = "браузеры"
 
 
-class ProgramLang(StaticItem):
+class ProgramLanguage(StaticItem):
     """Модель языка программирования"""
     class Meta(StaticItem.Meta):
         verbose_name = "язык программирования"
@@ -42,7 +42,7 @@ class TestingType(StaticItem):
         verbose_name_plural = "виды тестирования"
 
 
-class PayingType(StaticItem):
+class PayType(StaticItem):
     """Модель вида оплаты"""
     class Meta(StaticItem.Meta):
         verbose_name = "вид оплаты"

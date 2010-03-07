@@ -1,101 +1,111 @@
+# File encoding: utf-8
 from django.db import models
+from django.contrib.auth.models import User
 
+import enumerations.models as enum
 
-class Tester(models.Model):
+class Tester(User):
     """Модель тестера"""
     user = models.OneToOneField(User, parent_link=True)
-    # password находятся в User
     surname = models.CharField("Фамилия", max_length=80)
-    first_name = models.CharField("Имя", max_length=30)
+    name = models.CharField("Имя", max_length=30)
     second_name = models.CharField("Отчество", max_length=30, blank=True)
-    email = models.EmailField("e-mail", max_length=50)
-
-    osystems = models.ManyToManyField('OSystem',
+#    email = models.EmailField("e-mail", max_length=50)
+    os = models.ManyToManyField(enum.OS,
                                         related_name='testers',
                                         verbose_name="ОС")
-    program_languages = models.ManyToManyField('ProgramLang',
+    program_languages = models.ManyToManyField(enum.ProgramLanguage,
                                         related_name='testers',
                                         verbose_name="языки программирования")
-    testing_types = models.ManyToManyField('TestingType',
+    testing_types = models.ManyToManyField(enum.TestingType,
                                         related_name='testers',
                                         verbose_name="виды тестирования")
-    browsers = models.ManyToManyField('Browser',
+    browsers = models.ManyToManyField(enum.Browser,
                                         related_name='testers',
                                         verbose_name="браузеры")
-
     description = models.TextField("о себе", blank=True, max_length=300)
-    #foto = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
+    #photo = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
 
-    def _get_full_name(self):
-        full_name = self.user.get_full_name()
-        if len(full_name) == 0:
+    @property
+    def full_name(self):
+        """Возвращает полное имя тестера"""
+        full_name = "%s %s %s" % (self.surname, self.first_name, self.second_name)
+        if not full_name:
             return self.user.username
-        else:
-            return self.user.get_full_name()
-
-    name = property(_get_full_name)
+        return fullname
 
     class Meta:
         verbose_name = "тестер"
         verbose_name_plural = "тестеры"
 
     def __unicode__(self):
-        return self.name
+        return self.full_name
 
 
-class Customer(models.Model):
+class Customer(User):
     """Модель Заказчика"""
     TYPE_CHOICES = (
-        ('y', 'Юридическое лицо'),
-        ('f', 'Физическое лицо'),
+        ('j', 'Юридическое лицо'),
+        ('p', 'Физическое лицо'),
     )
     type = models.CharField("Лицо", max_length=1, choices=TYPE_CHOICES,
-                            default='y')
-
-    user = models.OneToOneField(User)
-    # password находятся в User
-
-    def get_detail(self):
-        if self.type == 'f':
-            return self.phys_customer
-        else:
-            return self.ur_customer
-
-    def _get_full_name(self):
-        if self.type == 'f':
-            return self.phys_customer.full_name
-        else:
-            return self.ur_customer.name
-    name = property(_get_full_name)
+                            default='j')
+    user = models.OneToOneField(User, parent_link=True)
 
     class Meta:
         verbose_name = "заказчик"
         verbose_name_plural = "заказчики"
 
+    @property
+    def detail(self):
+        """Возвращет PhysCustomer, либо JurCustomer данного заказчика"""
+        if hasattr(self, 'phys_customer'):
+            return self.phys_customer
+        if hasattr(self, 'jur_customer'):
+            return self.jur_customer
+        else:
+            return None
+
+    @property
+    def full_name(self):
+        """Возвращает имя заказчика
+        
+        Имя компании для юрлиц
+        ФИО для физлиц
+        Имя пользователя как fallback
+        """
+        if self.detail:
+            return self.detail.full_name
+        else:
+            return self.user.username
+
     def __unicode__(self):
-        return self.user.username
+        return self.full_name
 
 
-class PhysCustomer(models.Model):
+class PhysCustomer(Customer):
     """Модель физического лица"""
-
-    customer = models.OneToOneField('Customer', related_name='phys_customer',
-                                verbose_name="заказчик")
+    customer = models.OneToOneField(Customer, related_name='phys_customer',
+                                verbose_name="заказчик",
+                                parent_link=True)
     surname = models.CharField("Фамилия заказчика", max_length=80)
-    first_name = models.CharField("Имя заказчика", max_length=30)
+    name = models.CharField("Имя заказчика", max_length=30)
     second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
-    email = models.EmailField("e-mail", max_length=50)
-    passport_serial = models.IntegerField("Серия паспорта", max_length=4)
+    #email = models.EmailField("e-mail", max_length=50)
+    passport_series = models.IntegerField("Серия паспорта", max_length=4)
     passport_number = models.IntegerField("Номер паспорта", max_length=6)
     passport_when = models.DateField("Дата выдачи")
     passport_who = models.CharField("Кем выдан", max_length=100)
-    telefon = models.CharField("Контактный телефон", max_length=50)
+    phone = models.CharField("Контактный телефон", max_length=50)
     other_connect = models.CharField("Другие контактные данные", max_length=100)
-    pay_type = models.ManyToManyField('PayingType', related_name='PhysCustomers',
+    pay_type = models.ManyToManyField(enum.PayType, related_name='PhysCustomers',
                                 verbose_name="Способ оплаты")
-    def _get_full_name(self):
-        return "%s %s %s" % (self.surname, self.first_name, self.second_name)
-    full_name = property(_get_full_name)
+    @property
+    def full_name(self):
+        """Возвращает имя компании
+        
+        Здесь --- ФИО"""
+        return "%s %s %s" % (self.surname, self.name, self.second_name)
 
     class Meta:
         verbose_name = "физическое лицо"
@@ -105,12 +115,12 @@ class PhysCustomer(models.Model):
         return self.full_name
 
 
-class UrCustomer(models.Model):
+class JurCustomer(Customer):
     """Модель юридического лица"""
-
-    customer = models.OneToOneField('Customer', related_name='ur_customer',
-                                verbose_name="заказчик")
-    email = models.EmailField("e-mail", max_length=50)
+    customer = models.OneToOneField(Customer, related_name='jur_customer',
+                                verbose_name="заказчик",
+                                parent_link=True)
+    #email = models.EmailField("e-mail", max_length=50)
     name = models.CharField("Название компании", max_length=50)
     inn = models.IntegerField("ИНН", max_length=10)
     bank_account = models.IntegerField("Номер счета", max_length=50)
@@ -124,15 +134,20 @@ class UrCustomer(models.Model):
     address_ur = models.TextField("Юридический адрес компании", max_length=300)
     description = models.TextField("Информация о компании", max_length=300)
     repr_surname = models.CharField("Фамилия заказчика", max_length=80)
-    repr_first_name = models.CharField("Имя заказчика", max_length=30)
+    repr_name = models.CharField("Имя заказчика", max_length=30)
     repr_second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
     repr_phone = models.CharField("Контактный телефон", max_length=50)
-    pay_type = models.ManyToManyField('PayingType', related_name='UrCustomers',
+    pay_type = models.ManyToManyField(enum.PayType, related_name='UrCustomers',
         verbose_name="Способ оплаты")
 
     class Meta:
         verbose_name = "юридическое лицо"
         verbose_name_plural = "юридические лица"
+    
+    @property
+    def full_name(self):
+        """Возвращает имя компании"""
+        return self.name
 
     def __unicode__(self):
-        return self.name
+        return self.full_name
