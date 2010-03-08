@@ -23,7 +23,7 @@ class BugForm(forms.ModelForm):
 
 class BugDetail(forms.ModelForm):
     status = forms.CharField(label="Статус", widget=forms.RadioSelect(choices=models.Bug.STATUS_CHOICES))
-    status_comment = forms.CharField(label="Примечание", widget=forms.Textarea, required=False, max_length=100)
+    status_comment = forms.CharField(label="Примечание", widget=forms.Textarea, required=False, max_length=300)
     class Meta:
         model = models.Bug
         fields=['status','status_comment']

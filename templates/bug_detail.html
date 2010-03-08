@@ -66,14 +66,7 @@
     </tr>
     {% if customer_own %}
         <form action="/projects/{{ pk }}/bugs/{{ bk }}" method="post">
-            <tr>
-                <td> Статус:</td>
-                <td>{{ form.status }}</td>
-            </tr>
-            <tr>
-                <td>  Примечание</td>
-                <td>  {{ form.status_comment }}</td>
-            </tr>
+            {{form}}
             <tr>
                 <td>
                     <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">

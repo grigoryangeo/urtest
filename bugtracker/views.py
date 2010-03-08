@@ -197,7 +197,7 @@ def bug_details(request, pk, page, bk):
                 return HttpResponseRedirect('/projects/%s/bugs' %pk)
         else:
             form = BugDetail(initial={'status':bugs.status,'status_comment':bugs.status_comment})
-            return render_to_response('bug_detail.html',locals(),
+        return render_to_response('bug_detail.html',locals(),
                 context_instance=RequestContext(request))
     else:
         raise Http404
