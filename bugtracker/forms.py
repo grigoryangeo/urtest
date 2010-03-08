@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 fio_regexp = r'(?u)\w+(-\w+)?'
+sloc_regexp = r'(^\d+$)'
 generic_error = {"invalid": "Неправильно введены данные"}
 
 class BugForm(forms.ModelForm):
@@ -30,7 +31,7 @@ class BugDetail(forms.ModelForm):
 
 class ProjectForm(forms.ModelForm):
     name = forms.CharField(label='Название', max_length=50)
-    size = forms.CharField(label='Размер в SLOC', max_length=50)
+    size = forms.RegexField(label='Размер в SLOC',  max_length=50, regex=sloc_regexp, error_messages=generic_error )
     program_language = forms.ModelMultipleChoiceField(label="ЯП", queryset=models.ProgramLang.objects.all(), widget=FilteredSelectMultiple(u'ЯП', False))
     document_languages = forms.ModelMultipleChoiceField(label="Язык документации", queryset=models.Language.objects.all(), widget=FilteredSelectMultiple(u'Языки', False))
     project_description = forms.CharField(label='Описание проекта', widget=forms.Textarea, required=False, max_length=300)
