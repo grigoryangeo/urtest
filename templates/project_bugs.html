@@ -28,9 +28,7 @@
         <td><a href="bugs/{{ bug.pk }}">{{ forloop.counter }}</a></td>
 		<td><a href="bugs/{{ bug.pk }}">{{ bug.short_description }}</a></td>
 		<td>
-		    {% for tester in bug.tester.name %}
-		        {{ tester }}
-		    {% endfor %}
+		    {{ bug.tester.surname }}
 		</td>
 		<td>
 		    {% ifequal bug.severity 'm' %}
@@ -67,14 +65,12 @@
     </TABLE>
 </ul>
 
-{% if user.is_authenticated %}
-    {% if user.tester %}
+{% if project_tester %}
          <div align="center">
             <form>
               <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
             </form>
          </div>
-    {% endif %}
 {% endif %}
 <br>
 {% endblock %}
