@@ -28,9 +28,7 @@
         <td><a href="bugs/{{ bug.pk }}">{{ bug.pk }}</a></td>
 		<td><a href="bugs/{{ bug.pk }}">{{ bug.short_description }}</a></td>
 		<td>
-		    {% for tester in bug.tester.name %}
-		        {{ tester }}
-		    {% endfor %}
+		    {{ bug.tester.surname }}
 		</td>
 		<td>
 		    {% ifequal bug.severity 'm' %}
