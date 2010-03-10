@@ -131,8 +131,8 @@ class PhysCustomerForm(UserForm):
         fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
 
 class TesterDetailForm(forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
 
     osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all())
     program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all())
