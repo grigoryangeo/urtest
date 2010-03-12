@@ -7,16 +7,30 @@
            </ul>
 {% endblock %}
 {% block content %}
-<script language='JavaScript' type='text/javascript'>
-function show_foto_bag() {
-    document.all('foto_bug').innerHTML="<font color='red'>Данная функциональность разрабатывается</font>";
+<script language="JavaScript" type="text/JavaScript">
+<!--
+var type = "IE";	
+BrowserSniffer();
+
+//detects the capabilities of the browser
+function BrowserSniffer() {
+	if (navigator.userAgent.indexOf("Opera")!=-1 && document.getElementById) type="OP";		//Opera
+	else if (document.all) type="IE";														//Internet Explorer e.g. IE4 upwards
+	else if (!document.all && document.getElementById) type="MO";							//Mozila e.g. Netscape 6 upwards
+	else type = "IE";		//I assume it will not get here
 }
+function ChangeContent(id) {
+    str="<font color='red'>Данная функциональность разрабатывается</font>"
+	if (type=="IE") {
+		document.all[id].innerHTML = str;
+	}
+	if (type=="MO" || type=="OP") {
+		document.getElementById(id).innerHTML = str;
+	}
+}
+//-->
 </script>
-<style type="text/css">
-#foto_bug {
-    display:inline;
-    }
-</style>
+
 <h1 align="CENTER">Личный кабинет тестирировщика {{ tester.name }}</h1>
     <table>
         <tr>
@@ -41,22 +55,25 @@ function show_foto_bag() {
         <tr>
             <td><h3>Профессиональное:</h3> </td>
         </tr>
-		{% if form %}
-		<form action="{% url bugtracker.views.tester_detail tester.pk %}" method="POST">
-		{{ form }}
-		<tr>
-			<td colspan="2">
-                            <input type="submit" value="Сохранить">       
-                        </td>
-		</tr>
-                <tr>
-			<td colspan="2">
-                            <input type="button" onClick="show_foto_bag();" value="Загрузить фотографию">
-                            <div id="foto_bug"></div>
-                        </td>
-                </tr>
-		</form>
-		{% else %}
+		 {% if form %}
+            <form action="{% url bugtracker.views.tester_detail tester.pk %}" method="POST">
+            {{ form }}
+            <tr>
+                <td></td>
+                <td colspan="2">
+                    <input type="submit" value="Сохранить">
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <input type="button" onClick="ChangeContent('foto_bug')" value="Загрузить фотографию">
+                </td>
+                <td>
+                    <div id="foto_bug"> </div>
+                </td>
+            </tr>
+            </form>
+{% else %}
 		<tr>
 			<td>Операционные системы</td>
 			<td>
