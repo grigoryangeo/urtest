@@ -41,7 +41,7 @@
                     </td>
                     <td width="60px">
                         <form>
-                            <input type="button" onClick="location.href='/logout'" value="выйти">
+                            <input type="button" onClick="location.href='/logout'" value="Выход">
                         </form>
                 {% else %}
                     </td>
@@ -51,11 +51,11 @@
                             <tr>
                                 <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
                                 <td><input type="password" name="password" value="пароль" OnFocus="value=''"  id="password"></td>
-                                <td><input type="submit" value="Войти" /></td>
+                                <td><input type="submit" value="Вход" /></td>
                             </tr>
                         </table>
                         {% if form.errors %}
-                          <p class="error">Сожалеем, вы неправильно ввели логин или пароль</p>
+                          <p class="error">Неверное имя пользователя и/или пароль!</p>
                         {% endif %}
                         <input type="hidden" name="next" value="{{ next }}" />
                     </form>
