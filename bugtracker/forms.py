@@ -5,8 +5,12 @@ from django.forms.extras.widgets import SelectDateWidget
 import bugtracker.models as models
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
+import re
+
 
 fio_regexp = r'(?u)\w+(-\w+)?'
+num_regexp = r'(^\d+$)'
+kiril_regexp = re.compile(u'[А-Яа-я][а-я\s]+', re.UNICODE)
 sloc_regexp = r'(^\d+$)'
 generic_error = {"invalid": "Неправильно введены данные"}
 
@@ -110,6 +114,7 @@ class UrCustomerForm(UserForm):
     repr_first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
     repr_second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    inn = forms.RegexField(label="ИНН",max_length=10,regex=num_regexp, error_messages=generic_error)
 
     class Meta:
         model = models.UrCustomer
@@ -124,7 +129,9 @@ class PhysCustomerForm(UserForm):
     second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
-
+    passport_serial = forms.RegexField(label = "Серия паспорта", max_length=4, regex=num_regexp, error_messages=generic_error)
+    passport_number = forms.RegexField(label = "Номер паспорта", max_length=6, regex=num_regexp, error_messages=generic_error)
+    passport_who = forms.RegexField(label = "Кем выдан", max_length=100, regex=kiril_regexp, error_messages=generic_error )
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
