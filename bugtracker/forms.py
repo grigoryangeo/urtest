@@ -141,10 +141,10 @@ class TesterDetailForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
     password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
 
-    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all())
-    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all())
-    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all())
-    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all())
+    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=forms.CheckboxSelectMultiple)
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all(), widget=forms.CheckboxSelectMultiple)
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
 
