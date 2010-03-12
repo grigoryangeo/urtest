@@ -40,7 +40,7 @@
                         <a href="/companies/{{ user.customer.id }}">Личный кабинет</a>
                         {% endif %}
                     </td>
-                    <td width="60px"><a href="/logout">Выйти</a>
+                    <td width="60px"><a href="/logout">Выход</a>
                 {% else %}
                     </td>
                     <td  width="300px">
@@ -49,11 +49,11 @@
                             <tr>
                                 <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
                                 <td><input type="password" name="password" value="пароль" OnFocus="value=''"  id="password"></td>
-                                <td><input type="submit" value="Войти" /></td>
+                                <td><input type="submit" value="Вход" /></td>
                             </tr>
                         </table>
                         {% if form.errors %}
-                          <p class="error">Сожалеем, вы неправильно ввели логин или пароль</p>
+                          <p class="error">Неверное имя пользователя и/или пароль!</p>
                         {% endif %}
                         <input type="hidden" name="next" value="{{ next }}" />
                     </form>
@@ -68,7 +68,7 @@
                 <table align="center">
                     <tr>
 			{% block topbar %}
-                        <td><a href="/">Главная страница</a></td>
+                        <td><a href="/">Главная</a></td>
                         <td><a href="/projects">Наши проекты</a></td>
 			{% endblock %}
                     </tr>
