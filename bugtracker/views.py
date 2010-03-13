@@ -6,7 +6,9 @@ from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 import settings
 
@@ -14,6 +16,9 @@ from models import *
 from forms import *
 from helpers import *
 
+def send_activation_mail(fio, user):
+    m = render_to_string('activation.email', {'email': user.email, 'fio':fio, 'pk':user.pk, 'key':get_activation_key(user)})
+    send_mail('Активация учетной записи', m, 'noreplyurtest@gmail.com', [user.email]) 
 
 # компании
 def company_detail(request, pk, page=''):
@@ -53,6 +58,7 @@ def company_registraion(request, type):
             ur_customer.customer = customer
             ur_customer.save()
             form.save_m2m()
+            send_activation_mail(customer.name, user)
             return HttpResponseRedirect('/thanks')
     else:
         form = form_type()
@@ -80,6 +86,7 @@ def tester_registraion(request):
             tester.testing_types = form.cleaned_data['testing_types']
             tester.browsers = form.cleaned_data['browsers']
             tester.save()
+            send_activation_mail("%s %s" % (tester.surname, tester.first_name), user)
             return HttpResponseRedirect('/thanks')
     else:
         form = TesterForm()
