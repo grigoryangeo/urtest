@@ -34,8 +34,8 @@ class ProjectForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     email = forms.EmailField(label='Контактный E-mail')
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False))
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False))
     accept = forms.BooleanField(label='Договор', required=False, help_text='Я согласен с условиями договора')
 
     def clean_email(self):
@@ -62,8 +62,8 @@ class UserForm(forms.ModelForm):
 class TesterForm(forms.Form):
     email = forms.EmailField(label='E-mail')
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, required=False)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, required=False)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), required=False)
+    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), required=False)
     last_name = forms.CharField(label="Фамилия")
     first_name = forms.CharField(label="Имя")
     second_name = forms.CharField(label="Отчество")
