@@ -1,6 +1,7 @@
 # File encoding: utf-8
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.hashcompat import sha_constructor
 
 def render_to_request(request, *args, **kwargs):
     """render_to_response с передачей RequestContext"""
@@ -9,4 +10,6 @@ def render_to_request(request, *args, **kwargs):
 
 def get_activation_key(user):
     """Возвращает ключ активации для пользователя"""
-    pass
+    username = user.username
+    salt = 'v0.1 MUST DIE'
+    return sha_constructor(salt + username).hexdigest()
