@@ -119,6 +119,17 @@ def redirect_to_self(request):
         return HttpResponseRedirect('/companies/%s' % user.customer.pk)
     raise Http404
 
+
+def user_activation(request, pk, key):
+    """Активация пользователя
+    
+    Параметры:
+    pk - ключ активируемого User
+    key - ключ активации
+    """
+    pass
+
+
 def dogovor(request):
     return render_to_response('dogovor.html', context_instance=RequestContext(request))
 

@@ -60,6 +60,9 @@ urlpatterns = patterns('bugtracker.views',
     # Общий переход в личный кабинет
     (r'^my/account', 'redirect_to_self'),
     
+    # Активация
+    (r'^users/(\d+)/activate/([\da-z]+)', 'user_activation'),
+    
     (r'^projects/(\d+)/addbug$', 'add_bug'),
     (r'^thanks$', 'thanks'),
     # Страницы проектов:

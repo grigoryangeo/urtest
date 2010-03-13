@@ -6,3 +6,7 @@ def render_to_request(request, *args, **kwargs):
     """render_to_response с передачей RequestContext"""
     kwargs['context_instance'] = RequestContext(request)
     return render_to_response(*args, **kwargs)
+
+def get_activation_key(user):
+    """Возвращает ключ активации для пользователя"""
+    pass
