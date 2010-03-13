@@ -1,12 +1,14 @@
 # File encoding: utf-8
 
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user
+from django.contrib.auth import get_user, authenticate, login
 from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+
+import settings
 
 from models import *
 from forms import *
@@ -127,7 +129,21 @@ def user_activation(request, pk, key):
     pk - ключ активируемого User
     key - ключ активации
     """
-    pass
+    user = get_object_or_404(User, pk=pk)
+    user_key = get_activation_key(user)
+    # Если пользователь уже активирован,
+    # то перенаправляем в личный кабинет, там разберутся
+    if user.is_active:
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+    # Если ключи не совпадают, 403
+    if user_key != key:
+        raise PermissionDenied
+    # Все ок, активируем
+    user.is_active = True
+    user.save()
+    # XXX: Пробуем авторизовать без ввода пароля
+    login(request, user)
+    return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
 
 def dogovor(request):
