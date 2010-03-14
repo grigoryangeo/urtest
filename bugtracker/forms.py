@@ -11,6 +11,7 @@ import re
 fio_regexp = r'(?u)\w+(-\w+)?'
 num_regexp = r'(^\d+$)'
 kiril_regexp = re.compile(u'[А-Яа-я][а-я\s]+', re.UNICODE)
+password_regexp = re.compile(u'^[А-Яа-я0-9a-zA-Z]+$', re.UNICODE)
 sloc_regexp = r'(^\d+$)'
 generic_error = {"invalid": "Неправильно введены данные"}
 
@@ -53,8 +54,8 @@ class ProjectForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     email = forms.EmailField(label='Контактный E-mail', max_length=50)
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+    password = forms.RegexField(label='Пароль', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, error_messages=generic_error)
+    password_confirm = forms.RegexField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, error_messages=generic_error)
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -76,8 +77,8 @@ class UserForm(forms.ModelForm):
 class TesterForm(forms.Form):
     email = forms.EmailField(label='E-mail', max_length=50)
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+    password = forms.RegexField(label='Пароль', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, error_messages=generic_error)
+    password_confirm = forms.RegexField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, error_messages=generic_error)
     last_name = forms.RegexField(label="Фамилия", max_length=80, regex=fio_regexp, error_messages=generic_error)
     first_name = forms.RegexField(label="Имя", max_length=30, regex=fio_regexp, error_messages=generic_error)
     second_name = forms.RegexField(label="Отчество", max_length=30, required=False, regex=fio_regexp, error_messages=generic_error)
@@ -138,8 +139,8 @@ class PhysCustomerForm(UserForm):
         fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
 
 class TesterDetailForm(forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5, required=False)
+    password = forms.RegexField(label='Пароль', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, required=False, error_messages=generic_error)
+    password_confirm = forms.RegexField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), regex=password_regexp, max_length=30, min_length=5, required=False, error_messages=generic_error)
 
     osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=forms.CheckboxSelectMultiple)
     program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all(), widget=forms.CheckboxSelectMultiple)
