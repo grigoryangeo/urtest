@@ -31,11 +31,11 @@ def company_detail(request, pk, page=''):
         detail = customer.get_detail()
         projects=  customer.projects.all()
         fields = [(f.verbose_name, getattr(detail, f.name)) for f in detail._meta.fields[2:]]
-        return render_to_response(template, {'fields': fields, 'detail': detail,'projects':projects},
+        return render_to_response(template, {'fields':fields, 'detail':detail, 'projects':projects, 'customer':customer},
         context_instance=RequestContext(request))
      elif page == '/projects':
         projects=  customer.projects.all()
-        return render_to_response('customer_project_detail.html',{'projects':projects},
+        return render_to_response('customer_project_detail.html',{'projects':projects, 'customer':customer},
             context_instance=RequestContext(request))
      else:
         raise Http404

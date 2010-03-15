@@ -1,11 +1,4 @@
-{% extends 'base.html' %}
-{% block title %}RuTest companies{% endblock %}
-{% block sidebar %}
-          <ul>
-                <li><a href="/companies/{{ user.customer.id }}">Мои данные</a></li>
-                <li><a href="/companies/{{ user.customer.id }}/projects">Мои проекты</a></li>
-           </ul>
-{% endblock %}
+{% extends 'customer_profile.html' %}
 {% block content%}
 <br>
 <h1> Мои проекты:</h1>
