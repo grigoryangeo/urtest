@@ -27,7 +27,11 @@ def company_list(request):
     pass
 
 def company_registration(request, type):
-    """Детали компании"""
+    """Детали компании
+    
+    Параметры:
+	type - j либо p, Физ/Юр лицо
+    """
     pass
 
 def redirect_to_self(request):
