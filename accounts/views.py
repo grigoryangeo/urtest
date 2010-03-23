@@ -2,7 +2,13 @@ def tester_detail(request, id):
     """Детали тестера
     
     Параметры:
-	id - ключ
+        id - ключ
+    """
+    pass
+
+def tester_detail_projects(request, id):
+    """
+    Детали тестера, вкладка со списком проектов тестера
     """
     pass
 
@@ -18,20 +24,26 @@ def company_detail(request, id):
     """Детали компании
     
     Параметры:
-	id - ключ
+        id - ключ
     """
     pass
 
-def company_list(request):
-    """Список компаний"""
+def company_detail_projects(request, id):
+    """
+    Детали компании, вкладка со списком проектов компании
+    """
     pass
 
 def company_registration(request, type):
     """Детали компании
     
     Параметры:
-	type - j либо p, Физ/Юр лицо
+        type - j либо p, Физ/Юр лицо
     """
+    pass
+
+def company_list(request):
+    """Список компаний"""
     pass
 
 def redirect_to_self(request):
