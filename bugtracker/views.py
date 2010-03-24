@@ -18,6 +18,12 @@ def project_detail_bugs(request, id):
     """
     pass
 
+def project_add_tester(request, id):
+    """
+    Добавление авторизованного тестера к проекту
+    """
+    pass
+
 def project_list(request):
     """
     Список всех проектов
