@@ -6,6 +6,7 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('bugtracker.views',
     # Главная страница
