@@ -9,7 +9,8 @@ class Project(models.Model):
     """Модель проекта"""
     customer = models.ForeignKey(Customer,
                                 related_name='projects',
-                                verbose_name="заказчик")
+                                verbose_name="заказчик",
+                                editable=False)
     name = models.CharField("название", max_length=50)
     size = models.IntegerField("размер в SLOC", max_length=50)
     program_language = models.ManyToManyField(enum.ProgramLanguage,
@@ -23,9 +24,6 @@ class Project(models.Model):
                                         related_name='projects',
                                         verbose_name="тестеры")
     submit_date = models.DateField("дата размещения", auto_now_add=True)
-
-    #file = models.FileField("исполняемый файл", upload_to="/home/media", blank=True)
-    #file_description = models.TextField("описание файла", max_length=300, blank=True)
 
     def add_tester(self, tester):
         self.testers.add(tester)
@@ -54,16 +52,17 @@ class Bug(models.Model):
         ('corrected', 'Баг рассмотрен и устранён'),
     )
     tester = models.ForeignKey(Tester, related_name='bugs',
-                                verbose_name="Автор")
-    project = models.ForeignKey(Project, related_name='bugs',verbose_name="проект")
+                                verbose_name="Автор",
+                                editable=False)
+    project = models.ForeignKey(Project, related_name='bugs',verbose_name="проект",
+                                editable=False)
 
     short_description = models.CharField("краткое описание бага", max_length=100)
     test_plan_point = models.CharField("пункт тест-плана", max_length=100)
-    severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES)
+    severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES,
+                                default='m')
     finding_description = models.TextField("как был получен", max_length=600)
     full_description = models.TextField("детальное описание бага", max_length=600)
-    #file = models.FileField("файл", upload_to="/home/media", blank=True, max_length=100)
-    #commet = models.TextField("комментарии к файлу", blank=True, max_length=150)
     submit_date = models.DateTimeField("дата/время добавления", auto_now_add=True)
     status = models.CharField("статус бага", max_length=10, choices=STATUS_CHOICES,
                                 default='new')
