@@ -8,6 +8,12 @@ def tester_detail(request, id):
     """
     pass
 
+def tester_edit(request, id):
+    """
+    Редактирование своих деталей тестером
+    """
+    pass
+
 def tester_detail_projects(request, id):
     """
     Детали тестера, вкладка со списком проектов тестера

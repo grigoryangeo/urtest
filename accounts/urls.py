@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('accounts.views',
     (r'^testers/show/(?P<id>\d+)$', 'tester_detail'),
     (r'^testers/show/(?P<id>\d+)/projects$', 'tester_detail_projects'),
+    (r'^testers/edit/(?P<id>\d+)$', 'tester_edit'),
     (r'^testers/list', 'tester_list'),
     (r'^testers/register', 'tester_registration'),
 
