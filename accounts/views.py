@@ -1,3 +1,5 @@
+# File encoding: utf-8
+
 def tester_detail(request, id):
     """Детали тестера
     
