@@ -1,4 +1,5 @@
 # File encoding: utf-8
+from django.contrib.auth.decorators import login_required
 from models import *
 from forms import *
 from helpers import *
@@ -12,8 +13,7 @@ def project_detail(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request('project_detail.html', locals(),
-                              context_instance=RequestContext(request))
+    return render_to_request(reguest,'project_detail.html',{'tester_in_project':'tester_in_project','project':'project'} )
 
 def project_detail_testers(request, id):
     """
@@ -24,8 +24,7 @@ def project_detail_testers(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request('project_testers.html', locals(),
-            context_instance=RequestContext(request))
+    return render_to_request(request,'project_testers.html', {'testers':'testers','tester_in_project':'tester_in_project','project':'project'} )
 
 def project_detail_bugs(request, id):
     """
@@ -37,8 +36,7 @@ def project_detail_bugs(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request('project_bugs.html', locals(),
-            context_instance=RequestContext(request))
+    return render_to_request(request,'project_bugs.html', {'bugs':'bugs','tester_in_project':'tester_in_project','project':'project'} )
 
 @login_required
 def project_add_tester(request, id):
@@ -68,8 +66,7 @@ def project_add(request):
             return HttpResponseRedirect('/projects/')
     else:
         form = ProjectForm()
-    return render_to_request('new_project.html',{'form': form},
-        context_instance=RequestContext(request))
+    return render_to_request(request,'new_project.html',{'form': form})
 
 def project_add_bug(request, project_id):
     """
@@ -83,8 +80,7 @@ def project_add_bug(request, project_id):
             return HttpResponseRedirect('/projects/%s' % project_id)
     else:
         form = BugForm()
-    return render_to_request('addbug.html',locals(),
-                              context_instance=RequestContext(request))
+    return render_to_request(request,'addbug.html',{'form':'form','project_id':'project_id'})
 
 def bug_detail(request, id):
     """
@@ -101,5 +97,4 @@ def bug_detail(request, id):
             return HttpResponseRedirect('bugs/show/%s' %id)
     else:
         form = BugDetail(initial={'status':bugs.status,'status_comment':bugs.status_comment})
-    return render_to_request('bug_detail.html',locals(),
-                context_instance=RequestContext(request))
+    return render_to_request(request,'bug_detail.html',locals())
