@@ -17,8 +17,7 @@ class UserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
-           # raise forms.ValidationError('Пользователь с таким адресом уже существует')
-		   raise forms.ValidationError('Неправильно введены данные')
+	    raise forms.ValidationError('Неправильно введены данные')
         return email
 
     def clean_password_confirm(self):
@@ -26,13 +25,14 @@ class UserForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
-            # raise forms.ValidationError('Пароль и подтверждение не совпадают')
-			raise forms.ValidationError('Неправильно введены данные')
+	    raise forms.ValidationError('Неправильно введены данные')
         return password_confirm
 
 
 class JurCustomerRegForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='j')
+    address_ur = forms.CharField(label="Юридический адрес компании", widget=forms.Textarea, max_length=300)
+    description = forms.CharField(label="Информация о компании", widget=forms.Textarea, max_length=300)
     repr_surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
     repr_first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
     repr_second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
@@ -47,8 +47,8 @@ class JurCustomerRegForm(UserForm):
         assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
-        jurcustomer = super(JurCustomerRegForm, self).save(*args, **kwargs)
-        user = jurcustomer.customer.user
+        jurcustomer = super(JurCustomerRegForm, self).save(commit=False, *args, **kwargs)
+        user = jurcustomer.user
         user.set_password(data['password'])
         user.save()
         return jurcustomer
@@ -71,8 +71,8 @@ class PhysCustomerRegForm(UserForm):
         assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
-        physcustomer = super(PhysCustomerRegForm, self).save(*args, **kwargs)
-        user = physcustomer.customer.user
+        physcustomer = super(PhysCustomerRegForm, self).save(commit=False, *args, **kwargs)
+        user = physcustomer.user
         user.set_password(data['password'])
         user.save()
         return physcustomer
@@ -96,7 +96,7 @@ class TesterRegForm(UserForm):
         assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
-        tester = super(TesterRegForm, self).save(*args, **kwargs)
+        tester = super(TesterRegForm, self).save(commit=False, *args, **kwargs)
         user = tester.user
         user.set_password(data['password'])
         user.save()
@@ -121,7 +121,7 @@ class TesterChangeForm(forms.ModelForm):
         assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
-        tester = super(TesterChangeForm, self).save(*args, **kwargs)
+        tester = super(TesterChangeForm, self).save(commit=False, *args, **kwargs)
         # Проверка на смену пароля
         if data['password']:
             # Пароль изменился
@@ -136,6 +136,5 @@ class TesterChangeForm(forms.ModelForm):
         password = data.get('password')
         password_confirm = data.get('password_confirm')
         if password != password_confirm:
-            # raise forms.ValidationError('Пароль и подтверждение не совпадают')
-			raise forms.ValidationError('Неправильно введены данные')
+	    raise forms.ValidationError('Неправильно введены данные')
         return data
