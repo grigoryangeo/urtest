@@ -69,6 +69,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'urtest.accounts.backends.UrtestUserModelBackend',
+)
+
 ROOT_URLCONF = 'urtest.urls'
 
 TEMPLATE_DIRS = (
