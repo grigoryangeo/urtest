@@ -48,6 +48,10 @@ class Tester(User):
             return self.user.username
         return fullname
 
+    @models.permalink
+    def get_absolute_url(self):
+	return ('accounts.views.tester_detail', (), {'id': self.pk})
+
     class Meta:
         verbose_name = "тестер"
         verbose_name_plural = "тестеры"
@@ -92,6 +96,10 @@ class Customer(User):
             return self.detail.full_name
         else:
             return self.user.username
+
+    @models.permalink
+    def get_absolute_url(self):
+	return ('accounts.views.company_detail', (), {'id': self.pk})
 
     def __unicode__(self):
         return self.full_name
