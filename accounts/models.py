@@ -4,6 +4,20 @@ from django.contrib.auth.models import User
 
 import enumerations.models as enum
 
+class UserProxy(User):
+    """Прокси-модель для пользователя, с получением нужного профиля"""
+    class Meta:
+	proxy=True
+
+    def get_detail(self):
+	"""Получение детального профиля пользователя"""
+	if hasattr(self, 'tester'):
+	    return self.tester
+	if hasattr(self, 'customer'):
+	    return self.customer
+	else:
+	    return self
+
 class Tester(User):
     """Модель тестера"""
     user = models.OneToOneField(User, parent_link=True)
