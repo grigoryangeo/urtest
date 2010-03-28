@@ -33,6 +33,10 @@ class Project(models.Model):
         verbose_name = "проект"
         verbose_name_plural = "проекты"
 
+    @models.permalink
+    def get_absolute_url(self):
+	return ('bugtracker.views.project_detail', (), {'id': self.pk})
+
     def __unicode__(self):
         return self.name
 
@@ -77,8 +81,10 @@ class Bug(models.Model):
     def name(self):
         return self.short_description
 
+    @models.permalink
+    def get_absolute_url(self):
+	return ('bugtracker.views.bug_detail', (), {'id': self.pk})
+
     def __unicode__(self):
         return self.name
-
-
 
