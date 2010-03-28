@@ -10,6 +10,10 @@ class StaticItem(models.Model):
         abstract = True
         ordering = ['name']
 
+    @models.permalink
+    def get_absolute_url(self):
+	raise NotImplementedError
+
     def __unicode__(self):
         return self.name
 
