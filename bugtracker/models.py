@@ -2,27 +2,28 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-import enumerations.models as enum
+from enumerations.models import ProgramLanguage, Language
 from accounts.models import Tester, Customer
 
 class Project(models.Model):
     """Модель проекта"""
-    customer = models.ForeignKey(Customer,
-                                related_name='projects',
-                                verbose_name="заказчик",
-                                editable=False)
-    name = models.CharField("название", max_length=50)
-    size = models.IntegerField("размер в SLOC", max_length=50)
-    program_language = models.ManyToManyField(enum.ProgramLanguage,
+    name = models.CharField("название", max_length=50, unique=True)
+    size = models.IntegerField("размер в SLOC")
+    program_languages = models.ManyToManyField(ProgramLanguage,
                                         related_name='projects',
                                         verbose_name="язык программирования")
-    languages = models.ManyToManyField(enum.Language,
+    doc_languages = models.ManyToManyField(Language,
                                         related_name='projects',
                                         verbose_name="язык документации")
     description = models.TextField("описание проекта", max_length=300)
     testers = models.ManyToManyField(Tester, blank=True,
                                         related_name='projects',
                                         verbose_name="тестеры")
+
+    customer = models.ForeignKey(Customer,
+                                related_name='projects',
+                                verbose_name="заказчик",
+                                editable=False)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
 
     def add_tester(self, tester):
@@ -35,7 +36,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('bugtracker.views.project_detail', (), {'id': self.pk})
+        return ('bugtracker.views.project_detail', (), {'id': self.pk})
 
     def __unicode__(self):
         return self.name
@@ -44,9 +45,9 @@ class Project(models.Model):
 class Bug(models.Model):
     """Модель бага"""
     SEVERITY_CHOICES = (
-        ('l', 'Низкая'),
-        ('m', 'Средняя'),
-        ('h', 'Высокая'),
+        (1, 'Низкая'),
+        (2, 'Средняя'),
+        (3, 'Высокая'),
     )
     STATUS_CHOICES = (
         ('new', 'Баг не рассматривался'),
@@ -63,8 +64,8 @@ class Bug(models.Model):
 
     short_description = models.CharField("краткое описание бага", max_length=100)
     test_plan_point = models.CharField("пункт тест-плана", max_length=100)
-    severity = models.CharField("критичность", max_length=1, choices=SEVERITY_CHOICES,
-                                default='m')
+    severity = models.SmallIntegerField("критичность", max_length=1, choices=SEVERITY_CHOICES,
+                                default=2)
     finding_description = models.TextField("как был получен", max_length=600)
     full_description = models.TextField("детальное описание бага", max_length=600)
     submit_date = models.DateTimeField("дата/время добавления", auto_now_add=True)
@@ -83,7 +84,7 @@ class Bug(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('bugtracker.views.bug_detail', (), {'id': self.pk})
+        return ('bugtracker.views.bug_detail', (), {'id': self.pk})
 
     def __unicode__(self):
         return self.name
