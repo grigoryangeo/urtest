@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 #from django.views.generic.create_update import *
 
+from django.views.generic import list_detail
+
 
 project_info = {
 "queryset": Project.objects.all(),

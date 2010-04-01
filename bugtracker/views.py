@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
-
+from django.core.urlresolvers import reverse
 
 import settings
 
@@ -65,7 +65,8 @@ def project_add_tester(request, id):
         raise PermissionDenied
     
     project.add_tester(rquest.user)
-    return HttpResponseRedirect(project.get_absolute_url()+'/testers')
+    return HttpResponseRedirect( reverse('project_detail_testers',args=id))
+    #return HttpResponseRedirect(project.get_absolute_url()+'/testers')
 
 @login_required
 def project_add(request):
