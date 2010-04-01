@@ -1,8 +1,21 @@
 # File encoding: utf-8
+
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user, authenticate, login
+from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+
+
+import settings
+
 from models import *
 from forms import *
 from helpers import *
+
 
 def project_detail(request, id):
     """
@@ -13,7 +26,7 @@ def project_detail(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request(reguest,'project_detail.html',{'tester_in_project':'tester_in_project','project':'project'} )
+    return render_to_request(reguest,'project_detail.html',{'tester_in_project':tester_in_project,'project':project} )
 
 def project_detail_testers(request, id):
     """
@@ -24,7 +37,7 @@ def project_detail_testers(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request(request,'project_testers.html', {'testers':'testers','tester_in_project':'tester_in_project','project':'project'} )
+    return render_to_request(request,'project_testers.html', {'testers':testers,'tester_in_project':tester_in_project,'project':project} )
 
 def project_detail_bugs(request, id):
     """
@@ -36,7 +49,7 @@ def project_detail_bugs(request, id):
 
     tester_in_project = request.user in testers
 
-    return render_to_request(request,'project_bugs.html', {'bugs':'bugs','tester_in_project':'tester_in_project','project':'project'} )
+    return render_to_request(request,'project_bugs.html', {'bugs':bugs,'tester_in_project':tester_in_project,'project':project} )
 
 @login_required
 def project_add_tester(request, id):
@@ -52,7 +65,7 @@ def project_add_tester(request, id):
         raise PermissionDenied
     
     project.add_tester(rquest.user)
-    return HttpResponseRedirect('projects/show/%i/testers' % id)
+    return HttpResponseRedirect(project.get_absolute_url()+'/testers')
 
 @login_required
 def project_add(request):
@@ -63,7 +76,7 @@ def project_add(request):
         form = ProjectForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/projects/')
+            return HttpResponseRedirect('/projects/list')
     else:
         form = ProjectForm()
     return render_to_request(request,'new_project.html',{'form': form})
@@ -77,10 +90,10 @@ def project_add_bug(request, project_id):
         form = BugForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/projects/%s' % project_id)
+            return HttpResponseRedirect(project.get_absolute_url())
     else:
         form = BugForm()
-    return render_to_request(request,'addbug.html',{'form':'form','project_id':'project_id'})
+    return render_to_request(request,'addbug.html',{'form':form,'project_id':project_id})
 
 def bug_detail(request, id):
     """
@@ -94,7 +107,7 @@ def bug_detail(request, id):
         form = BugDetail(request.POST, instance=bug)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('bugs/show/%s' %id)
+            return HttpResponseRedirect(bug.get_absolute_url())
     else:
         form = BugDetail(initial={'status':bugs.status,'status_comment':bugs.status_comment})
     return render_to_request(request,'bug_detail.html',locals())
