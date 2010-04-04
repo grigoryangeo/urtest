@@ -13,7 +13,7 @@ class UrtestUserModelBackend(ModelBackend):
 	    user = UserProxy.objects.get(username=username)
 	    if user.check_password(password):
 		return user.get_detail()
-	except User.DoesNotExist:
+	except UserProxy.DoesNotExist:
 	    return None
 
     def get_user(self, user_id):
