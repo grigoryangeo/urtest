@@ -1,18 +1,17 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
-#from django.views.generic.create_update import *
 
+from django.views.generic.simple import direct_to_template
 from django.views.generic import list_detail
 
+from bugtracker.models import Project, Bug
+
 project_info = {
-"queryset": Project.objects.all(),
-"template_name": "project_list.html",
-"template_object_name": "project",
+    "queryset": Project.objects.all(),
+    "template_object_name": "project",
 }
 
 bug_info = {
     "queryset": Bug.objects.all(),
-    "template_name": "bug_list.html",
     "template_object_name": "bug",
 }
 
