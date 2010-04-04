@@ -1,19 +1,16 @@
 # File encoding: utf-8
 
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user, authenticate, login
 from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
-import settings
+from lib.helpers import render_to_request
 
-from models import *
-from forms import *
+from accounts.models import *
+from accounts.forms import *
+
 
 def tester_detail(request, id):
     """Детали тестера
@@ -22,31 +19,21 @@ def tester_detail(request, id):
         id - ключ
     """
     tester = get_object_or_404(Tester, id=id)
-    user = get_user(request)
-    viewing_self = hasattr(user, 'tester') and user.tester == tester
-    if viewing_self:
-        if request.method == "POST":
-            form = TesterDetailForm(request.POST, instance=tester)
-            if form.is_valid():
-                form.save()
-        else:
-            form = TesterDetailForm(instance=tester)
-        return render_to_request(request, 'tester_detail.html', {'tester': tester, 'form':form},
-            context_instance=RequestContext(request))
-    else:
-        return render_to_request(request, 'tester_detail.html', {'tester':tester})
+    user = request.user
 
-def tester_edit(request, id):
-    """
-    Редактирование своих деталей тестером
-    """
-    if request.method == 'POST':
-        form = TesterChangeForm(request.POST)
+    viewing_self = user.tester == tester
+
+    if not viewing_self:
+        return render_to_request(request, 'accounts/tester_detail.html', {'tester': tester})
+
+    if request.method == "POST":
+        form = TesterChangeForm(request.POST, instance=tester)
         if form.is_valid():
             form.save()
     else:
-        form = TesterChangeForm()
-    return render_to_response('tester_detail.html',{'form': form})
+        form = TesterChangeForm(instance=tester)
+    return render_to_request(request, 'accounts/tester_detail.html', {'tester': tester, 'form': form})
+
 
 def tester_detail_projects(request, id):
     """
@@ -54,11 +41,9 @@ def tester_detail_projects(request, id):
     """
     tester = get_object_or_404(Tester, id=id)
     projects = tester.projects.all()
-    return render_to_request(request, 'tester_detail_projects.html', {'tester': tester, 'projects':projects})
+    return render_to_request(request, 'tester_detail_projects.html',
+                             {'tester': tester, 'projects': projects})
 
-def tester_list(request):
-    """Список тестеров"""
-    return render_to_response('tester_list.html')
 
 def tester_registration(request):
     """Регистрация тестера"""
@@ -70,7 +55,8 @@ def tester_registration(request):
             return HttpResponseRedirect('/accounts/thanks')
     else:
         form = TesterRegForm()
-    return render_to_response('tester_registraion.html',{'reg_form': form})
+    return render_to_response('tester_registraion.html', {'reg_form': form})
+
 
 def company_detail(request, id):
     """Детали компании
@@ -78,25 +64,25 @@ def company_detail(request, id):
     Параметры:
         id - ключ
     """
-    customer = get_object_or_404(Customer, id=id)
-    if customer.type == 'f':
+    customer = get_object_or_404(Customer, id=id).detail
+
+    if customer.type == 'p':
         template = 'PhysCustomer_detail.html'
     else:
         template = 'UrCustomer_detail.html'
-    detail = customer.get_detail()
-    projects=  customer.projects.all()
-    fields = [(f.verbose_name, getattr(detail, f.name)) for f in detail._meta.fields[2:]]
-    return render_to_response(template, {'fields':fields, 'detail':detail, 'projects':projects, 'customer':customer},
-    context_instance=RequestContext(request))
+
+    return render_to_request(request, template, {'customer': customer})
+
 
 def company_detail_projects(request, id):
     """
     Детали компании, вкладка со списком проектов компании
     """
     customer = get_object_or_404(Customer, id=id)
-    projects=  customer.projects.all()
-    return render_to_response('customer_project_detail.html',{'projects':projects, 'customer':customer},
-    context_instance=RequestContext(request))
+    projects = customer.projects.all()
+    return render_to_request(request, 'customer_project_detail.html',
+                             {'projects': projects, 'customer': customer})
+
 
 def company_registration(request, type):
     """Детали компании
@@ -118,24 +104,19 @@ def company_registration(request, type):
         form = form_type()
     return render_to_response('company_registraion.html',{'reg_form': form, 'type': type})
 
-def company_list(request):
-    """Список компаний"""
-    return render_to_response('company_list.html')
 
-def thanks(request):
-    """Спасибо за регистрацию"""
-    return render_to_response('thanks.html', context_instance=RequestContext(request))
-    
 def redirect_to_self(request):
     """Переадресация в свой личный кабинет"""
     # Получение текущего пользователя
     user = request.user
+
     # Переход на админку для админа
     if user.is_superuser:
         return HttpResponseRedirect('/admin')
+
     # Переход в личный кабинет для тестера/компании
-    if hasattr(user, 'tester'):
-        return HttpResponseRedirect('/accounts/testers/%s' % user.tester.pk)
-    if hasattr(user, 'customer'):
-        return HttpResponseRedirect('/accounts/companies/%s' % user.customer.pk)
+    if isinstance(user, Customer) or isinstance(user, Tester):
+        return HttpResponseRedirect(user.get_absolute_url())
+
+    # Не админ, не нормальный пользователь --- кабинета нет, 404
     raise Http404
