@@ -1,3 +1,5 @@
+# File encoding: utf-8
+
 from django.contrib.auth.backends import ModelBackend
 from urtest.accounts.models import UserProxy
 
