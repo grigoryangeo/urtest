@@ -4,7 +4,6 @@ from django.views.generic.simple import direct_to_template
 
 from django.views.generic import list_detail
 
-
 project_info = {
 "queryset": Project.objects.all(),
 "template_name": "project_list.html",
@@ -22,7 +21,7 @@ urlpatterns = patterns('bugtracker.views',
     (r'^projects/show/(?P<id>\d+)/testers$', 'project_detail_testers'),
     (r'^projects/show/(?P<id>\d+)/bugs$', 'project_detail_bugs'),
     (r'^projects/enlist/(?P<id>\d+)$', 'project_add_tester'),
-    (r'^projects/list$',list_detail.object_list, project_info),),
+    (r'^projects/list$',list_detail.object_list, project_info),
     (r'^projects/add$', 'project_add'),
     (r'^projects/add_bug/(?P<project_id>\d+)$', 'project_add_bug'),
 

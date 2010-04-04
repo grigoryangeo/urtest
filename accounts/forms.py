@@ -9,6 +9,8 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 fio_regexp = r'(?u)\w+(-\w+)?'
 generic_error = {"invalid": "Неправильно введены данные"}
 
+import enumerations.models as models_enum
+
 class UserForm(forms.ModelForm):
     email = forms.EmailField(label='Контактный E-mail', max_length=50)
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
@@ -36,7 +38,7 @@ class JurCustomerRegForm(UserForm):
     repr_surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
     repr_first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
     repr_second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
-    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models_enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = models.JurCustomer
@@ -59,7 +61,7 @@ class PhysCustomerRegForm(UserForm):
     surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
     first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
     second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
-    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models_enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
 
     class Meta:
@@ -83,10 +85,10 @@ class TesterRegForm(UserForm):
     first_name = forms.RegexField(label="Имя", max_length=30, regex=fio_regexp, error_messages=generic_error)
     second_name = forms.RegexField(label="Отчество", max_length=30, required=False, regex=fio_regexp, error_messages=generic_error)
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
-    os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
-    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all(), widget=FilteredSelectMultiple(u'языки', False))
-    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
-    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
+    os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models_enum.OS.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models_enum.ProgramLanguage.objects.all(), widget=FilteredSelectMultiple(u'языки', False))
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models_enum.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models_enum.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
 
     class Meta:
         model = models.Tester
@@ -106,10 +108,10 @@ class TesterRegForm(UserForm):
 class TesterChangeForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
     password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models.OSystem.objects.all())
-    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models.ProgramLang.objects.all())
-    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models.TestingType.objects.all())
-    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models.Browser.objects.all())
+    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models_enum.OS.objects.all())
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models_enum.ProgramLanguage.objects.all())
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models_enum.TestingType.objects.all())
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models_enum.Browser.objects.all())
     description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
 
     class Meta:

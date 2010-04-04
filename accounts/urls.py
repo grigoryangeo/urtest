@@ -10,7 +10,10 @@ urlpatterns = patterns('accounts.views',
     (r'^companies/show/(?P<id>\d+)$', 'company_detail'),
     (r'^companies/show/(?P<id>\d+)/projects$', 'company_detail_projects'),
     (r'^companies/list', 'company_list'),
-    (r'^companies/register', 'company_registration'),
+    (r'^companies/register_y', 'company_registration', {'type' : 'y'}),
+    (r'^companies/register_f', 'company_registration', {'type' : 'f'}),
+
+    (r'thanks', 'thanks'),
 
     (r'^me', 'redirect_to_self'),
 )
