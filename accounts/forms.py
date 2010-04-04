@@ -1,25 +1,66 @@
 # File encoding: utf-8
-from django.core.exceptions import ObjectDoesNotExist
+
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
-import accounts.models as models
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms.extras.widgets import SelectDateWidget
 
-fio_regexp = r'(?u)\w+(-\w+)?'
-generic_error = {"invalid": "Неправильно введены данные"}
+import enumerations.models as enum
+from accounts import models
 
-import enumerations.models as models_enum
+
+class UrtestPasswordField(forms.CharField):
+    """
+    Локальное поле для ввода пароля
+
+    Ограничивает min/max_length и виджет
+    """
+    def __init__(self, *args, **kwargs):
+        forms.CharField.__init__(self,
+                                 min_length=5,
+                                 max_length=30,
+                                 widget=forms.PasswordInput(render_value=False),
+                                 *args, **kwargs)
+
+
+class UrtestFIOField(forms.RegexField):
+    """
+    Локальное поле для ФИО
+
+    Ограничивает валидацию и сообщения
+    """
+    fio_regexp = r'(?u)\w+(-\w+)?'
+    generic_error = {"invalid": "Неправильно введены данные"}
+
+    def __init__(self, *args, **kwargs):
+        forms.RegexField.__init__(self,
+                                  regex=self.fio_regexp,
+                                  error_messages=self.generic_error,
+                                  *args, **kwargs)
+
+
+class UrtestTextAreaField(forms.CharField):
+    """
+    Локальное поле для больших текстов
+
+    Ограничивает max_length и виджет
+    """
+    def __init__(self, *args, **kwargs):
+        forms.CharField.__init__(self,
+                                 max_length=300,
+                                 widget=forms.Textarea,
+                                 *args, **kwargs)
+
 
 class UserForm(forms.ModelForm):
     email = forms.EmailField(label='Контактный E-mail', max_length=50)
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
+    password = UrtestPasswordField(label='Пароль')
+    password_confirm = UrtestPasswordField(label='Подтверждение пароля')
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
-	    raise forms.ValidationError('Неправильно введены данные')
+            raise forms.ValidationError('Неправильно введены данные')
         return email
 
     def clean_password_confirm(self):
@@ -27,18 +68,20 @@ class UserForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
-	    raise forms.ValidationError('Неправильно введены данные')
+            raise forms.ValidationError('Неправильно введены данные')
         return password_confirm
 
 
 class JurCustomerRegForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='j')
-    address_ur = forms.CharField(label="Юридический адрес компании", widget=forms.Textarea, max_length=300)
-    description = forms.CharField(label="Информация о компании", widget=forms.Textarea, max_length=300)
-    repr_surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
-    repr_first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
-    repr_second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
-    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models_enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    address_ur = UrtestTextAreaField(label="Юридический адрес компании")
+    description = UrtestTextAreaField(label="Информация о компании")
+    repr_surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
+    repr_first_name = UrtestFIOField(label="Имя заказчика", max_length=30)
+    repr_second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты",
+                                              queryset=enum.PayType.objects.all(),
+                                              widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = models.JurCustomer
@@ -58,10 +101,10 @@ class JurCustomerRegForm(UserForm):
 
 class PhysCustomerRegForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='p')
-    surname = forms.RegexField(label="Фамилия заказчика", max_length=80, regex=fio_regexp, error_messages=generic_error)
-    first_name = forms.RegexField(label="Имя заказчика", max_length=30, regex=fio_regexp, error_messages=generic_error)
-    second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
-    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models_enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
+    surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
+    first_name = UrtestFIOField(label="Имя заказчика", max_length=30)
+    second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
 
     class Meta:
@@ -81,18 +124,26 @@ class PhysCustomerRegForm(UserForm):
 
 
 class TesterRegForm(UserForm):
-    surname = forms.RegexField(label="Фамилия", max_length=80, regex=fio_regexp, error_messages=generic_error)
-    first_name = forms.RegexField(label="Имя", max_length=30, regex=fio_regexp, error_messages=generic_error)
-    second_name = forms.RegexField(label="Отчество", max_length=30, required=False, regex=fio_regexp, error_messages=generic_error)
-    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
-    os = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models_enum.OS.objects.all(), widget=FilteredSelectMultiple(u'ОС', False))
-    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models_enum.ProgramLanguage.objects.all(), widget=FilteredSelectMultiple(u'языки', False))
-    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models_enum.TestingType.objects.all(), widget=FilteredSelectMultiple(u'типы', False))
-    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models_enum.Browser.objects.all(), widget=FilteredSelectMultiple(u'браузеры', False))
+    surname = UrtestFIOField(label="Фамилия", max_length=80)
+    first_name = UrtestFIOField(label="Имя", max_length=30)
+    second_name = UrtestFIOField(label="Отчество", max_length=30, required=False)
+    description = UrtestTextAreaField(label="О себе", required=False)
+    os = forms.ModelMultipleChoiceField(label="Операционные системы",
+                                        queryset=enum.OS.objects.all(),
+                                        widget=FilteredSelectMultiple(u'ОС', False))
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования",
+                                                       queryset=enum.ProgramLanguage.objects.all(),
+                                                       widget=FilteredSelectMultiple(u'языки', False))
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования",
+                                                   queryset=enum.TestingType.objects.all(),
+                                                   widget=FilteredSelectMultiple(u'типы', False))
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры",
+                                              queryset=enum.Browser.objects.all(),
+                                              widget=FilteredSelectMultiple(u'браузеры', False))
 
     class Meta:
         model = models.Tester
-        fields = ['email', 'password', 'password_confirm', 'osystems', 'program_languages', 'testing_types', 'browsers', 'description']
+        fields = ['email', 'password', 'password_confirm', 'os', 'program_languages', 'testing_types', 'browsers', 'description']
     
     def save(self, *args, **kwargs):
         assert(self.is_valid())
@@ -106,13 +157,16 @@ class TesterRegForm(UserForm):
 
 
 class TesterChangeForm(forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    password_confirm = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput(render_value=False), max_length=30, min_length=5)
-    osystems = forms.ModelMultipleChoiceField(label="Операционные системы", queryset=models_enum.OS.objects.all())
-    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования", queryset=models_enum.ProgramLanguage.objects.all())
-    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования", queryset=models_enum.TestingType.objects.all())
-    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=models_enum.Browser.objects.all())
-    description = forms.CharField(label="О себе", widget=forms.Textarea, required=False, max_length=300)
+    password = UrtestPasswordField(label='Пароль')
+    password_confirm = UrtestPasswordField(label='Подтверждение пароля')
+    osystems = forms.ModelMultipleChoiceField(label="Операционные системы",
+                                              queryset=enum.OS.objects.all())
+    program_languages = forms.ModelMultipleChoiceField(label="Языки программирования",
+                                                       queryset=enum.ProgramLanguage.objects.all())
+    testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования",
+                                                   queryset=enum.TestingType.objects.all())
+    browsers = forms.ModelMultipleChoiceField(label="Браузеры", queryset=enum.Browser.objects.all())
+    description = UrtestTextAreaField(label="О себе", required=False)
 
     class Meta:
         model = models.Tester
@@ -120,7 +174,6 @@ class TesterChangeForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         """Обновление тестера с учетом смены пароля"""
-        assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
         tester = super(TesterChangeForm, self).save(commit=False, *args, **kwargs)
@@ -138,5 +191,5 @@ class TesterChangeForm(forms.ModelForm):
         password = data.get('password')
         password_confirm = data.get('password_confirm')
         if password != password_confirm:
-	    raise forms.ValidationError('Неправильно введены данные')
+            raise forms.ValidationError('Неправильно введены данные')
         return data
