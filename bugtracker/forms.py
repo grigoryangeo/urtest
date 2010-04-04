@@ -6,6 +6,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from bugtracker.models import Bug, Project
 from accounts.models import Tester, Customer
+from enumerations.models import ProgramLanguage, Language
 
 
 class ProjectForm(forms.ModelForm):
@@ -17,12 +18,12 @@ class ProjectForm(forms.ModelForm):
 
     program_languages = forms.ModelMultipleChoiceField(
         label="ЯП",
-        queryset=models.ProgramLang.objects.all(),
+        queryset=ProgramLanguage.objects.all(),
         widget=FilteredSelectMultiple(u'ЯП', False))
     
     doc_languages = forms.ModelMultipleChoiceField(
         label="Язык документации",
-        queryset=models.Language.objects.all(),
+        queryset=Language.objects.all(),
         widget=FilteredSelectMultiple(u'Языки', False))
     
     description = forms.CharField(label='Описание проекта',
@@ -33,10 +34,11 @@ class ProjectForm(forms.ModelForm):
     def clean_name(self):
         name = self.cleaned_data.get('name')
 
-        if models.Project.objects.filter(name=name).count() > 0:
-            raise forms.ValidationError('Проект с таким названием уже существует')
-
-        return name
+        try:
+            Project.objects.get(name=name)
+        except Project.DoesNotExist:
+            return name
+        raise forms.ValidationError('Проект с таким названием уже существует')
 
     class Meta:
         model = Project
@@ -61,7 +63,7 @@ class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание",
                                         max_length=100)
     severity = forms.CharField(label="Критичность",
-                               widget=forms.RadioSelect(choices=models.Bug.SEVERITY_CHOICES))
+                               widget=forms.RadioSelect(choices=Bug.SEVERITY_CHOICES))
     finding_description = forms.CharField(label="Как был получен",
                                         widget=forms.Textarea,
                                         max_length=600)
@@ -94,7 +96,7 @@ class BugDetail(forms.ModelForm):
     Форма редактирования статуса бага
     """
     status = forms.CharField(label="Статус",
-                             widget=forms.RadioSelect(choices=models.Bug.STATUS_CHOICES))
+                             widget=forms.RadioSelect(choices=Bug.STATUS_CHOICES))
     status_comment = forms.CharField(label="Примечание",
                                      widget=forms.Textarea,
                                      required=False,
