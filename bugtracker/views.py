@@ -14,7 +14,7 @@ import settings
 
 from models import *
 from forms import *
-from helpers import *
+from lib.helpers import render_to_request
 
 
 def project_detail(request, id):
