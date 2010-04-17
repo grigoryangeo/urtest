@@ -55,7 +55,7 @@ def tester_registration(request):
             return HttpResponseRedirect('/accounts/thanks')
     else:
         form = TesterRegForm()
-    return render_to_response('tester_registraion.html', {'reg_form': form})
+        return render_to_request(request,'tester_registraion.html', {'reg_form': form})
 
 
 def company_detail(request, id):
@@ -102,7 +102,7 @@ def company_registration(request, type):
             return HttpResponseRedirect('/accounts/thanks')
     else:
         form = form_type()
-    return render_to_response('company_registraion.html',{'reg_form': form, 'type': type})
+    return render_to_request(request,'company_registraion.html',{'reg_form': form, 'type': type})
 
 
 def redirect_to_self(request):
