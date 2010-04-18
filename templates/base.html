@@ -50,14 +50,24 @@
                 <div id="topbar">
 		{% block topbar %}
                 <ul>
-                    <li><a href="#" title="Главная" class="hover">Главная</a></li>
-                    <li><a href="#" title="Контакты">Контакты</a></li>
-                    <li><a href="#" title="О нас">О нас</a></li>
+                    <li><a href="/" title="Главная">Главная</a></li>
+                    <li><a href="/" title="Контакты">Контакты</a></li>
+                    <li><a href="/" title="О нас">О нас</a></li>
+                    <li><a href='/projects' title="Наши проекты">Наши проекты</a></li>
                     <li><a href="#" title="ссылка">Ссылка</a></li>
-                    <li><a href="#" title="ссылка">Ссылка</a></li>
-                    <li><a href="#" title="ссылка">Ссылка</a></li>
+
+                    {% if user.is_authenticated %}
+                        {% if user.tester %}
+                        <li><a href="/testers/{{user.tester.id}}">Личный кабинет</a></li>
+                        <li class="noborder"><a href="/logout">Выйти</a></li>
+                        {% else %}
+                        <li><a href="/companies/{{ user.customer.id }}">Личный кабинет</a></li>
+                        <li class="noborder"><a href="/logout">Выйти</a></li>
+                        {% endif %}
+                    {% else %}
                     <li><a href="#" title="ссылка">Ссылка</a></li>
                     <li class="noborder"><a href="#" title="Contact">Ссылка</a></li>
+                    {% endif %}
 		</ul>
 		{% endblock %}
                 </div>
@@ -89,13 +99,12 @@
                 {% block footer %}
                 <div id="footerContainer">
 			<ul>
-				<li><a href="index.html" title="Главная">Главная</a>|</li>
-				<li><a href="#" title="Контакты">Контакты</a>|</li>
-				<li><a href="#" title="О нас">О нас</a>|</li>
-				<li><a href="#" title="Ссылка">Ссылка</a>|</li>
-				<li><a href="#" title="Ссылка">Ссылка</a>|</li>
-				<li><a href="#" title="Ссылка">Ссылка</a>|</li>
-				<li><a href="#" title="Ссылка">Ссылка</a>|</li>
+                                <li><a href="/" title="Главная" class="hover">Главная</a>|</li>
+                                <li><a href="/" title="Контакты">Контакты</a>|</li>
+                                <li><a href="/" title="О нас">О нас</a>|</li>
+                                <li><a href='/projects' title="Наши проекты">Наши проекты</a>|</li>
+                                <li><a href="#" title="ссылка">Ссылка</a>|</li>
+                                <li><a href="#" title="Ссылка">Ссылка</a>|</li>
 				<li><a href="#" title="Ссылка">Ссылка</a></li>
 			</ul><br class="spacer" />
 			<p>&copy; 2009-2010, К8-221.</p>

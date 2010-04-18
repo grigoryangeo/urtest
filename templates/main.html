@@ -3,73 +3,65 @@
     <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="/site_media/css/main.css" />
-	<title>Главная</title>
+        <title>RuTest - Краудсорс коммьюнити</title>
 	<script type="text/javascript" src="/site_media/js/swfobject.js" />
 	<script type="text/javascript">
 	swfobject.registerObject("flash");
 	</script>
     </head>
     <body id='field'>
-	<table class='page'>
-	    <tr><td>
-		    <table class='top'>
-			<tr>
-			    <td class='top'>
-				<img src="/site_media/img/Logo.jpg" alt="Logo" id='logo'/>
-			    </td>
-			    <td>
+
+        <div id="header">
+
+                <a href="/" title="RuTest"><img src="/site_media/img/logo.jpg" alt="RuTest" width="272" height="87" border="0" /></a>
+		<h1>{% block header %}Дави на педаль!{% endblock %}</h1>
+
                 {% if user.is_authenticated %}
-                    </td>
-                    <td width="120px">
-                        {% if user.tester %}
-                        <a href="/testers/{{user.tester.id}}">Личный кабинет</a>
-                        {% else %}
-                        <a href="/companies/{{ user.customer.id }}">Личный кабинет</a>
-                        {% endif %}
-                    </td>
-                    <td width="60px"><a href="/logout">Выйти</a>
+                    <a href="/my/account">Личный кабинет</a>
+                    <a href="/logout"></a>
                 {% else %}
-                    </td>
-                    <td  width="300px">
-                    <form method="post" action="{% url django.contrib.auth.views.login %}"  name="login_form">
-                        <table>
-                            <tr>
-                                <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username" /></td>
-                                <td><input type="password" name="password" value="пароль" OnFocus="value=''" id="password" /></td>
-                                <td><input type="submit" value="Войти" /></td>
-                            </tr>
-                        </table>
-                        {% if form.errors %}
+                    <form method="post" action="{% url django.contrib.auth.views.login %}">
+                    <a href="#" title="Авторизация" class="login">Авторизация</a>
+                    {% if form.errors %}
                           <p class="error">Неверное имя пользователя и/или пароль!</p>
-                        {% endif %}
+                    {% endif %}
                         <input type="hidden" name="next" value="{{ next }}" />
                     </form>
                 {% endif %}
-			    </td>
-			</tr>
-		    </table>
-	    </td></tr>
 
-	    <tr><td>
-		    <div class='navi'>
-			<table class='navi'>
-			    <tr>
-				<td height='37 px'><a href='/projects'>Наши проекты</a></td>
-				<td height='37 px'><a href='/'>Контактная информация</a></td>
-			    </tr>
-			</table>
-		    </div>
-	    </td></tr>
+                <div id="topbar">
+                <ul>
+                    <li><a href="/" title="Главная" class="hover">Главная</a></li>
+                    <li><a href="/" title="Контакты">Контакты</a></li>
+                    <li><a href="/" title="О нас">О нас</a></li>
+                    <li><a href='/projects' title="Наши проекты">Наши проекты</a></li>
+                    <li><a href="#" title="ссылка">Ссылка</a></li>
+                    
+                    {% if user.is_authenticated %}
+                        {% if user.tester %}
+                        <li><a href="/testers/{{user.tester.id}}">Личный кабинет</a></li>
+                        <li class="noborder"><a href="/logout">Выйти</a></li>
+                        {% else %}
+                        <li><a href="/companies/{{ user.customer.id }}">Личный кабинет</a></li>
+                        <li class="noborder"><a href="/logout">Выйти</a></li>
+                        {% endif %}
+                    {% else %}
+                    <li><a href="#" title="ссылка">Ссылка</a></li>
+                    <li class="noborder"><a href="#" title="Contact">Ссылка</a></li>
+                    {% endif %}
+		</ul>
+                </div>
 
-	    <tr><td>
-		    <table class='content'>
+            </div>
+
+<table class='content' align="center">
 			<tr>
 			    <td align='right'>
-					<object id="flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1024" height="600">
+					<object id="flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="738" height="500">
 
 					        <param name="movie" value="/site_media/flash/DInamicText.swf" />
 					        <!--[if !IE]>-->
-					        <object type="application/x-shockwave-flash" data="/site_media/flash/DInamicText.swf" width="1024" height="600">
+					        <object type="application/x-shockwave-flash" data="/site_media/flash/DInamicText.swf" width="738" height="500">
 					        <!--<![endif]-->
 					          <p>Тут должен быть flash.</p>
 					        <!--[if !IE]>-->
@@ -160,20 +152,30 @@
 		</table>
 	</td>
 </tr>
-			</table>
+</table>
 
 
-	    </td></tr>
 
-	    <tr><td>
-		    <table class='bottom'>
-			<tr>
-			    <td id='phone'>Телефон: 8 (495) 391-3604</td>
-				<td id='email'>E-mail: RuTest@gmail.com</td>
-			    <td id='cpright'>© 2009–2010 RuTest</td>
-			</tr>
-		    </table>
-	    </td></tr>
-	</table>
+        <div id="footer">
+                <div id="footerContainer">
+			<ul>
+                                <li><a href="/" title="Главная" class="hover">Главная</a>|</li>
+                                <li><a href="/" title="Контакты">Контакты</a>|</li>
+                                <li><a href="/" title="О нас">О нас</a>|</li>
+                                <li><a href='/projects' title="Наши проекты">Наши проекты</a>|</li>
+                                <li><a href="#" title="ссылка">Ссылка</a>|</li>
+                                <li><a href="#" title="Ссылка">Ссылка</a>|</li>
+				<li><a href="#" title="Ссылка">Ссылка</a></li>
+			</ul><br class="spacer" />
+			<p>&copy; 2009-2010, К8-221.</p>
+                        <br class="spacer" />
+        		<div class="valid">
+                            <a href="http://validator.w3.org/check?uri=referer" target="_blank" class="xhtnl" title="Valid XHTML">xhtml</a>
+                            <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank" class="css" title="Valid CSS">css</a>
+			</div>
+		<br class="spacer" />
+                </div>
+        </div>
+
     </body>
 </html>
