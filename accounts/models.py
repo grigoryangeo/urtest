@@ -1,6 +1,7 @@
 # File encoding: utf-8
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 import enumerations.models as enum
 
@@ -43,18 +44,22 @@ class Tester(User):
     @property
     def full_name(self):
         """Возвращает полное имя тестера"""
-        full_name = "%s %s %s" % (self.surname, self.first_name, self.second_name)
+        full_name = "%s %s %s" % (self.surname, self.name, self.second_name)
         if not full_name:
             return self.user.username
-        return fullname
+        return full_name
 
     @models.permalink
     def get_absolute_url(self):
-	return ('accounts.views.tester_detail', (), {'id': self.pk})
+	return ('accounts.views.tester_detail', (), {'tester_id': self.pk})
+
+    @models.permalink
+    def get_edit_url(self):
+	return ('accounts.views.tester_edit', (), {'tester_id': self.pk})
 
     class Meta:
-        verbose_name = "тестер"
-        verbose_name_plural = "тестеры"
+        verbose_name = u"тестер"
+        verbose_name_plural = u"тестеры"
 
     def __unicode__(self):
         return self.full_name
@@ -99,7 +104,7 @@ class Customer(User):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('accounts.views.company_detail', (), {'id': self.pk})
+	return ('accounts.views.company_detail', (), {'customer_id': self.pk})
 
     def __unicode__(self):
         return self.full_name

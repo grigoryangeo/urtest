@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms.extras.widgets import SelectDateWidget
+from django.forms.widgets import CheckboxSelectMultiple
 
 import enumerations.models as enum
 from accounts import models
@@ -60,7 +61,7 @@ class UserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(username=email).count() > 0:
-            raise forms.ValidationError('Неправильно введены данные')
+            raise forms.ValidationError('Такой адрес уже зарегистрирован')
         return email
 
     def clean_password_confirm(self):
@@ -68,7 +69,7 @@ class UserForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password != password_confirm:
-            raise forms.ValidationError('Неправильно введены данные')
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
         return password_confirm
 
 
@@ -125,42 +126,49 @@ class PhysCustomerRegForm(UserForm):
 
 class TesterRegForm(UserForm):
     surname = UrtestFIOField(label="Фамилия", max_length=80)
-    first_name = UrtestFIOField(label="Имя", max_length=30)
+    name = UrtestFIOField(label="Имя", max_length=30)
     second_name = UrtestFIOField(label="Отчество", max_length=30, required=False)
     description = UrtestTextAreaField(label="О себе", required=False)
     os = forms.ModelMultipleChoiceField(label="Операционные системы",
                                         queryset=enum.OS.objects.all(),
-                                        widget=FilteredSelectMultiple(u'ОС', False))
+                                        widget=CheckboxSelectMultiple)
     program_languages = forms.ModelMultipleChoiceField(label="Языки программирования",
                                                        queryset=enum.ProgramLanguage.objects.all(),
-                                                       widget=FilteredSelectMultiple(u'языки', False))
+                                                       widget=CheckboxSelectMultiple)
     testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования",
                                                    queryset=enum.TestingType.objects.all(),
-                                                   widget=FilteredSelectMultiple(u'типы', False))
+                                                   widget=CheckboxSelectMultiple)
     browsers = forms.ModelMultipleChoiceField(label="Браузеры",
                                               queryset=enum.Browser.objects.all(),
-                                              widget=FilteredSelectMultiple(u'браузеры', False))
+                                              widget=CheckboxSelectMultiple)
 
     class Meta:
         model = models.Tester
-        fields = ['email', 'password', 'password_confirm', 'os', 'program_languages', 'testing_types', 'browsers', 'description']
+        fields = ['email', 'password', 'password_confirm',
+                  'surname', 'name', 'second_name',
+                  'os', 'program_languages', 'testing_types', 'browsers', 'description']
     
     def save(self, *args, **kwargs):
         assert(self.is_valid())
         # Вызов оригинального save
         data = self.cleaned_data
         tester = super(TesterRegForm, self).save(commit=False, *args, **kwargs)
-        user = tester.user
-        user.set_password(data['password'])
-        user.save()
+
+        tester.username = tester.email = data['email']
+        tester.set_password(data['password'])
+        tester.save()
+
+        self.save_m2m()
         return tester
 
 
 class TesterChangeForm(forms.ModelForm):
-    password = UrtestPasswordField(label='Пароль')
-    password_confirm = UrtestPasswordField(label='Подтверждение пароля')
-    osystems = forms.ModelMultipleChoiceField(label="Операционные системы",
-                                              queryset=enum.OS.objects.all())
+    password = UrtestPasswordField(label='Пароль', required=False)
+    password_confirm = UrtestPasswordField(label='Подтверждение пароля',
+                                           required=False)
+    os = forms.ModelMultipleChoiceField(label="Операционные системы",
+                                              queryset=enum.OS.objects.all(),
+                                              widget=CheckboxSelectMultiple)
     program_languages = forms.ModelMultipleChoiceField(label="Языки программирования",
                                                        queryset=enum.ProgramLanguage.objects.all())
     testing_types = forms.ModelMultipleChoiceField(label="Типы тестирования",
@@ -170,19 +178,18 @@ class TesterChangeForm(forms.ModelForm):
 
     class Meta:
         model = models.Tester
-        fields = ['password', 'password_confirm', 'osystems', 'program_languages', 'testing_types', 'browsers', 'description']
+        fields = ['password', 'password_confirm', 'os', 'program_languages', 'testing_types', 'browsers', 'description']
 
     def save(self, *args, **kwargs):
         """Обновление тестера с учетом смены пароля"""
         # Вызов оригинального save
         data = self.cleaned_data
-        tester = super(TesterChangeForm, self).save(commit=False, *args, **kwargs)
+        tester = super(TesterChangeForm, self).save(*args, **kwargs)
         # Проверка на смену пароля
         if data['password']:
             # Пароль изменился
-            user = tester.user
-            user.set_password(data['password'])
-            user.save()
+            tester.set_password(data['password'])
+            tester.save()
         return tester
 
     def clean(self):

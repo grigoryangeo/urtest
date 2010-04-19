@@ -97,5 +97,5 @@ INSTALLED_APPS = (
 
 LOGIN_URL= '/'
 LOGOUT_URL= '/logout'
-LOGIN_REDIRECT_URL= '/my/account'
+LOGIN_REDIRECT_URL= '/accounts/me'
 

@@ -1,10 +1,10 @@
 # File encoding: utf-8
 
-from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.generic.create_update import update_object, create_object
 
 from lib.helpers import render_to_request
 
@@ -12,34 +12,42 @@ from accounts.models import *
 from accounts.forms import *
 
 
-def tester_detail(request, id):
+def tester_detail(request, tester_id):
     """Детали тестера
     
     Параметры:
-        id - ключ
+        tester_id - ключ
     """
-    tester = get_object_or_404(Tester, id=id)
+    tester = get_object_or_404(Tester, pk=tester_id)
     user = request.user
 
-    viewing_self = user.tester == tester
+    viewing_self = user == tester
 
+    return render_to_request(request, 'accounts/tester_detail.html', {'tester': tester, 'viewing_self': viewing_self})
+
+    
+@login_required
+def tester_edit(request, tester_id):
+    """Редактирование деталей тестера"""
+    tester = get_object_or_404(Tester, pk=tester_id)
+    user = request.user
+    
+    viewing_self = user == tester
+    
     if not viewing_self:
-        return render_to_request(request, 'accounts/tester_detail.html', {'tester': tester})
-
-    if request.method == "POST":
-        form = TesterChangeForm(request.POST, instance=tester)
-        if form.is_valid():
-            form.save()
-    else:
-        form = TesterChangeForm(instance=tester)
-    return render_to_request(request, 'accounts/tester_detail.html', {'tester': tester, 'form': form})
+        raise PermissionDenied
+    
+    return update_object(request, form_class=TesterChangeForm, object_id =
+                         tester_id, template_object_name="tester",
+                         template_name='accounts/tester_edit.html',
+                         extra_context={'viewing_self': viewing_self})
 
 
-def tester_detail_projects(request, id):
+def tester_detail_projects(request, tester_id):
     """
     Детали тестера, вкладка со списком проектов тестера
     """
-    tester = get_object_or_404(Tester, id=id)
+    tester = get_object_or_404(Tester, pk=tester_id)
     projects = tester.projects.all()
     return render_to_request(request, 'tester_detail_projects.html',
                              {'tester': tester, 'projects': projects})
@@ -51,11 +59,10 @@ def tester_registration(request):
         form = TesterRegForm(request.POST)
         if form.is_valid():
             form.save()
-            send_activation_mail("%s %s" % (tester.surname, tester.first_name), user)
-            return HttpResponseRedirect('/accounts/thanks')
+            return redirect('post_registration')
     else:
         form = TesterRegForm()
-        return render_to_request(request,'tester_registraion.html', {'reg_form': form})
+    return render_to_request(request,'accounts/tester_form.html',{'form': form})
 
 
 def company_detail(request, id):
@@ -112,11 +119,11 @@ def redirect_to_self(request):
 
     # Переход на админку для админа
     if user.is_superuser:
-        return HttpResponseRedirect('/admin')
+        return redirect('/admin')
 
     # Переход в личный кабинет для тестера/компании
     if isinstance(user, Customer) or isinstance(user, Tester):
-        return HttpResponseRedirect(user.get_absolute_url())
+        return redirect(user)
 
     # Не админ, не нормальный пользователь --- кабинета нет, 404
     raise Http404

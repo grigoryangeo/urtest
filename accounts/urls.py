@@ -6,27 +6,30 @@ from accounts.models import Tester, Customer
 from django.conf.urls.defaults import *
 
 tester_dict = {
-    'queryset': Tester.objects.all,
+    'queryset': Tester.objects.all(),
     'template_object_name': 'tester'
 }
 
 customer_dict = {
-    'queryset': Customer.objects.all,
+    'queryset': Customer.objects.all(),
     'template_object_name': 'customer'
 }
 
 urlpatterns = patterns('accounts.views',
-    (r'^testers/show/(?P<id>\d+)$', 'tester_detail'),
-    (r'^testers/show/(?P<id>\d+)/projects$', 'tester_detail_projects'),
-    (r'^testers/list', object_list, tester_dict),
-    (r'^testers/register', 'tester_registration'),
+    url(r'^testers/(?P<tester_id>\d+)$', 'tester_detail', name="tester_detail"),
+    url(r'^testers/(?P<tester_id>\d+)/edit$', 'tester_edit', name="tester_edit"),
+    url(r'^testers/(?P<tester_id>\d+)/projects$', 'tester_detail_projects',
+        name='tester_detail_projects'),
+    url(r'^testers/list', object_list, tester_dict, name="tester_list"),
+    url(r'^testers/register', 'tester_registration', name="tester_registration"),
 
-    (r'^companies/show/(?P<id>\d+)$', 'company_detail'),
-    (r'^companies/show/(?P<id>\d+)/projects$', 'company_detail_projects'),
-    (r'^companies/list$', object_list, tester_dict),
-    (r'^companies/register_(?P<id>[jp])$', 'company_registration'),
+    url(r'^customers/(?P<id>\d+)$', 'company_detail', name="company_detail"),
+    url(r'^customers/(?P<id>\d+)/projects$', 'company_detail_projects'),
+    url(r'^customers/list$', object_list, customer_dict, name="customer_list"),
+    url(r'^customers/register/(?P<entity_type>[jp])?$', 'company_registration', name="customer_registration"),
 
-    (r'thanks$', direct_to_template, {'template': 'accounts/thanks.html'}),
+    url(r'thanks$', direct_to_template, {'template': 'accounts/thanks.html'},
+        name="post_registration"),
 
-    (r'^me$', 'redirect_to_self'),
+    url(r'^me$', 'redirect_to_self', name="redirect_to_self"),
 )
