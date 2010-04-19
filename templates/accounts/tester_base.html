@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block subbar %}
+<li><a href="{{ tester.get_absolute_url }}">Личные данные</a>
+{% if viewing_self %}
+<li><a href="{{ tester.get_edit_url }}">Редактирование</a></li>
+{% endif %}
+</li>
+<li><a href="{% url tester_detail_projects tester_id=tester.id %}">Проекты</a></li>
+{% endblock %}

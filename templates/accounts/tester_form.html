@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}RuTest regestration{% endblock %}
+{% block header %}RuTest tester regestration{% endblock %}
+{% block content%}
+
+<h1>Регистрация тестировщиков</h1><br class="spacer"/>
+<form action="{% url tester_registration %}" method="post" class="niceform">
+    <fieldset>
+        <legend>Регистрация тестировщика</legend>
+        <!--
+        {% if form.errors %}
+        <p>{{ form.errors }}</p>
+        {% endif %}
+        {% for field in form %}
+            <dl>
+                <dt>{{ field.label_tag }}</dt>
+                <dd>{{ field }}</dd>
+                {% if field.errors %}
+                <p>{{ field.errors }}</p>
+                {% endif %}
+            </dl>
+        {% endfor %}
+        -->
+        <table>
+            {{ form }}
+        </table>
+    </fieldset>
+
+    <fieldset class="action">
+	<dl>
+	    <dd><input type="submit" name="submit" id="submit" value="Submit" /></dd>
+	</dl>
+    </fieldset>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'accounts/tester_base.html' %}
+
+{% block content_title %}Редактирование личных данных{% endblock %}
+
+{% block content%}
+<form action="{% url tester_edit tester_id=tester.id %}" method="post" class="niceform">
+    <fieldset>
+        <legend>Регистрация тестировщика</legend>
+        <!--
+        {% if form.errors %}
+        <p>{{ form.errors }}</p>
+        {% endif %}
+        {% for field in form %}
+            <dl>
+                <dt>{{ field.label_tag }}</dt>
+                <dd>{{ field }}</dd>
+                {% if field.errors %}
+                <p>{{ field.errors }}</p>
+                {% endif %}
+            </dl>
+        {% endfor %}
+        -->
+        <table>
+            {{ form }}
+        </table>
+    </fieldset>
+
+    <fieldset class="action">
+	<dl>
+	    <dd><input type="submit" name="submit" id="submit" value="Submit" /></dd>
+	</dl>
+    </fieldset>
+</form>
+{% endblock %}

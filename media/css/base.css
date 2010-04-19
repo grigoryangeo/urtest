@@ -275,7 +275,7 @@ URL: http://www.emblematiq.com/
 /*Radio*/
 .NFRadio {cursor:pointer; position:absolute; display:block; width:13px; height:13px; border:1px solid transparent; background:url(/site_media/img/niceforms/radio.png) no-repeat 0 0; z-index:2;}
 /*Checkbox*/
-.NFCheck {cursor:pointer; position:absolute; width:12px; height:12px; border:1px solid transparent; background:url(img/niceforms/checkbox.png) no-repeat 0 0; z-index:2;}
+.NFCheck {cursor:pointer; position:absolute; width:12px; height:12px; border:1px solid transparent; background:url(/site_media/img/niceforms/checkbox.png) no-repeat 0 0; z-index:2;}
 /*Buttons*/
 .NFButton {width:auto; height:26px; color:#fff; padding:0 2px; background:url(/site_media/img/niceforms/button.png) repeat-x 0 0; cursor:pointer; border:none; font:10px/26px Tahoma, Arial, Helvetica, sans-serif; font-weight:bold; text-transform:uppercase; letter-spacing:1px; vertical-align:middle;}
 .NFButtonLeft, .NFButtonRight {width:6px; height:26px; vertical-align:middle;}

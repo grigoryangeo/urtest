@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="/site_media/css/base.css" />
 	{{ form.media }}
 	<script language="javascript" type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
-	<script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}/js/niceforms.js"></script>
+        <!--	<script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/niceforms.js"></script>-->
 
 
 	<title>{% block title %}RuTest - Краудсорс коммьюнити{% endblock %}</title>
@@ -55,17 +55,10 @@
 
 	<div id="body">
 
+            <h2>{% block content_title %}Title{% endblock %}</h2><br class="spacer"/>
 	    {% block content %}
 	    <p>{% lorem %}</p>
 	    {% endblock %}
-
-	    <div id="sidebar">
-		<ul>
-		    {% block sidebar %}
-		    {% endblock %}
-		</ul>
-	    </div>
-
 
 	    <br class="spacer" />
 	</div>
