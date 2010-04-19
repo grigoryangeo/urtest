@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Аутенфикация</h2><br class="spacer"/>
+{% if form.errors %}
+<p>Вы ввели неверное имя пользователя/пароль. Попробуйте еще раз.</p>
+{% endif %}
+<br class="spacer"/>
+<p>
+<form action="{% url django.contrib.auth.views.login %}" method="post" class="niceform">
+    <fieldset>
+    <legend>Аутенфикация</legend>
+	<dl>
+	    <dt>{{ form.username.label_tag }}</dt>
+	    <dd>{{ form.username }}</dd>
+	</dl>
+	<br/>
+	<dl>
+	    <dt>{{ form.password.label_tag }}</dt>
+	    <dd>{{ form.password }}</dd>
+	</dl>
+	<br/>
+	<dl>
+	    <dd><button type="submit" name="test" id="test">Вход</button></dd>
+	</dl>
+	</fieldset >
+    </form>
+    </p>
+    {% endblock %}

@@ -1,181 +1,85 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="/site_media/css/main.css" />
-        <title>RuTest - Краудсорс коммьюнити</title>
-	<script type="text/javascript" src="/site_media/js/swfobject.js" />
-	<script type="text/javascript">
-	swfobject.registerObject("flash");
-	</script>
-    </head>
-    <body id='field'>
+{% extends 'base.html' %}
 
-        <div id="header">
-
-                <a href="/" title="RuTest"><img src="/site_media/img/logo.jpg" alt="RuTest" width="272" height="87" border="0" /></a>
-		<h1>{% block header %}Дави на педаль!{% endblock %}</h1>
-
-                {% if user.is_authenticated %}
-                    <a href="/my/account">Личный кабинет</a>
-                    <a href="/logout"></a>
-                {% else %}
-                    <form method="post" action="{% url django.contrib.auth.views.login %}">
-                    <a href="#" title="Авторизация" class="login">Авторизация</a>
-                    {% if form.errors %}
-                          <p class="error">Неверное имя пользователя и/или пароль!</p>
-                    {% endif %}
-                        <input type="hidden" name="next" value="{{ next }}" />
-                    </form>
-                {% endif %}
-
-                <div id="topbar">
-                <ul>
-                    <li><a href="/" title="Главная" class="hover">Главная</a></li>
-                    <li><a href="/" title="Контакты">Контакты</a></li>
-                    <li><a href="/" title="О нас">О нас</a></li>
-                    <li><a href='/projects' title="Наши проекты">Наши проекты</a></li>
-                    <li><a href="#" title="ссылка">Ссылка</a></li>
-                    
-                    {% if user.is_authenticated %}
-                        {% if user.tester %}
-                        <li><a href="/testers/{{user.tester.id}}">Личный кабинет</a></li>
-                        <li class="noborder"><a href="/logout">Выйти</a></li>
-                        {% else %}
-                        <li><a href="/companies/{{ user.customer.id }}">Личный кабинет</a></li>
-                        <li class="noborder"><a href="/logout">Выйти</a></li>
-                        {% endif %}
-                    {% else %}
-                    <li><a href="#" title="ссылка">Ссылка</a></li>
-                    <li class="noborder"><a href="#" title="Contact">Ссылка</a></li>
-                    {% endif %}
-		</ul>
-                </div>
-
-            </div>
-
-<table class='content' align="center">
-			<tr>
-			    <td align='right'>
-					<object id="flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="738" height="500">
-
-					        <param name="movie" value="/site_media/flash/DInamicText.swf" />
-					        <!--[if !IE]>-->
-					        <object type="application/x-shockwave-flash" data="/site_media/flash/DInamicText.swf" width="738" height="500">
-					        <!--<![endif]-->
-					          <p>Тут должен быть flash.</p>
-					        <!--[if !IE]>-->
-					        </object>
-					        <!--<![endif]-->
-					      </object>
-			    </td>
-			</tr>
-<tr>
-	<td>
-		<table cellpadding="0" cellspacing="0" class="registerFormTable">
-			<tr>
-				<td class="registerFormTop">
-					<table cellpadding="0" cellspacing="0" width="100%">
-						<tr>
-							<td class="registerFormHalfLeft">
-								<center>
-									<span class="titleReg boldText">
-										Заказчик
-									</span>
-								</center>
-							</td>
-							<td class="registerFormHalfRight">
-								<center>
-									<span class="titleReg boldText">
-										Тестировщик
-									</span>
-								</center>
-							</td>
-						</tr>
-						<tr>
-							<td class="registerFormHalfLeft">
-								<ul class="registerFormList">
-									<li class="registerFormListLi">
-										Ведение проекта
-									</li>
-									<li class="registerFormListLi">
-										Обеспечение безопасности передаваемых в систему данных
-									</li>
-									<li class="registerFormListLi">
-										Различные виды тестирования
-									</li>
-									<li class="registerFormListLi">
-										Предоставление услуги перевода
-									</li>
-									<li class="registerFormListLi">
-										Предоставление фокус-групп для бета-тестирования
-									</li>
-									<li class="registerFormListLi">
-										Проверка текстов документации и программ на соответствие принятым нормам языка
-									</li>
-									<li class="registerFormListLi">
-										Предоставление репозитория для каждого проекта
-									</li>
-								</ul>
-							</td>
-							<td class="registerFormHalfRight">
-								<ul class="registerFormList">
-									<li class="registerFormListLi">
-										Список тестируемых проектов (стоимость различных типов проблем, количество найденных проблем)
-									</li>
-									<li class="registerFormListLi">
-										Личный кабинет с данными о найденных проблемах, переведенных текстах (заработанная сумма, дата выплаты, сумма выплаты)
-									</li>
-									<li class="registerFormListLi">
-										Клиентское приложение, предоставляющее тестировщику ряд инструментов для удаленного тестирования (написание тест-скриптов, загрузка на сервер, исполнение)
-									</li>
-								</ul>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td class="registerFormBottom">
-					<table style="margin: 0 auto;">
-						<tr><td class='regButton'><center><strong>Регистрация</strong></center></td></tr>
-					<tr><td class='regButton'>
-							<img src="/site_media/img/Registration.jpg" alt="" usemap="#regButton" border="0" />
-						<map name="regButton" id="regButton">
-						    <area shape="rect" coords="0,0,130,50" href="/accounts/companies/register_f" alt="Customer" />
-						    <area shape="rect" coords="150,0,290,50" href="/accounts/testers/register" alt="Tester" />
-						</map>
-					</td></tr>
-				    </table>
-				</td>
-			</tr>
-		</table>
-	</td>
-</tr>
-</table>
+{% block subbar %}
+<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
+<li><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
+{% endblock %}
 
 
 
-        <div id="footer">
-                <div id="footerContainer">
-			<ul>
-                                <li><a href="/" title="Главная" class="hover">Главная</a>|</li>
-                                <li><a href="/" title="Контакты">Контакты</a>|</li>
-                                <li><a href="/" title="О нас">О нас</a>|</li>
-                                <li><a href='/projects' title="Наши проекты">Наши проекты</a>|</li>
-                                <li><a href="#" title="ссылка">Ссылка</a>|</li>
-                                <li><a href="#" title="Ссылка">Ссылка</a>|</li>
-				<li><a href="#" title="Ссылка">Ссылка</a></li>
-			</ul><br class="spacer" />
-			<p>&copy; 2009-2010, К8-221.</p>
-                        <br class="spacer" />
-        		<div class="valid">
-                            <a href="http://validator.w3.org/check?uri=referer" target="_blank" class="xhtnl" title="Valid XHTML">xhtml</a>
-                            <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank" class="css" title="Valid CSS">css</a>
-			</div>
+{% block content %}
+<h2>Приувет!</h2><span class="dotLine"></span><br class="spacer" />
+		<p><strong>Функция B(x,y).</strong>
+Теорема масштабирует лист Мёбиуса, явно демонстрируя всю чушь вышесказанного. Умножение вектора на число непосредственно развивает коллинеарный интеграл от функции, обращающейся в бесконечность в изолированной точке, в итоге приходим к логическому противоречию. Связное множество упорядочивает неопровержимый лист Мёбиуса, что и требовалось доказать. Интеграл по бесконечной области нейтрализует интеграл по поверхности, что известно даже школьникам. Нормаль к поверхности, не вдаваясь в подробности, усиливает положительный криволинейный интеграл, что неудивительно. Сумма ряда, как следует из вышесказанного, последовательно притягивает нормальный максимум, таким образом сбылась мечта идиота - утверждение полностью доказано.</p>
 		<br class="spacer" />
-                </div>
-        </div>
+		<p>
+		<!-- ПРИМЕР ОФОРМЛЕНИЯ ФОРМЫ -->
+		<form action="vars.php" method="post" class="niceform">
+		<fieldset>
+    	<legend>Personal Info</legend>
+        <dl>
+        	<dt><label for="email">Email Address:</label></dt>
+            <dd><input type="text" name="email" id="email" size="32" maxlength="128" /></dd>
+        </dl>
+        <dl>
+        	<br/>
+        	<dt><label for="password">Password:</label></dt>
+            <dd><input type="password" name="password" id="password" size="32" maxlength="32" /></dd>
+        </dl>
+        <br/>
+        <dl>
+        <dd><button type="button" name="test" id="test">клац</button></dd>
+        </dl>
+    	</fieldset >
+    	</form>
+		<!-- END ПРИМЕР ОФОРМЛЕНИЯ ФОРМЫ -->
+		
+		</p>
+		
+	<br class="spacer" /></div>
 
-    </body>
-</html>
+	
+<div id="lefutur">	
+	<div id="catagory">
+	  <div class="testimonial">
+			<h2>Для разработчика</h2>
+		  <p><strong>consectetuer adipiscing e</strong> Morbi tellus nibh, aliquam et, euismoec, sagittis sed, nulla. Lorem ipdor sit amet, consectetuer adipiscing lit. Praesent </p><img src="/site_media/img/photo1.gif" alt="Photo-1" />
+		  <p class="italic"><em>Стремление побыстрее разделаться с проблемой нередко приводит к сломанной шее.</em></p><br class="spacer" />
+		  <div class="line1"><p><span>Володя Петухов</span></p></div>
+	  </div>
+	  
+	  <div class="solution">
+	  	<h2>Для тестировщика</h2>
+	    <p><strong>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</strong> Morbi tellus nibh, aliquam et, </p><br class="spacer" />
+		<ul>
+			<li><a href="#">augue justo,</a> iaculis eu, fermentum sed,</li>
+			<li><a href="#">condimentumeu, mauris.</a> In orci nibh, vehicula et,</li>
+			<li><a href="#">semper nec,</a> molestie quis, lectus. Ut feugiat enim id</li>
+			<li><a href="#">risus. Pellentesque</a> ante. Etiam in eros. Sed</li>
+			<li><a href="#">condimentum sapien sed urna.</a> Fusce tincid</li>
+		</ul>
+	  </div>
+</div>	  
+	<br class="spacer" />	    
+	<br class="spacer" />	
+		 
+	
+		
+	<div id="futur">
+		<br class="spacer" /></div>
+		<span class="midleBottom"></span>
+		<div id="futureContainer">
+			<div class="futureLeft">
+				<ul>
+					<li class="serviece">Я разработчик<br /></li>
+				</ul>
+			</div>
+			<div class="futureRight">
+				<ul>
+					<li class="update">Я тестировщик<br /></li>
+				</ul>
+			</div>
+		</div>	
+	</div>	
+	<br class="spacer" />
+{% endblock %}

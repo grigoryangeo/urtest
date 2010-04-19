@@ -1,5 +1,0 @@
-http://localhost:8000/media/img/admin/nav-bg.gif
-http://localhost:8000/media/img/admin/chooser-bg.gif
-http://localhost:8000/media/img/admin/selector-removeall.gif
-http://localhost:8000/media/img/admin/selector-remove.gif
-
