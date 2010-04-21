@@ -1,0 +1,191 @@
+[
+ {
+  "pk": 1, 
+  "model": "enumerations.os", 
+  "fields": {
+   "name": "Linux"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.os", 
+  "fields": {
+   "name": "Mac OS"
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "enumerations.os", 
+  "fields": {
+   "name": "Unix"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "enumerations.os", 
+  "fields": {
+   "name": "Windows"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "enumerations.browser", 
+  "fields": {
+   "name": "Google Chrome"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.browser", 
+  "fields": {
+   "name": "Internet Explorer"
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "enumerations.browser", 
+  "fields": {
+   "name": "Mozilla Firefox"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "enumerations.browser", 
+  "fields": {
+   "name": "Opera"
+  }
+ }, 
+ {
+  "pk": 5, 
+  "model": "enumerations.browser", 
+  "fields": {
+   "name": "Safari"
+  }
+ }, 
+ {
+  "pk": 6, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "C"
+  }
+ }, 
+ {
+  "pk": 8, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "C#"
+  }
+ }, 
+ {
+  "pk": 7, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "C++"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "Delphi"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "Haskell"
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "Java"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "PHP"
+  }
+ }, 
+ {
+  "pk": 5, 
+  "model": "enumerations.programlanguage", 
+  "fields": {
+   "name": "Pascal"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "enumerations.testingtype", 
+  "fields": {
+   "name": "\u0411\u0435\u0442\u0430-\u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.testingtype", 
+  "fields": {
+   "name": "\u041d\u0430\u0433\u0440\u0443\u0437\u043e\u0447\u043d\u043e\u0435"
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "enumerations.testingtype", 
+  "fields": {
+   "name": "\u041f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "enumerations.testingtype", 
+  "fields": {
+   "name": "\u0424\u0443\u043d\u043a\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u043e\u0435"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "enumerations.paytype", 
+  "fields": {
+   "name": "WebMoney"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.paytype", 
+  "fields": {
+   "name": "\u0411\u0430\u043d\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434"
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "enumerations.paytype", 
+  "fields": {
+   "name": "\u041d\u0430\u043b\u0438\u0447\u043d\u044b\u0435"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "enumerations.paytype", 
+  "fields": {
+   "name": "\u042f\u043d\u0434\u0435\u043a\u0441.\u0414\u0435\u043d\u044c\u0433\u0438"
+  }
+ }, 
+ {
+  "pk": 2, 
+  "model": "enumerations.language", 
+  "fields": {
+   "name": "\u0410\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u0438\u0439"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "enumerations.language", 
+  "fields": {
+   "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"
+  }
+ }
+]
