@@ -1,12 +1,12 @@
 {% load webdesign %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="/site_media/css/base.css" />
 	{{ form.media }}
-	<script language="javascript" type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
-        <!--	<script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/niceforms.js"></script>-->
+	<script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
+	<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/niceforms.js"></script> -->
 
 
 	<title>{% block title %}RuTest - Краудсорс коммьюнити{% endblock %}</title>
@@ -14,7 +14,7 @@
     <body>
 	<div id="header">
 
-	    <a href="/" title="RuTest"><img src="/site_media/img/logo.jpg" alt="RuTest" width="272" height="87" border="0" /></a>
+	    <a href="/" title="RuTest"><img src="/site_media/img/logo.jpg" alt="RuTest" width="272" height="87" /></a>
 	    <h1>{% block header %}Дави на педаль!{% endblock %}</h1>
 
 	    {% if not user.is_authenticated %}
@@ -55,7 +55,7 @@
 
 	<div id="body">
 
-            <h2>{% block content_title %}Title{% endblock %}</h2><br class="spacer"/>
+        <h2>{% block content_title %}Title{% endblock %}</h2><br class="spacer"/>
 	    {% block content %}
 	    <p>{% lorem %}</p>
 	    {% endblock %}
@@ -71,7 +71,6 @@
 		    <li><a href='/projects' title="Наши проекты">Наши проекты</a>|</li>
 		    <li><a href="/" title="Контакты">Контакты</a>|</li>
 		    <li><a href="/" title="О нас">О нас</a></li>
-
 		</ul><br class="spacer" />
 		<p>&copy; 2009-2010, К8-221.</p>
 		<br class="spacer" />

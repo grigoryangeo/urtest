@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block content_title %}Аутенфикация{% endblock %}
 
-<h2>Аутенфикация</h2><br class="spacer"/>
+{% block content %}
 {% if form.errors %}
 <p>Вы ввели неверное имя пользователя/пароль. Попробуйте еще раз.</p>
 {% endif %}
 <br class="spacer"/>
-<p>
 <form action="{% url django.contrib.auth.views.login %}" method="post" class="niceform">
     <fieldset>
     <legend>Аутенфикация</legend>
@@ -26,5 +25,4 @@
 	</dl>
 	</fieldset >
     </form>
-    </p>
-    {% endblock %}
+{% endblock %}
