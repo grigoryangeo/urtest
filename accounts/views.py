@@ -97,9 +97,12 @@ def company_registration(request, type):
     Параметры:
         type - j либо p, Физ/Юр лицо
     """
-    if type == 'y':
+    if type== None:
+        type='j'
+    
+    if type == 'j':
         form_type = JurCustomerRegForm
-    elif type == 'f':
+    elif type == 'p':
         form_type = PhysCustomerRegForm
     if request.method == 'POST':
         form = form_type(request.POST)
@@ -109,7 +112,7 @@ def company_registration(request, type):
             return HttpResponseRedirect('/accounts/thanks')
     else:
         form = form_type()
-    return render_to_request(request,'company_registraion.html',{'reg_form': form, 'type': type})
+    return render_to_request(request,'accounts/company_registraion.html',{'reg_form': form, 'type': type})
 
 
 def redirect_to_self(request):

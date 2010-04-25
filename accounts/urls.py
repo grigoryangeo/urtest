@@ -26,7 +26,7 @@ urlpatterns = patterns('accounts.views',
     url(r'^customers/(?P<id>\d+)$', 'company_detail', name="company_detail"),
     url(r'^customers/(?P<id>\d+)/projects$', 'company_detail_projects'),
     url(r'^customers/list$', object_list, customer_dict, name="customer_list"),
-    url(r'^customers/register/(?P<entity_type>[jp])?$', 'company_registration', name="customer_registration"),
+    url(r'^customers/register/(?P<type>[jp])?$', 'company_registration', name="customer_registration"),
 
     url(r'thanks$', direct_to_template, {'template': 'accounts/thanks.html'},
         name="post_registration"),

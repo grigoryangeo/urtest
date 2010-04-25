@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% block title %}RuTest regestration {% endblock %}
 {% block header %}RuTest company  registration {% endblock %}
+{% block content_title %}Регистрация подрядчика{% endblock %}
 {% block content%}
+<fieldset>
+<legend>Регистрируемое лицо</legend>
+    <form name="form1" >
+        {% ifequal type 'f' %}
+            <p><input type="radio" Name ="reg" checked onClick ="location.href='/accounts/customers/register/p' ;"> Физическое</p>
+            <p><input type="radio" Name ="reg" onClick =" location.href='/accounts/customers/register/j' ;"> Юридическое</p>
+        {% else %}
+           <p><input type="radio" Name ="reg" onClick ="location.href='/accounts/customers/register/p' ;"> Физическое</p>
+           <p><input type="radio" Name ="reg" checked onClick =" location.href='/accounts/customers/register/j' ;"> Юридическое</p>
+         {% endifequal %}
+   </form>
+</fieldset>
 
-<form name="form1" >
-    <p><h3>Регистрируемое лицо</h3></p>
-    {% ifequal type 'f' %}
-    <p><input type="radio" Name ="reg" checked onClick ="location.href='/companies/register_f' ;"> Физическое</p>
-    <p><input type="radio" Name ="reg" onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
-    {% else %}
-    <p><input type="radio" Name ="reg" onClick ="location.href='/companies/register_f' ;"> Физическое</p>
-    <p><input type="radio" Name ="reg" checked onClick =" location.href='/companies/register_y' ;"> Юридическое</p>
-    {% endifequal %}
-
-</form>
 <form action="/companies/register_{{ type }}" method="post">
     <table>
         {{ reg_form }}
