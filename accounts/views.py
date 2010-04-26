@@ -37,19 +37,21 @@ def tester_edit(request, tester_id):
     if not viewing_self:
         raise PermissionDenied
     
-    return update_object(request, form_class=TesterChangeForm, object_id =
-                         tester_id, template_object_name="tester",
+    return update_object(request, form_class=TesterChangeForm,
+                         object_id = tester_id,
+                         template_object_name="tester",
                          template_name='accounts/tester_edit.html',
                          extra_context={'viewing_self': viewing_self})
 
 
+@login_required
 def tester_detail_projects(request, tester_id):
     """
     Детали тестера, вкладка со списком проектов тестера
     """
     tester = get_object_or_404(Tester, pk=tester_id)
     projects = tester.projects.all()
-    return render_to_request(request, 'tester_detail_projects.html',
+    return render_to_request(request, 'accounts/tester_detail_projects.html',
                              {'tester': tester, 'projects': projects})
 
 
@@ -65,53 +67,65 @@ def tester_registration(request):
     return render_to_request(request,'accounts/tester_form.html',{'form': form})
 
 
-def company_detail(request, id):
+@login_required
+def customer_detail(request, customer_id):
     """Детали компании
     
     Параметры:
-        id - ключ
+        customer_id - ключ
     """
-    customer = get_object_or_404(Customer, id=id).detail
+    customer = get_object_or_404(Customer, pk=customer_id)
 
+    # Просмотр деталей компании доступен только самой компании
+    if request.user != customer:
+        raise PermissionDenied
+
+    # Выбор шаблона в зависимости от типа компании
+    # TODO: вынести это в сам шаблон/include
     if customer.type == 'p':
-        template = 'PhysCustomer_detail.html'
+        template = 'phys_customer_detail.html'
     else:
-        template = 'UrCustomer_detail.html'
+        template = 'jur_customer_detail.html'
 
-    return render_to_request(request, template, {'customer': customer})
+    return render_to_request(request, template, {'customer': customer.detail})
 
 
-def company_detail_projects(request, id):
+@login_required
+def customer_detail_projects(request, customer_id):
     """
     Детали компании, вкладка со списком проектов компании
     """
-    customer = get_object_or_404(Customer, id=id)
+    customer = get_object_or_404(Customer, pk=customer_id)
+
+    # Просмотр деталей компании доступен только самой компании
+    if request.user != customer:
+        raise PermissionDenied
+
     projects = customer.projects.all()
     return render_to_request(request, 'customer_project_detail.html',
                              {'projects': projects, 'customer': customer})
 
 
-def company_registration(request, type):
-    """Детали компании
+def customer_registration(request, customer_type='j'):
+    """Регистрация компании
 
     Параметры:
-        type - j либо p, Физ/Юр лицо
+        customer_type - j либо p, Физ/Юр лицо
     """
-    if type == 'y':
+    # Выбор формы в зависимости от типа лица
+    if type == 'j':
         form_type = JurCustomerRegForm
-    elif type == 'f':
+    elif type == 'p':
         form_type = PhysCustomerRegForm
-    if request.method == 'POST':
-        form = form_type(request.POST)
-        if form.is_valid():
-            form.save()
-            send_activation_mail(customer.name, user)
-            return HttpResponseRedirect('/accounts/thanks')
     else:
-        form = form_type()
-    return render_to_request(request,'company_registraion.html',{'reg_form': form, 'type': type})
+        raise Http404
+
+    return create_object(form_class=form_type,
+                         post_save_redirect=reverse('post_registration'),
+                         template_name='accounts/customer_registraion.html')
 
 
+@login_required
 def redirect_to_self(request):
     """Переадресация в свой личный кабинет"""
     # Получение текущего пользователя
@@ -122,7 +136,7 @@ def redirect_to_self(request):
         return redirect('/admin')
 
     # Переход в личный кабинет для тестера/компании
-    if isinstance(user, Customer) or isinstance(user, Tester):
+    if isinstance(user, (Customer, Tester)):
         return redirect(user)
 
     # Не админ, не нормальный пользователь --- кабинета нет, 404
