@@ -24,7 +24,8 @@ urlpatterns = patterns('accounts.views',
     url(r'^testers/register', 'tester_registration', name="tester_registration"),
 
     url(r'^customers/(?P<customer_id>\d+)$', 'customer_detail', name="customer_detail"),
-    url(r'^customers/(?P<customer_id>\d+)/projects$', 'customer_detail_projects'),
+    url(r'^customers/(?P<customer_id>\d+)/projects$',
+        'customer_detail_projects', name='customer_detail_projects'),
     url(r'^customers/list$', object_list, customer_dict, name="customer_list"),
     url(r'^customers/register/(?P<customer_type>[jp])?$', 'customer_registration', name="customer_registration"),
 

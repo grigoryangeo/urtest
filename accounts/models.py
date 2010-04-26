@@ -81,10 +81,10 @@ class Customer(User):
     @property
     def detail(self):
         """Возвращет PhysCustomer, либо JurCustomer данного заказчика"""
-        if hasattr(self, 'phys_customer'):
-            return self.phys_customer
-        if hasattr(self, 'jur_customer'):
-            return self.jur_customer
+        if hasattr(self, 'physcustomer'):
+            return self.physcustomer
+        if hasattr(self, 'jurcustomer'):
+            return self.jurcustomer
         else:
             return None
 
@@ -111,6 +111,7 @@ class Customer(User):
 
 class PhysCustomer(Customer):
     """Модель физического лица"""
+    customer = models.OneToOneField(Customer, parent_link=True)
     surname = models.CharField("Фамилия заказчика", max_length=80)
     name = models.CharField("Имя заказчика", max_length=30)
     second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
@@ -139,6 +140,7 @@ class PhysCustomer(Customer):
 
 class JurCustomer(Customer):
     """Модель юридического лица"""
+    customer = models.OneToOneField(Customer, parent_link=True)
     name = models.CharField("Название компании", max_length=50)
     inn = models.IntegerField("ИНН", max_length=10)
     bank_account = models.IntegerField("Номер счета", max_length=50)
