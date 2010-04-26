@@ -90,10 +90,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.webdesign',
     'django.contrib.flatpages',
-    'urtest.accounts',
-    'urtest.bugtracker',
-    'urtest.enumerations',
+    'accounts',
+    'bugtracker',
+    'enumerations',
+    'django_coverage',
 )
+
+COVERAGE_REPORT_HTML_OUTPUT_DIR = 'cover'
+
 
 LOGIN_URL= '/login'
 LOGOUT_URL= '/logout'
