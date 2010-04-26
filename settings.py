@@ -95,7 +95,7 @@ INSTALLED_APPS = (
     'urtest.enumerations',
 )
 
-LOGIN_URL= '/'
+LOGIN_URL= '/login'
 LOGOUT_URL= '/logout'
 LOGIN_REDIRECT_URL= '/accounts/me'
 
