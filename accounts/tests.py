@@ -22,13 +22,19 @@ class TesterRegister(TestCase):
     fixtures = ['user.json']
     
     def setUp(self):
-        browser=Browser.objects.get(pk=1)
-        os=OS.objects.get(pk=1)
-        progLang=ProgramLanguage.objects.get(pk=1)
-        testtype=TestingType.objects.get(pk=1)
-        paytype=PayType.objects.get(pk=1)
-        lang=Language.objects.get(pk=1)
-        pass
+        self.post={
+            'email': 'test@test.ru',
+            'password': '1233456',
+            'password_confirm': '1233456',
+            'surname': 'Иванов',
+            'name': 'Иван',
+            'second_name': 'Иванович',
+            'description': 'Нет описания',
+            'testing_types': ['4'],
+            'os': ['1', '2'],
+            'program_languages': ['6'],
+            'browsers': ['3', '4'],
+         }
     
     def test_tester_register(self):
         """
@@ -37,23 +43,9 @@ class TesterRegister(TestCase):
         
         """
        
-        post={
-        'email': 'test@test.ru',
-        'password': '1233456',
-        'password_confirm': '1233456',
-        'surname': 'Иванов',
-        'name': 'Иван',
-        'second_name': 'Иванович',
-        'description': 'Нет описания',
-        'testing_types': ['4'],
-        'os': ['1'],
-        'program_languages': ['6'],
-        'browsers': ['3'],
-        'submit': 'Submit'
-         }
 
-        form = TesterRegForm(post) 
-        assert(form.is_valid())
+        form = TesterRegForm(self.post) 
+        assert form.is_valid()
         form.save()
 
         try:
@@ -63,15 +55,20 @@ class TesterRegister(TestCase):
             assert(False)
 
     
-        assert(tester.surname==u'Иванов')
-        assert(tester.name==u'Иван')
-        assert(tester.second_name==u'Иванович')
-        assert(tester.description==u'Нет описания')
-        assert(tester.testing_types.all()[0].name==u'Функциональное')
-        assert(tester.os.all()[0].name==u'Linux')
-        assert(tester.os.all()[0].name==u'Linux')
-        assert(tester.program_languages.all()[0].name==u'C')
-        assert(tester.browsers.all()[0].name==u'Mozilla Firefox')
+        self.assertEquals(tester.surname, u'Иванов')
+        self.assertEquals(tester.name, u'Иван')
+        self.assertEquals(tester.second_name, u'Иванович')
+        self.assertEquals(tester.description, u'Нет описания')
+        self.assertEquals(tester.testing_types.all()[0].name, u'Функциональное')
+        assert tester.check_password(self.post['password'])
+
+        self.assertEquals([str(os.pk) for os in tester.os.all().order_by('pk')],
+                          self.post['os'])
+        self.assertEquals([str(browser.pk) for browser in tester.browsers.all().order_by('pk')],
+                          self.post['browsers'])
+        self.assertEquals([str(program_language.pk) for program_language in
+                           tester.program_languages.all().order_by('pk')],
+                          self.post['program_languages'])
   
 
 class CustomerRegister(TestCase):
