@@ -23,10 +23,10 @@ urlpatterns = patterns('accounts.views',
     url(r'^testers/list', object_list, tester_dict, name="tester_list"),
     url(r'^testers/register', 'tester_registration', name="tester_registration"),
 
-    url(r'^customers/(?P<id>\d+)$', 'company_detail', name="company_detail"),
-    url(r'^customers/(?P<id>\d+)/projects$', 'company_detail_projects'),
+    url(r'^customers/(?P<customer_id>\d+)$', 'customer_detail', name="customer_detail"),
+    url(r'^customers/(?P<customer_id>\d+)/projects$', 'customer_detail_projects'),
     url(r'^customers/list$', object_list, customer_dict, name="customer_list"),
-    url(r'^customers/register/(?P<entity_type>[jp])?$', 'company_registration', name="customer_registration"),
+    url(r'^customers/register/(?P<customer_type>[jp])?$', 'customer_registration', name="customer_registration"),
 
     url(r'thanks$', direct_to_template, {'template': 'accounts/thanks.html'},
         name="post_registration"),
