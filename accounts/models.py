@@ -135,8 +135,8 @@ class PhysCustomer(Customer):
         return "%s %s %s" % (self.surname, self.name, self.second_name)
 
     class Meta:
-        verbose_name = "физическое лицо"
-        verbose_name_plural = "физические лица"
+        verbose_name = u"физическое лицо"
+        verbose_name_plural = u"физические лица"
 
     def __unicode__(self):
         return self.full_name
@@ -168,8 +168,8 @@ class JurCustomer(Customer):
         verbose_name="Способ оплаты")
 
     class Meta:
-        verbose_name = "юридическое лицо"
-        verbose_name_plural = "юридические лица"
+        verbose_name = u"юридическое лицо"
+        verbose_name_plural = u"юридические лица"
     
     @property
     def full_name(self):
