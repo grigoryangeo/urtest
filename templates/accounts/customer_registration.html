@@ -1,0 +1,34 @@
+{% extends 'accounts/registration_base.html' %}
+{% block title %}Регистрация компании{% endblock %}
+{% block header %}Регистрация компании{% endblock %}
+{% block content_title %}Регистрация компании{% endblock %}
+
+{% block content%}
+<form name="form1" class="niceform">
+    <fieldset>
+    <legend>Тип лица</legend>
+    <ul>
+    <li><input type="radio" Name ="reg" {% ifequal type 'p' %}checked{% endifequal %} onClick ="location.href='{% url customer_registration customer_type='p' %}' ;">Физическое</li>
+    <li><input type="radio" Name ="reg" {% ifequal type 'j' %}checked{% endifequal %} onClick ="location.href='{% url customer_registration customer_type='j' %}' ;">Юридическое</li>
+    </ul>
+    </fieldset>
+</form>
+
+<form action="{% url customer_registration customer_type=type %}" method="post" class="niceform">
+    <fieldset>
+    <legend>Детали лица</legend>
+    <table>
+        {{ form }}
+    </table>
+    </fieldset>
+    <fieldset>
+    <legend>Регистрация</legend>
+        <input type="checkbox" name="accept" id="id_accept" onClick="this.form.registr.disabled=!this.form.accept.checked;" />
+            Я согласен с условиями <a href="/dogovor" target="_blank">пользовательского договора</a>
+    <br/>
+    
+    <input id="radius" name="registr" type="submit" value="Зарегистрироваться" disabled />
+    <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
+    </fieldset>
+</form>
+{% endblock %}

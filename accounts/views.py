@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.create_update import update_object, create_object
+from django.http import Http404
 
 from lib.helpers import render_to_request
 
@@ -83,9 +84,9 @@ def customer_detail(request, customer_id):
     # Выбор шаблона в зависимости от типа компании
     # TODO: вынести это в сам шаблон/include
     if customer.type == 'p':
-        template = 'phys_customer_detail.html'
+        template = 'accounts/phys_customer_detail.html'
     else:
-        template = 'jur_customer_detail.html'
+        template = 'accounts/jur_customer_detail.html'
 
     return render_to_request(request, template, {'customer': customer.detail})
 
@@ -113,16 +114,22 @@ def customer_registration(request, customer_type='j'):
         customer_type - j либо p, Физ/Юр лицо
     """
     # Выбор формы в зависимости от типа лица
-    if type == 'j':
+    if customer_type is None:
+        customer_type = 'j'
+
+    if customer_type == 'j':
         form_type = JurCustomerRegForm
-    elif type == 'p':
+    elif customer_type == 'p':
         form_type = PhysCustomerRegForm
     else:
         raise Http404
 
-    return create_object(form_class=form_type,
+    return create_object(request,
+                         form_class=form_type,
                          post_save_redirect=reverse('post_registration'),
-                         template_name='accounts/customer_registraion.html')
+                         template_name='accounts/customer_registration.html',
+                         extra_context={'type': customer_type}
+                        )
 
 
 @login_required

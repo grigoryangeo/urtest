@@ -60,9 +60,11 @@ class UserForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(username=email).count() > 0:
-            raise forms.ValidationError('Такой адрес уже зарегистрирован')
-        return email
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            return email
+        raise forms.ValidationError('Такой адрес уже зарегистрирован')
 
     def clean_password_confirm(self):
         cleaned_data = self.cleaned_data
@@ -71,6 +73,17 @@ class UserForm(forms.ModelForm):
         if password != password_confirm:
             raise forms.ValidationError('Пароль и подтверждение не совпадают')
         return password_confirm
+
+    def save(self, *args, **kwargs):
+        assert(self.is_valid())
+        # Вызов оригинального save
+        data = self.cleaned_data
+        user = super(forms.ModelForm, self).save(commit=False, *args, **kwargs)
+        user.username = user.email = data['email']
+        user.set_password(data['password'])
+        user.save()
+        self.save_m2m()
+        return user
 
 
 class JurCustomerRegForm(UserForm):
@@ -86,24 +99,31 @@ class JurCustomerRegForm(UserForm):
 
     class Meta:
         model = models.JurCustomer
-        exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.JurCustomer._meta.fields[2:]] + [f.name for f in models.JurCustomer._meta.many_to_many]
-
-    def save(self, *args, **kwargs):
-        assert(self.is_valid())
-        # Вызов оригинального save
-        data = self.cleaned_data
-        jurcustomer = super(JurCustomerRegForm, self).save(commit=False, *args, **kwargs)
-        user = jurcustomer.user
-        user.set_password(data['password'])
-        user.save()
-        return jurcustomer
+        fields = ['type', 'email', 'password', 'password_confirm'] + [
+            'name',
+            'inn',
+            'bank_account',
+            'bank',
+            'kpp',
+            'bik',
+            'correspondent_account',
+            'ogrn',
+            'phone',
+            'www',
+            'address_ur',
+            'description',
+            'repr_surname',
+            'repr_name',
+            'repr_second_name',
+            'repr_phone',
+            'pay_type',
+        ]
 
 
 class PhysCustomerRegForm(UserForm):
     type = forms.CharField(widget=forms.HiddenInput, initial='p')
     surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
-    first_name = UrtestFIOField(label="Имя заказчика", max_length=30)
+    name = UrtestFIOField(label="Имя заказчика", max_length=30)
     second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=enum.PayType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
@@ -111,17 +131,18 @@ class PhysCustomerRegForm(UserForm):
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [f.name for f in models.PhysCustomer._meta.fields[2:]] + [f.name for f in models.PhysCustomer._meta.many_to_many]
+        fields = ['type', 'email', 'password', 'password_confirm'] + [
+            'surname',
+            'name',
+            'second_name',
+            'passport_series',
+            'passport_number',
+            'passport_when',
+            'passport_who',
+            'phone',
+            'pay_type',
+        ]
 
-    def save(self, *args, **kwargs):
-        assert(self.is_valid())
-        # Вызов оригинального save
-        data = self.cleaned_data
-        physcustomer = super(PhysCustomerRegForm, self).save(commit=False, *args, **kwargs)
-        user = physcustomer.user
-        user.set_password(data['password'])
-        user.save()
-        return physcustomer
 
 
 class TesterRegForm(UserForm):
@@ -147,19 +168,6 @@ class TesterRegForm(UserForm):
         fields = ['email', 'password', 'password_confirm',
                   'surname', 'name', 'second_name',
                   'os', 'program_languages', 'testing_types', 'browsers', 'description']
-    
-    def save(self, *args, **kwargs):
-        assert(self.is_valid())
-        # Вызов оригинального save
-        data = self.cleaned_data
-        tester = super(TesterRegForm, self).save(commit=False, *args, **kwargs)
-
-        tester.username = tester.email = data['email']
-        tester.set_password(data['password'])
-        tester.save()
-
-        self.save_m2m()
-        return tester
 
 
 class TesterChangeForm(forms.ModelForm):
