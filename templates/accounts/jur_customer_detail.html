@@ -1,15 +1,6 @@
-{% extends 'base.html' %}
-{% block title %}RuTest companies{% endblock %}
-{% block sidebar %}
-          <ul>
-                <li><a href="/companies/{{ user.customer.id }}">Мои данные</a></li>
-                <li><a href="/companies/{{ user.customer.id }}/projects">Мои проекты</a></li>
-           </ul>
-{% endblock %}
+{% extends 'accounts/customer_base.html' %}
+
 {% block content%}
-<br>
-<h1> Личная страница компании " {{detail.name }} "</h1>
-<ul>
     <table>
         <tr>
             <td><h3> Регистрационные данные </h3> </td>
@@ -17,7 +8,7 @@
         </tr>
         <tr>
             <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
-            <td>{{ detail.email }} </td>
+            <td>{{ customer.email }} </td>
         </tr>
         <tr>
             <td><h3> Информация о компании </h3></td>
@@ -25,43 +16,43 @@
         </tr>
         <tr>
             <td>Название компании: </td>
-            <td>{{ detail.name }} </td>
+            <td>{{ customer.name }} </td>
         </tr>
         <tr>
             <td>ИНН: </td>
-            <td>{{ detail.inn }} </td>
+            <td>{{ customer.inn }} </td>
         </tr>
         <tr>
-            <td> Номер счета:&nbsp {{ detail.bank_account }}</td>
-            <td> Банк:&nbsp {{ detail.bank }} </td>
+            <td> Номер счета:&nbsp {{ customer.bank_account }}</td>
+            <td> Банк:&nbsp {{ customer.bank }} </td>
         </tr>
         <tr>
-            <td> КПП:&nbsp {{ detail.kpp }}</td>
-            <td>БИК:&nbsp {{ detail.bik }} </td>
+            <td> КПП:&nbsp {{ customer.kpp }}</td>
+            <td>БИК:&nbsp {{ customer.bik }} </td>
         </tr>
         <tr>
             <td> ОГРН: </td>
-            <td>{{ detail.ogrn }} </td>
+            <td>{{ customer.ogrn }} </td>
         </tr>
         <tr>
             <td> Кореспондентский счет:</td>
-            <td>{{ detail.correspondent_account }} </td>
+            <td>{{ customer.correspondent_account }} </td>
         </tr>
         <tr>
             <td>Контактный телефон компании:</td>
-            <td> {{ detail.phone }}</td>
+            <td> {{ customer.phone }}</td>
         </tr>
         <tr>
             <td>Адресс сайта компании:</td>
-            <td>{{ detail.www }} </td>
+            <td>{{ customer.www }} </td>
         </tr>
         <tr>
             <td>Юредический адресс компании:</td>
-            <td>{{ detail.address_ur }} </td>
+            <td>{{ customer.address_ur }} </td>
         </tr>
         <tr>
             <td>Информация о компании:</td>
-            <td> {{ detail.description }}</td>
+            <td> {{ customer.description }}</td>
         </tr>
         <tr>
             <td> <h3> Личная информация о представителе</h3></td>
@@ -69,17 +60,17 @@
         </tr>
         <tr>
             <td>Фамилия  заказчика:</td>
-            <td> {{ detail.repr_surname }}</td>
+            <td> {{ customer.repr_surname }}</td>
         </tr>
         <tr>
             <td>Имя заказчика:</td>
-            <td>{{ detail.repr_first_name }} </td>
+            <td>{{ customer.repr_name }} </td>
         </tr><tr>
             <td>Отчество заказчика:</td>
-            <td> {{ detail.repr_second_name }}</td>
+            <td> {{ customer.repr_second_name }}</td>
         </tr><tr>
             <td>Контактный телефон:</td>
-            <td> {{ detail.repr_phone }}</td>
+            <td> {{ customer.repr_phone }}</td>
         </tr>
         <tr>
             <td><h3> Способ оплаты</h3></td>
@@ -87,12 +78,10 @@
         </tr>
         <tr>
             <td>
-            {% for pay in detail.pay_type.all %}
+            {% for pay in customer.pay_type.all %}
                 {{ pay }}<br>
             {% endfor %}
             </td>
         </tr>
     </table>
-</ul>
-<br>
 {% endblock %}
