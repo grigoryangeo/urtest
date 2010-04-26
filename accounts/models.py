@@ -25,7 +25,6 @@ class Tester(User):
     surname = models.CharField("Фамилия", max_length=80)
     name = models.CharField("Имя", max_length=30)
     second_name = models.CharField("Отчество", max_length=30, blank=True)
-#    email = models.EmailField("e-mail", max_length=50)
     os = models.ManyToManyField(enum.OS,
                                         related_name='testers',
                                         verbose_name="ОС")
@@ -104,7 +103,7 @@ class Customer(User):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('accounts.views.company_detail', (), {'customer_id': self.pk})
+	return ('accounts.views.customer_detail', (), {'customer_id': self.pk})
 
     def __unicode__(self):
         return self.full_name
@@ -112,19 +111,15 @@ class Customer(User):
 
 class PhysCustomer(Customer):
     """Модель физического лица"""
-    customer = models.OneToOneField(Customer, related_name='phys_customer',
-                                verbose_name="заказчик",
-                                parent_link=True)
     surname = models.CharField("Фамилия заказчика", max_length=80)
     name = models.CharField("Имя заказчика", max_length=30)
     second_name = models.CharField("Отчество заказчика", max_length=50, blank=True)
-    #email = models.EmailField("e-mail", max_length=50)
     passport_series = models.IntegerField("Серия паспорта", max_length=4)
     passport_number = models.IntegerField("Номер паспорта", max_length=6)
     passport_when = models.DateField("Дата выдачи")
     passport_who = models.CharField("Кем выдан", max_length=100)
     phone = models.CharField("Контактный телефон", max_length=50)
-    other_connect = models.CharField("Другие контактные данные", max_length=100)
+    #other_connect = models.CharField("Другие контактные данные", max_length=100)
     pay_type = models.ManyToManyField(enum.PayType, related_name='PhysCustomers',
                                 verbose_name="Способ оплаты")
     @property
@@ -144,10 +139,6 @@ class PhysCustomer(Customer):
 
 class JurCustomer(Customer):
     """Модель юридического лица"""
-    customer = models.OneToOneField(Customer, related_name='jur_customer',
-                                verbose_name="заказчик",
-                                parent_link=True)
-    #email = models.EmailField("e-mail", max_length=50)
     name = models.CharField("Название компании", max_length=50)
     inn = models.IntegerField("ИНН", max_length=10)
     bank_account = models.IntegerField("Номер счета", max_length=50)
