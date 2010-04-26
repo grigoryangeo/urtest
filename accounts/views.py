@@ -102,9 +102,11 @@ def customer_detail_projects(request, customer_id):
     if request.user != customer:
         raise PermissionDenied
 
-    projects = customer.projects.all()
-    return render_to_request(request, 'customer_project_detail.html',
-                             {'projects': projects, 'customer': customer})
+    viewing_self = request.user == customer
+
+    return render_to_request(request, 'accounts/customer_detail_projects.html',
+                             {'customer': customer,
+                              'viewing_self': viewing_self})
 
 
 def customer_registration(request, customer_type='j'):

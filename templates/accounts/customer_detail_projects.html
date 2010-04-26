@@ -1,11 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'accounts/customer_base.html' %}
 {% block title %}RuTest companies{% endblock %}
-{% block sidebar %}
-          <ul>
-                <li><a href="/companies/{{ user.customer.id }}">Мои данные</a></li>
-                <li><a href="/companies/{{ user.customer.id }}/projects">Мои проекты</a></li>
-           </ul>
-{% endblock %}
+
 {% block content%}
 <br>
 <h1> Мои проекты:</h1>
@@ -44,10 +39,8 @@
     </TABLE>
 </ul>
 
-{% if user.is_authenticated and user.customer %}
-    <form action="{% url bugtracker.views.new_project %}" method="GET">
-         <input type="submit" value="Добавить проект"/>
-    </form>
+{% if viewing_self %}
+    <a href="{% url project_add %}" >Добавить проект</a>
 {% endif %}
 <br>
 {% endblock %}}
