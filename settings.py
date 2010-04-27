@@ -97,6 +97,9 @@ INSTALLED_APPS = (
 )
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = 'cover'
+COVERAGE_MODULE_EXCLUDES = ['tests$', 'settings$', 'urls$', 'common.views.test',
+                            '__init__', 'django', 'migrations',
+                            'fixtures$', 'admin$']
 
 
 LOGIN_URL= '/login'
