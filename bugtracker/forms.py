@@ -132,7 +132,7 @@ class PhysCustomerForm(UserForm):
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
     passport_serial = forms.RegexField(label = "Серия паспорта", max_length=4, regex=num_regexp, error_messages=generic_error)
     passport_number = forms.RegexField(label = "Номер паспорта", max_length=6, regex=num_regexp, error_messages=generic_error)
-    passport_who = forms.RegexField(label = "Кем выдан", max_length=100, regex=kiril_regexp, error_messages=generic_error )
+    passport_who = forms.CharField(label = "Кем выдан", max_length=100, error_messages=generic_error )
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
