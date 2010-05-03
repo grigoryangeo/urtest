@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user, authenticate, login
 from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
@@ -102,6 +102,7 @@ def tester_detail(request, pk):
             form = TesterDetailForm(request.POST, instance=tester)
             if form.is_valid():
                 form.save()
+            return redirect('/testers/%i' % tester.pk)
         else:
             form = TesterDetailForm(instance=tester)
         return render_to_request(request, 'tester_detail.html', {'tester': tester, 'form':form},
@@ -160,7 +161,12 @@ def thanks(request):
     return render_to_response('thanks.html', context_instance=RequestContext(request))
 
 # проекты
+@login_required
 def new_project(request):
+
+    if not hasattr(request.user, 'customer'):
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
@@ -241,8 +247,11 @@ def bug_details(request, pk, page, bk):
     else:
         raise Http404
 
+@login_required
 def add_bug(request, project_pk):
     project = get_object_or_404(Project, pk=project_pk)
+    if not hasattr(request.user, 'tester'):
+        raise PermissionDenied
     if request.method == 'POST':
         form = BugForm(request.POST)
         if form.is_valid():
