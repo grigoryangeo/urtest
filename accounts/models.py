@@ -5,21 +5,36 @@ from django.utils.translation import ugettext_lazy as _
 
 import enumerations.models as enum
 
-class UserProxy(User):
+
+class UserTypeMixin(object):
+    """Mixin с методами для проверки типа пользователя
+    
+    is_tester - является ли пользователь тестером
+    is_customer - является ли пользователь заказчиком
+    """
+    def is_tester(self):
+        return isinstance(self, Tester)
+
+    def is_customer(self):
+        return isinstance(self, Customer)
+
+
+class UserProxy(User, UserTypeMixin):
     """Прокси-модель для пользователя, с получением нужного профиля"""
     class Meta:
-	proxy=True
+        proxy=True
 
     def get_detail(self):
-	"""Получение детального профиля пользователя"""
-	if hasattr(self, 'tester'):
-	    return self.tester
-	if hasattr(self, 'customer'):
-	    return self.customer
-	else:
-	    return self
+        """Получение детального профиля пользователя"""
+        if hasattr(self, 'tester'):
+            return self.tester
+        if hasattr(self, 'customer'):
+            return self.customer
+        else:
+            return self
 
-class Tester(User):
+
+class Tester(User, UserTypeMixin):
     """Модель тестера"""
     user = models.OneToOneField(User, parent_link=True)
     surname = models.CharField("Фамилия", max_length=80)
@@ -50,11 +65,11 @@ class Tester(User):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('accounts.views.tester_detail', (), {'tester_id': self.pk})
+        return ('accounts.views.tester_detail', (), {'tester_id': self.pk})
 
     @models.permalink
     def get_edit_url(self):
-	return ('accounts.views.tester_edit', (), {'tester_id': self.pk})
+        return ('accounts.views.tester_edit', (), {'tester_id': self.pk})
 
     class Meta:
         verbose_name = u"тестер"
@@ -64,7 +79,7 @@ class Tester(User):
         return self.full_name
 
 
-class Customer(User):
+class Customer(User, UserTypeMixin):
     """Модель Заказчика"""
     TYPE_CHOICES = (
         ('j', 'Юридическое лицо'),
@@ -103,7 +118,7 @@ class Customer(User):
 
     @models.permalink
     def get_absolute_url(self):
-	return ('accounts.views.customer_detail', (), {'customer_id': self.pk})
+        return ('accounts.views.customer_detail', (), {'customer_id': self.pk})
 
     def __unicode__(self):
         return self.full_name
