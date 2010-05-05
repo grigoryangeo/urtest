@@ -2,11 +2,13 @@
 from django import forms
 
 from django.contrib.auth.models import User
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms.widgets import CheckboxSelectMultiple
 
 from bugtracker.models import Bug, Project
 from accounts.models import Tester, Customer
 from enumerations.models import ProgramLanguage, Language
+
+from lib.fields import UrtestTextAreaField
 
 
 class ProjectForm(forms.ModelForm):
@@ -19,17 +21,16 @@ class ProjectForm(forms.ModelForm):
     program_languages = forms.ModelMultipleChoiceField(
         label="ЯП",
         queryset=ProgramLanguage.objects.all(),
-        widget=FilteredSelectMultiple(u'ЯП', False))
+        widget=CheckboxSelectMultiple)
     
     doc_languages = forms.ModelMultipleChoiceField(
         label="Язык документации",
         queryset=Language.objects.all(),
-        widget=FilteredSelectMultiple(u'Языки', False))
+        widget=CheckboxSelectMultiple)
     
-    description = forms.CharField(label='Описание проекта',
-                                  widget=forms.Textarea,
-                                  required=False,
-                                  max_length=300)
+    description = UrtestTextAreaField(
+        label='Описание проекта',
+        required=False)
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -44,9 +45,9 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['name', 'size', 'program_languages', 'doc_languages', 'description']
     
-    def save(self, customer=None, *args, **kwargs):
+    def save(self, customer, *args, **kwargs):
         # Проверки типов
-        assert customer is Customer
+        assert isinstance(customer, Customer)
         
         # Установка поля заказчика и сохранение
         project = super(ProjectForm, self).save(*args, **kwargs)
@@ -75,10 +76,10 @@ class BugForm(forms.ModelForm):
         model = Bug
         exclude = ['tester', 'status', 'status_comment', 'project']
     
-    def save(self, project=None, tester=None, *args, **kwargs):
+    def save(self, project, tester, *args, **kwargs):
         # Проверки типов
-        assert tester is Tester
-        assert project is Project
+        assert isinstance(project, Project)
+        assert isinstance(tester, Tester)
         
         # Вызов родительского метода save
         bug = super(BugForm, self).save(*args, commit=False, **kwargs)
@@ -91,7 +92,7 @@ class BugForm(forms.ModelForm):
         bug.save()
 
 
-class BugDetail(forms.ModelForm):
+class BugStatusUpdateForm(forms.ModelForm):
     """
     Форма редактирования статуса бага
     """
@@ -105,3 +106,4 @@ class BugDetail(forms.ModelForm):
     class Meta:
         model = Bug
         fields = ['status', 'status_comment']
+
