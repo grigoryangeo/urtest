@@ -50,7 +50,7 @@ class ProjectForm(forms.ModelForm):
         assert isinstance(customer, Customer)
         
         # Установка поля заказчика и сохранение
-        project = super(ProjectForm, self).save(*args, **kwargs)
+        project = super(ProjectForm, self).save(commit=False,*args, **kwargs)
         project.customer = customer
         project.save()
         # В форме есть поля много-много, требуется вызывать после сохранения
@@ -76,13 +76,13 @@ class BugForm(forms.ModelForm):
         model = Bug
         exclude = ['tester', 'status', 'status_comment', 'project']
     
-    def save(self, project, tester, *args, **kwargs):
+    def save(self, tester, project,*args, **kwargs):
         # Проверки типов
         assert isinstance(project, Project)
         assert isinstance(tester, Tester)
         
         # Вызов родительского метода save
-        bug = super(BugForm, self).save(*args, commit=False, **kwargs)
+        bug = super(BugForm, self).save(commit=False,*args, **kwargs)
 
         # Установка отсутствующих в форме полей автора и проекта и сохранение
         # Они хранятся в request, к которому из формы доступа нет,

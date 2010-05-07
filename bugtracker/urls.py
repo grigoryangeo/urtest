@@ -24,6 +24,6 @@ urlpatterns = patterns('bugtracker.views',
     url(r'^projects/add$', 'project_add', name="project_add"),
     url(r'^projects/add_bug/(?P<project_id>\d+)$', 'project_add_bug', name="project_add_bug"),
 
-    url(r'^bugs/show/(?P<bug_id>\d+)$','bug_detail', name="project_add_bug"),
+    url(r'^bugs/show/(?P<bug_id>\d+)$','bug_detail', name="bug_detail"),
     url(r'^bugs/list$', list_detail.object_list, bug_info, name="all_bugs"),
 )
