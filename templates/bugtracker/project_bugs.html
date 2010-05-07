@@ -1,15 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}RuTest project{% endblock %}
-{% block sidebar %}
-<ul>
-    <li><a href="/projects/{{ project.pk}}">Описание</a></li>
-    <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
-    <li><a href="/projects/{{ project.pk}}/testers">Тестировщики</a></li>
-</ul>
-{% endblock %}
 {% block content %}
 <br>
-<h1 algin="CENTER">Баги:</h1>
+<h1 algin="CENTER">Баги123:</h1>
 <ul>
     <TABLE border="3">
 	<THEAD>
@@ -25,21 +18,21 @@
 	<TBODY>
 	    {% for bug in bugs %}
 	    <tr>
-        <td><a href="bugs/{{ bug.pk }}">{{ bug.pk }}</a></td>
-		<td><a href="bugs/{{ bug.pk }}">{{ bug.short_description }}</a></td>
+        <td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.pk }}</a></td>
+		<td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.short_description }}</a></td>
 		<td>
 		    {% for tester in bug.tester.name %}
 		        {{ tester }}
 		    {% endfor %}
 		</td>
 		<td>
-		    {% ifequal bug.severity 'm' %}
+		    {% ifequal bug.severity 1 %}
                 Средняя
 		    {% endifequal %}
-		    {% ifequal bug.severity 'l' %}
+		    {% ifequal bug.severity 2 %}
                 Низкая
 		    {% endifequal %}
-		    {% ifequal bug.severity 'h' %}
+		    {% ifequal bug.severity 3 %}
                 Высокая
 		    {% endifequal %}
 		</td>
@@ -67,14 +60,12 @@
     </TABLE>
 </ul>
 
-{% if user.is_authenticated %}
-    {% if user.tester %}
+    {% if user_can_add_bug %}
          <div align="center">
             <form>
-              <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+              <input id="radius" type="button"onClick="location.href='{% url project_add_bug project_id=project.pk %}'" value="Добавить баг"/>
             </form>
          </div>
     {% endif %}
-{% endif %}
 <br>
 {% endblock %}

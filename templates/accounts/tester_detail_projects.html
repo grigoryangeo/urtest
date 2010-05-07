@@ -1,11 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'accounts/tester_base.html' %}
 {% block title %}RuTest tester{% endblock %}
-{% block sidebar %}
-          <ul>
-               <li><a href="/testers/{{ user.tester.pk }}">Мои данные</a></li>
-               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
-           </ul>
-{% endblock %}
+{% block content_title %}{% endblock %}
 {% block content %}
 <br>
 <h1>Мои проекты: </h1>
@@ -22,7 +17,7 @@
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
+               <td> <a href="{% url project_detail project_id=project.pk %}  "><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}  </td>
                <td>
                    {% for Progr_Lang in project.program_language.all %}
@@ -39,7 +34,7 @@
                    {% if user.is_authenticated %}
                       {% if user.tester %}
                        <form >
-                         <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+                         <input id="radius" type="button"onClick="location.href='{% url project_add_bug project_id=project.pk %}'" value="Добавить баг"/>
                         </form>
                    {% endif %}
     {% endif %}

@@ -1,12 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}RuTest project{% endblock %}
-{% block sidebar %}
-<ul>
-    <li><a href="/projects/{{ project.pk}}">Описание</a></li>
-    <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
-    <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
-</ul>
-{% endblock %}
 {% block content%}
 <BR>
     <table>
@@ -21,7 +14,7 @@
         <tr>
             <td>Язык программирования: </td>
              <td>
-                {% for Progr_Lang in project.program_language.all %}
+                {% for Progr_Lang in project.program_languages.all %}
                   {{ Progr_Lang }}<BR>
                 {% endfor %}
             </td>
@@ -29,22 +22,20 @@
         <tr>
             <td>Язык документации: </td>
             <td>
-                {% for Doc_lang in project.document_languages.all %}
+                {% for Doc_lang in project.doc_languages.all %}
                     {{ Doc_lang }}<BR>
                 {% endfor %}
             </td>
         </tr>
         <tr>
             <td>Описание: </td>
-            <td>{{ project.project_description }} </td>
+            <td>{{ project.description }} </td>
         </tr>
     </table>
 <BR>
-{% if user.is_authenticated %}
-{% if user.tester %}
-    <form action={% url bugtracker.views.project_detail project.pk "/enlist" %} method="POST">
+{% if user_can_enlist %}
+    <form action="{% url project_add_tester project_id=project.pk  %}" method="POST">
         <input type="submit" value="Присоединиться к тестированию"/>
     </form>
-{% endif %}
 {% endif %}
 {% endblock %}

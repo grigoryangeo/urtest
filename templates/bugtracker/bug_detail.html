@@ -36,11 +36,11 @@
 <table>
     <tr>
         <td>Краткое описание:</td>
-        <td> {{ bugs.short_description }}</td>
+        <td> {{ bug.short_description }}</td>
     </tr>
     <tr>
         <td>Пункт тест-плана:</td>
-        <td>{{ bugs.test_plan_point }}</td>
+        <td>{{ bug.test_plan_point }}</td>
     </tr>
     <tr>
         <td>Критичность:</td>
@@ -50,22 +50,22 @@
     </tr>
     <tr>
         <td>Как был получен:</td>
-        <td>{{ bugs.finding_description }}</td>
+        <td>{{ bug.finding_description }}</td>
     </tr>
     <tr>
         <td>Описание:</td>
-        <td>{{ bugs.full_description }}</td>
+        <td>{{ bug.full_description }}</td>
     </tr>
     <tr>
         <td>Дата/Время добавления:</td>
-        <td>{{ bugs.submit_date|date:"d.m.Y h:i" }}</td>
+        <td>{{ bug.submit_date|date:"d.m.Y h:i" }}</td>
     </tr>
     <tr>
         <td>Комментарии к файлу:</td>
         <td> Отсутствуют</td>
     </tr>
-    {% if customer_own %}
-        <form action="/projects/{{ pk }}/bugs/{{ bk }}" method="post">
+    {% if user_is_owner %}
+        <form action="{% url bug_detail bug_id=bug.pk %}" method="post">
             <tr>
                 <td> Статус:</td>
                 <td>{{ form.status }}</td>
@@ -76,7 +76,7 @@
             </tr>
             <tr>
                 <td>
-                    <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                    <input id="radius" type="button"  onClick="location.href='{% url project_detail_bugs project_id=bug.project.pk %}'" value="Обратно">
                 </td>
                 <td> <input id="radius" type="submit"  value="Изменить"></td>
             </tr>
@@ -91,17 +91,17 @@
          <tr>
              <td>Примечание:</td>
              <td>
-                 {% ifequal bugs.status_comment '' %}
+                 {% ifequal bug.status_comment '' %}
                      Отсутствует
                  {% endifequal %}
-                 {% ifnotequal bugs.status_comment '' %}
+                 {% ifnotequal bug.status_comment '' %}
                     {{ bugs.status_comment }}
                  {% endifnotequal%}
              </td>
          </tr>
          <tr>
              <td>Дата/время установления статуса:</td>
-             <td> {{ bugs.status_date|date:"d.m.Y h:i" }} </td>
+             <td> {{ bug.status_date|date:"d.m.Y h:i" }} </td>
          </tr>
           <tr>
              <td></td>
@@ -109,7 +109,7 @@
              <form>
                  <td>
                  <br>
-                     <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                     <input id="radius" type="button"  onClick="location.href='{% url project_detail_bugs project_id=bug.project.pk %}'" value="Обратно">
                  </td>
              </form>
          </tr>

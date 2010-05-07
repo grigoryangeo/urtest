@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}RuTest Bugs{% endblock %}
 {% block header %}RuTest Bugs{% endblock %}
 {% block content%}
@@ -10,5 +10,5 @@
         Багов нет. Пока нет.
     {% endfor %}
 </ul>
-<a href="add">Добавить еще один</a>
+<a href="{% project_add_bug project_id=project.pk %}">Добавить еще один</a>
 {% endblock %}

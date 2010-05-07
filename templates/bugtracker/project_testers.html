@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}RuTest project{% endblock %}
 {% block sidebar %}
 <ul>
@@ -27,9 +27,9 @@
 	    <tr>
 		<td>{{ tester.pk }}</td>
 		<td>{{ tester.surname}}</td>
-		<td>{{ tester.first_name}}</td>
+		<td>{{ tester.name}}</td>
 		<td>{{ tester.second_name}} </td>
-		<td><a href="/testers/{{ tester.pk }}">{{ tester.name}}</a></td>
+		<td><a href="{% url tester_detail tester_id=tester.pk %}">{{ tester.name}}</a></td>
 		<td>{{ tester.bugs.count }}</td>
 	    </tr>
 	{% endfor %}
@@ -41,7 +41,7 @@
     {% if user.tester %}
         <div align="center">
             <form>
-                <input id="radius" type="button"onClick="location.href='/projects/{{ project.pk }}/addbug'" value="Добавить баг"/>
+                <input id="radius" type="button"onClick="location.href='{% url project_add_bug project_id=project.pk %}'" value="Добавить баг"/>
             </form>
        </div>
     {% endif %}

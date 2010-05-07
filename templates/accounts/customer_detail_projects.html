@@ -19,15 +19,15 @@
     {% for project in projects %}
         <TBODY>
             <tr>
-               <td> <a href="/projects/{{ project.pk }}"><h4>{{ project.name }}</h4></a></td>
+               <td> <a href="{% url project_detail  project_id=project.pk %}"><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}</td>
                <td>
-                   {% for Progr_Lang in project.program_language.all %}
+                   {% for Progr_Lang in project.program_languages.all %}
                        {{ Progr_Lang }}<BR>
                    {% endfor %}
                </td>
                <td>
-                   {% for Doc_lang in project.document_languages.all %}
+                   {% for Doc_lang in project.doc_languages.all %}
                        {{ Doc_lang }}<BR>
                    {% endfor %}
                </td>

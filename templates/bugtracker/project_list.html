@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}RuTest project{% endblock %}
 {% block topbar %}
-                  <a href="/">Главная страница</a>
+          <li> <a href="/">Главная страница</a></li>
 {% endblock %}
+{% block subbar %}
+{% endblock %}
+{% block content_title%}Проекты в разработке{% endblock %}
 {% block content%}
-<br>
-<h1>Проекты в разработке</h1>
 <TABLE border="3">
     <THEAD>
 	<tr>
@@ -21,7 +22,7 @@
 	{% for project in project_list %}
 	<tr>
 	    <td>{{ project.pk }}</td>
-	    <td><a href="/projects/{{ project.pk }}">{{ project.name }}</a></td>
+	    <td><a href="{% url project_detail project_id=project.pk%}">{{ project.name }}</a></td>
 	    <td>{{ project.customer }}</td>
 	    <td>{{ project.testers.count }} </td>
 	    <td>{{ project.bugs.count }} </td>
