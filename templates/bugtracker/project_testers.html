@@ -1,5 +1,6 @@
 {% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}RuTest project{% endblock %}
+{% block content_title %}Тестировщики  проекта {{ project.name }}{% endblock %}
 {% block sidebar %}
 <ul>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
@@ -9,7 +10,6 @@
 {% endblock %}
 {% block content%}
 <br>
-<h1 algin="center"> Тестировщики </h1>
 <ul>
     <TABLE border="3">
 	<THEAD>

@@ -5,5 +5,3 @@
     <li><a href="{% url project_detail_bugs project_id=project.pk %}">Баги</a></li>
     <li><a href="{% url project_detail_testers project_id=project.pk %}">Тестировщики</a></li>
 {% endblock %}
-
-{% block content_title%}Детали проекта {{ project.name }}{% endblock %}
