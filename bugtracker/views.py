@@ -21,7 +21,10 @@ def project_detail(request, project_id):
     testers = project.testers.all()
     user = request.user
 
-    user_can_enlist = user.is_tester() and user not in testers
+    if user.is_authenticated():
+        user_can_enlist = user.is_tester() and user not in testers
+    else:
+        user_can_enlist= False
 
     return render_to_request(request, 'bugtracker/project_detail.html',
                              {'user_can_enlist': user_can_enlist,
@@ -49,7 +52,11 @@ def project_detail_bugs(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     testers = project.testers.all()
     bugs = project.bugs.all()
-    user_can_add_bug = user.is_tester() and user in testers
+
+    if user.is_authenticated():
+        user_can_add_bug = user.is_tester() and user in testers
+    else:
+        user_can_add_bug= False
 
     return render_to_request(request, 'bugtracker/project_bugs.html',
                              {'bugs': bugs,
