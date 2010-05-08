@@ -80,7 +80,7 @@ def project_add_tester(request, project_id):
 
     project.add_tester(request.user)
 
-    return redirect('project_detail_testers',{'project_id': project_id})
+    return redirect('project_detail_testers',project_id=project.pk)
 
 
 @login_required
