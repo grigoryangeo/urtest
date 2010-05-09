@@ -55,6 +55,7 @@ class ProjectForm(forms.ModelForm):
         project.save()
         # В форме есть поля много-много, требуется вызывать после сохранения
         self.save_m2m()
+        return project
 
 
 class BugForm(forms.ModelForm):
@@ -64,7 +65,8 @@ class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание",
                                         max_length=100)
     severity = forms.CharField(label="Критичность",
-                               widget=forms.RadioSelect(choices=Bug.SEVERITY_CHOICES))
+                               widget=forms.RadioSelect(choices=Bug.SEVERITY_CHOICES),
+                               initial=2)
     finding_description = forms.CharField(label="Как был получен",
                                         widget=forms.Textarea,
                                         max_length=600)
@@ -76,7 +78,7 @@ class BugForm(forms.ModelForm):
         model = Bug
         exclude = ['tester', 'status', 'status_comment', 'project']
     
-    def save(self, tester, project,*args, **kwargs):
+    def save(self, tester, project, *args, **kwargs):
         # Проверки типов
         assert isinstance(project, Project)
         assert isinstance(tester, Tester)
@@ -90,6 +92,7 @@ class BugForm(forms.ModelForm):
         bug.tester = tester
         bug.project = project
         bug.save()
+        return bug
 
 
 class BugStatusUpdateForm(forms.ModelForm):
