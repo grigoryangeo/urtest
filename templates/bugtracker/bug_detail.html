@@ -2,37 +2,6 @@
 {% block title %}Страница бага{% endblock %}
 {% block content_title %}Страница бага{% endblock %}
 {% block content %}
-<script language="JavaScript" type="text/javascript">
-             function Change_status()
-             {
-               chosen = ""
-
-                for (i = 0; i <5; i++)
-                {
-                    if (document.status.var_status[i].checked)
-                    {
-                        chosen = document.status.var_status[i].value
-                    }
-                }
-
-                switch(chosen)
-                {
-                     case "v1":
-                     break;
-                     case "v2":
-                     break;
-                     case "v3":
-                     break;
-                     case "v4":
-                     break;
-                     case "v5":
-                     break;
-                     default:
-                     break;   
-                }
-	         }
-</script>
-
 <table>
     <tr>
         <td>Краткое описание:</td>
@@ -45,7 +14,7 @@
     <tr>
         <td>Критичность:</td>
         <td>
-            {{ severity }}
+            {{ bug.get_severity_display }}
         </td>
     </tr>
     <tr>
@@ -58,63 +27,39 @@
     </tr>
     <tr>
         <td>Дата/Время добавления:</td>
-        <td>{{ bug.submit_date|date:"d.m.Y h:i" }}</td>
+        <td>{{ bug.submit_date|date:"d.m.Y H:i" }}</td>
     </tr>
-    <tr>
-        <td>Комментарии к файлу:</td>
-        <td> Отсутствуют</td>
-    </tr>
-    {% if user_is_owner %}
+    {% if form %}
         <form action="{% url bug_detail bug_id=bug.pk %}" method="post">
             <tr>
-                <td> Статус:</td>
+                <td>Статус:</td>
                 <td>{{ form.status }}</td>
             </tr>
             <tr>
-                <td>  Примечание</td>
-                <td>  {{ form.status_comment }}</td>
+                <td>Примечание</td>
+                <td>{{ form.status_comment }}</td>
             </tr>
             <tr>
-                <td>
-                    <input id="radius" type="button"  onClick="location.href='{% url project_detail_bugs project_id=bug.project.pk %}'" value="Обратно">
-                </td>
-                <td> <input id="radius" type="submit"  value="Изменить"></td>
+                <td><input id="radius" type="submit"  value="Изменить"></td>
             </tr>
         </form>
         {% else %}
          <tr>
              <td>Статус:</td>
              <td>
-                 {{ status }}
+                 {{ bug.get_status_display }}
              </td>
              </tr>
          <tr>
              <td>Примечание:</td>
              <td>
-                 {% ifequal bug.status_comment '' %}
-                     Отсутствует
-                 {% endifequal %}
-                 {% ifnotequal bug.status_comment '' %}
-                    {{ bugs.status_comment }}
-                 {% endifnotequal%}
+                 {{ bug.status_comment|default:"Отсутствует" }}
              </td>
          </tr>
          <tr>
              <td>Дата/время установления статуса:</td>
-             <td> {{ bug.status_date|date:"d.m.Y h:i" }} </td>
-         </tr>
-          <tr>
-             <td></td>
-             <br>
-             <form>
-                 <td>
-                 <br>
-                     <input id="radius" type="button"  onClick="location.href='{% url project_detail_bugs project_id=bug.project.pk %}'" value="Обратно">
-                 </td>
-             </form>
+             <td> {{ bug.status_date|date:"d.m.Y H:i" }} </td>
          </tr>
     {% endif %}
 </table>
-<br>
-
 {% endblock %}
