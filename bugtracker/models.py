@@ -31,8 +31,8 @@ class Project(models.Model):
         self.save(force_update=True)
 
     class Meta:
-        verbose_name = "проект"
-        verbose_name_plural = "проекты"
+        verbose_name = u"проект"
+        verbose_name_plural = u"проекты"
 
     @models.permalink
     def get_absolute_url(self):
@@ -75,8 +75,8 @@ class Bug(models.Model):
     status_date = models.DateTimeField("дата/время изменения статуса", auto_now=True)
 
     class Meta:
-        verbose_name = "баг"
-        verbose_name_plural = "баги"
+        verbose_name = u"баг"
+        verbose_name_plural = u"баги"
 
     @property
     def name(self):
@@ -84,7 +84,7 @@ class Bug(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('bugtracker.views.bug_detail', (), {'id': self.pk})
+        return ('bugtracker.views.bug_detail', (), {'bug_id': self.pk})
 
     def __unicode__(self):
         return self.name
