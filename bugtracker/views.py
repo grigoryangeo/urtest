@@ -20,11 +20,9 @@ def project_detail(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     testers = project.testers.all()
     user = request.user
-
-    if user.is_authenticated():
-        user_can_enlist = user.is_tester() and user not in testers
-    else:
-        user_can_enlist= False
+    
+    user_can_enlist = user.is_authenticated() and user.is_tester() and \
+            user not in testers
 
     return render_to_request(request, 'bugtracker/project_detail.html',
                              {'user_can_enlist': user_can_enlist,
@@ -39,7 +37,7 @@ def project_detail_testers(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     testers = project.testers.all()
 
-    return render_to_request(request, 'bugtracker/project_testers.html',
+    return render_to_request(request, 'bugtracker/project_detail_testers.html',
                              {'testers': testers,
                               'project': project})
 
@@ -53,16 +51,13 @@ def project_detail_bugs(request, project_id):
     testers = project.testers.all()
     bugs = project.bugs.all()
 
-    if user.is_authenticated():
-        user_can_add_bug = user.is_tester() and user in testers
-    else:
-        user_can_add_bug= False
+    user_can_add_bug = user in testers
 
-    return render_to_request(request, 'bugtracker/project_bugs.html',
+    return render_to_request(request, 'bugtracker/project_detail_bugs.html',
                              {'bugs': bugs,
                               'project': project,
                               'user_can_add_bug': user_can_add_bug,
-                               })
+                             })
 
 
 @login_required
@@ -80,7 +75,7 @@ def project_add_tester(request, project_id):
 
     project.add_tester(request.user)
 
-    return redirect('project_detail_testers',project_id=project.pk)
+    return redirect('project_detail_testers', project_id=project.pk)
 
 
 @login_required
@@ -97,10 +92,10 @@ def project_add(request):
         form = ProjectForm(request.POST)
         if form.is_valid():
             project = form.save(customer=user)
-            return redirect(user)
+            return redirect(project)
     else:
         form = ProjectForm()
-    return render_to_request(request, 'bugtracker/new_project.html',
+    return render_to_request(request, 'bugtracker/project_add.html',
                              {'form': form})
 
 
@@ -110,16 +105,15 @@ def project_add_bug(request, project_id):
     Добавление бага в проект
     """
     project = get_object_or_404(Project, pk=project_id)
-    user=request.user
+    user = request.user
     
     if request.method == 'POST':
         form = BugForm(request.POST)
         if form.is_valid():
-            bug = form.save(tester=user, project=project )
-            return redirect(user)
+            bug = form.save(tester=user, project=project)
+            return redirect(bug)
     else:
-       # form = BugForm()
-        form = BugForm(initial={'severity':Bug.SEVERITY_CHOICES[0][0]} )
+        form = BugForm()
     return render_to_request(request, 'bugtracker/project_add_bug.html',
             {'form': form, 'project': project})
 
@@ -132,12 +126,10 @@ def bug_detail(request, bug_id):
 
     bug = get_object_or_404(Bug, pk=bug_id)
     user_is_owner = request.user == bug.project.customer
-    severity = bug.get_severity_display()
-    status = bug.get_status_display()
+
     if not user_is_owner:
         return render_to_request(request, 'bugtracker/bug_detail.html',
-                                 {'bug': bug, 'status':status,
-                                 'severity':severity })
+                                 {'bug': bug})
 
     if request.method == 'POST':
         form = BugStatusUpdateForm(request.POST, instance=bug)
@@ -149,7 +141,4 @@ def bug_detail(request, bug_id):
     return render_to_request(request, 'bugtracker/bug_detail.html',
                              {'bug': bug,
                               'form':form,
-                              'status':status,
-                              'severity':severity,
-                              'user_is_owner':user_is_owner
                              })
