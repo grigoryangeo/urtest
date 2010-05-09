@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from django.views.generic.simple import direct_to_template
 
-urlpatterns = patterns('bugtracker.views',
+urlpatterns = patterns('',
     # Главная страница
     (r'^$', direct_to_template, {'template': 'main.html'}),
     (r'^404$', direct_to_template, {'template': '404.html'}),
