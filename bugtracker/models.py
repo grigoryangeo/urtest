@@ -36,7 +36,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('bugtracker.views.project_detail', (), {'id': self.pk})
+        return ('bugtracker.views.project_detail', (), {'project_id': self.pk})
 
     def __unicode__(self):
         return self.name
