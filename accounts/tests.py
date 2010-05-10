@@ -4,7 +4,7 @@
 """
 
 from django.test import TestCase
-
+from accounts.tests_views import *
 from accounts.models import *
 from accounts.forms import *
 
