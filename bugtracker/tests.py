@@ -4,6 +4,7 @@
 """
 
 from django.test import TestCase
+from bugtracker.tests_views import *
 
 from enumerations.models import *
 from accounts.models import *
