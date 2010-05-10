@@ -1,0 +1,151 @@
+[ 
+{
+  "pk": 2, 
+  "model": "auth.user", 
+  "fields": {
+   "username": "Tester@gmail.com", 
+   "first_name": "", 
+   "last_name": "", 
+   "is_active": true, 
+   "is_superuser": false, 
+   "is_staff": false, 
+   "last_login": "2010-04-26 14:41:55", 
+   "groups": [], 
+   "user_permissions": [], 
+   "password": "sha1$12104$c6d05df7220a5884871305830b0f7129381d44a6", 
+   "email": "tester@gmail.com", 
+   "date_joined": "2010-04-26 14:41:55"
+  }
+ },
+ {
+  "pk": 3, 
+  "model": "auth.user", 
+  "fields": {
+   "username": "PhisCustomer@gmail.com", 
+   "first_name": "", 
+   "last_name": "", 
+   "is_active": true, 
+   "is_superuser": false, 
+   "is_staff": false, 
+   "last_login": "2010-04-26 14:41:55", 
+   "groups": [], 
+   "user_permissions": [], 
+   "password": "sha1$12104$c6d05df7220a5884871305830b0f7129381d44a6", 
+   "email": "PhisCustomer@gmail.com", 
+   "date_joined": "2010-04-26 14:41:55"
+  }
+ },
+  {
+  "pk": 4, 
+  "model": "auth.user", 
+  "fields": {
+   "username": "JurCustomer@gmail.com", 
+   "first_name": "", 
+   "last_name": "", 
+   "is_active": true, 
+   "is_superuser": false, 
+   "is_staff": false, 
+   "last_login": "2010-04-26 14:41:55", 
+   "groups": [], 
+   "user_permissions": [], 
+   "password": "sha1$12104$c6d05df7220a5884871305830b0f7129381d44a6", 
+   "email": "JurCustomer@gmail.com", 
+   "date_joined": "2010-04-26 14:41:55"
+  }
+ },
+  {
+  "pk": 2, 
+  "model": "accounts.tester", 
+  "fields": {
+   "surname": "Ivanov", 
+   "description": "No", 
+   "testing_types": [
+    1, 
+    2
+   ], 
+   "program_languages": [
+    7, 
+    1, 
+    2
+   ], 
+   "browsers": [
+    2, 
+    3
+   ], 
+   "groups": [], 
+   "user_permissions": [], 
+   "os": [
+    1, 
+    2
+   ], 
+   "second_name": "Ivanovich", 
+   "name": "Ivan"
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "accounts.customer", 
+  "fields": {
+   "user_permissions": [], 
+   "type": "j", 
+   "groups": []
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "accounts.customer", 
+  "fields": {
+   "user_permissions": [], 
+   "type": "p", 
+   "groups": []
+  }
+ }, 
+ {
+  "pk": 3, 
+  "model": "accounts.physcustomer", 
+  "fields": {
+   "pay_type": [
+    1, 
+    2
+   ], 
+   "passport_who": "physcustomer", 
+   "surname": "physcustomer", 
+   "name": "physcustomers", 
+   "passport_when": "2010-01-01", 
+   "passport_series": 666, 
+   "phone": "666-66-66", 
+   "groups": [], 
+   "user_permissions": [], 
+   "second_name": "physcustomer", 
+   "passport_number": 666
+  }
+ }, 
+ {
+  "pk": 4, 
+  "model": "accounts.jurcustomer", 
+  "fields": {
+   "kpp": "666", 
+   "pay_type": [
+    1, 
+    2
+   ], 
+   "www": "http://www.google.com/", 
+   "repr_name": "JurCustomerName", 
+   "name": "JurCustomer", 
+   "description": "JurCustomer", 
+   "repr_second_name": "JurCustomer", 
+   "ogrn": "666", 
+   "address_ur": "JurCustomer", 
+   "phone": "666-66-66", 
+   "inn": 666, 
+   "repr_surname": "JurCustomer", 
+   "bank_account": 666, 
+   "groups": [], 
+   "repr_phone": "666-66-66", 
+   "user_permissions": [], 
+   "correspondent_account": "666", 
+   "bank": "JurCustomer", 
+   "bik": "666"
+  }
+ }
+ ]

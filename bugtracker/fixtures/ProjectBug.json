@@ -1,0 +1,42 @@
+[
+ {
+  "pk": 1, 
+  "model": "bugtracker.project", 
+  "fields": {
+   "customer": 3, 
+   "description": "description", 
+   "submit_date": "2010-05-08", 
+   "doc_languages": [
+    2, 
+    1
+   ], 
+   "testers": [
+    2
+   ], 
+   "size": 10000, 
+   "program_languages": [
+    6, 
+    8, 
+    7
+   ], 
+   "name": "Project"
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "bugtracker.bug", 
+  "fields": {
+   "status": "new", 
+   "full_description": "no", 
+   "severity": 2, 
+   "test_plan_point": "0.0.0.1", 
+   "tester": 2, 
+   "submit_date": "2010-05-08 14:11:59", 
+   "status_date": "2010-05-08 14:11:59", 
+   "status_comment": "", 
+   "project": 1, 
+   "short_description": "Bug", 
+   "finding_description": "no"
+  }
+ }
+]
