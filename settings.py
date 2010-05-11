@@ -93,7 +93,8 @@ INSTALLED_APPS = (
     'accounts',
     'bugtracker',
     'enumerations',
-    'django_coverage',
+    'blogs',
+#    'django_coverage',
 )
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = 'cover'

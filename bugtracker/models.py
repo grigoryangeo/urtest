@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from enumerations.models import ProgramLanguage, Language
 from accounts.models import Tester, Customer
+import blogs.models as blogs
 
 class Project(models.Model):
     """Модель проекта"""
@@ -25,6 +26,7 @@ class Project(models.Model):
                                 verbose_name="заказчик",
                                 editable=False)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
+    blog = models.OneToOneField(blogs.Blog, parent_link=True)
 
     def add_tester(self, tester):
         self.testers.add(tester)

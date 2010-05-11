@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 import enumerations.models as enum
+import blogs.models as blogs
 
 
 class UserTypeMixin(object):
@@ -54,6 +55,7 @@ class Tester(User, UserTypeMixin):
                                         verbose_name="браузеры")
     description = models.TextField("о себе", blank=True, max_length=300)
     #photo = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
+    blog = models.OneToOneField(blogs.Blog, parent_link=True)
 
     @property
     def full_name(self):
@@ -88,7 +90,8 @@ class Customer(User, UserTypeMixin):
     type = models.CharField("Лицо", max_length=1, choices=TYPE_CHOICES,
                             default='j')
     user = models.OneToOneField(User, parent_link=True)
-
+    blog = models.OneToOneField(blogs.Blog, parent_link=True)
+    
     class Meta:
         verbose_name = "заказчик"
         verbose_name_plural = "заказчики"

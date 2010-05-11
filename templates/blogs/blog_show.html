@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}RuTest blog{% endblock %}
+{% block content_title %}Блог {{ blog.name }} {% endblock %}
+{% block content%}
+<BR>
+    <table>
+        <tr>
+           <td>Название: </td>
+           <td><h3>{{ blog.name }}</h3></td>
+        </tr>
+        <tr>
+            <td>Сообщение1: </td>
+            <td>текст</td>
+        </tr>
+    </table>
+<BR>
+{% endblock %}
