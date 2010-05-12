@@ -4,7 +4,6 @@ from django import forms
 # все ниже хрень
 
 from django.contrib.auth.models import User
-from django.forms.widgets import CheckboxSelectMultiple
 from markdown import markdown
 
 from blogs.models import Blog, BlogMsg
@@ -13,7 +12,7 @@ from blogs.models import Blog, BlogMsg
 from lib.fields import UrtestTextAreaField
 
 
-class BlogMsgForm(forms.ModelForm):
+class BlogEntryForm(forms.ModelForm):
     """
     Форма добавления сообщения
     """

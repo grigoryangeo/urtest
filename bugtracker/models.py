@@ -26,7 +26,7 @@ class Project(models.Model):
                                 verbose_name="заказчик",
                                 editable=False)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
-    blog = models.OneToOneField(blogs.Blog, parent_link=True)
+    #blog = models.OneToOneField(blogs.Blog)
 
     def add_tester(self, tester):
         self.testers.add(tester)

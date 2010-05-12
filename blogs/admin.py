@@ -1,11 +1,11 @@
 from django.contrib import admin
-from urtest.blogs.models import Blog, BlogMsg
+from urtest.blogs.models import Blog, BlogEntry
 
 class BlogAdmin(admin.ModelAdmin):
     pass
 
-class BlogMsgAdmin(admin.ModelAdmin):
+class BlogEntryAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Blog, BlogAdmin)
-admin.site.register(BlogMsg, BlogMsgAdmin)
+admin.site.register(BlogEntry, BlogEntryAdmin)

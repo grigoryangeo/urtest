@@ -1,17 +1,57 @@
 {% extends 'base.html' %}
 {% block title %}RuTest blog{% endblock %}
-{% block content_title %}Блог {{ blog.name }} {% endblock %}
+{% block content_title %}
+Блог
+{% ifequal blog.type 't' %}
+тестировщика
+{% endifequal %}
+{% ifequal blog.type 'c' %}
+подрядчика
+{% endifequal %}
+{% ifequal blog.type 'p' %}
+проекта
+{% endifequal %}
+{{ blog.title }} {% endblock %}
 {% block content%}
 <BR>
-    <table>
+    <table id="blog_show">
         <tr>
-           <td>Название: </td>
-           <td><h3>{{ blog.name }}</h3></td>
+            <td>
+                {% if top %}
+                <a href="">...</a>
+                <br>
+                {% endif %}
+                {% for blog_entry in entries.all %}
+                <a href="">{{ blog_entry.title }} ({{ blog_entry.submit_date }})</a>
+                <br>
+                {% endfor %}
+                {% if floor %}
+                <a href="">...</a>
+                <br>
+                {% endif %}
+            </td>
+            <td>
+
+                <table>
+                    {% for blog_entry in entries.all %}
+                    <tr>
+                        <td>
+                            <h3>{{ blog_entry.title }}</h3>
+                            ({{ blog_entry.submit_date }})
+                            <br>
+                            <br>
+                            {{ blog_entry.entry_html|safe }}
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                
+            </td>
         </tr>
-        <tr>
-            <td>Сообщение1: </td>
-            <td>текст</td>
-        </tr>
+
     </table>
+
 <BR>
 {% endblock %}
