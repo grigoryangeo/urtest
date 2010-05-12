@@ -147,5 +147,23 @@
    "bank": "JurCustomer", 
    "bik": "666"
   }
- }
+ },
+ {
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+   "username": "admin", 
+   "first_name": "", 
+   "last_name": "", 
+   "is_active": true, 
+   "is_superuser": true, 
+   "is_staff": true, 
+   "last_login": "2010-04-26 14:41:55", 
+   "groups": [], 
+   "user_permissions": [], 
+   "password": "sha1$64b42$d4b638207b49603a8d49fe1d9575cc6964ff04d6", 
+   "email": "xicmiah@gmail.com", 
+   "date_joined": "2010-05-12 14:41:55"
+  }
+  }
  ]
