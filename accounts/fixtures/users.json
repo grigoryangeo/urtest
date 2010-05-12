@@ -165,5 +165,23 @@
    "email": "xicmiah@gmail.com", 
    "date_joined": "2010-05-12 14:41:55"
   }
+  },
+   {
+  "pk": 5, 
+  "model": "auth.user", 
+  "fields": {
+   "username": "BadUser", 
+   "first_name": "", 
+   "last_name": "", 
+   "is_active": true, 
+   "is_superuser": false, 
+   "is_staff": true, 
+   "last_login": "2010-04-26 14:41:55", 
+   "groups": [], 
+   "user_permissions": [], 
+   "password": "sha1$12104$c6d05df7220a5884871305830b0f7129381d44a6", 
+   "email": "bad@gmail.com", 
+   "date_joined": "2010-05-12 14:41:55"
+  }
   }
  ]
