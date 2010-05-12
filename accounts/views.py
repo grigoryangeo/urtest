@@ -124,8 +124,7 @@ def customer_registration(request, customer_type='j'):
         form_type = JurCustomerRegForm
     elif customer_type == 'p':
         form_type = PhysCustomerRegForm
-    else:
-        raise Http404
+
 
     return create_object(request,
                          form_class=form_type,
