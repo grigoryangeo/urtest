@@ -7,5 +7,7 @@ from blogs.models import Blog, BlogEntry
 
 
 urlpatterns = patterns('blogs.views',
+    url(r'^(?P<blog_id>\d+)/add_entry$', 'add_entry', name="blog_add_entry"),
     url(r'^(?P<blog_id>\d+)/(?P<entry_number>\d+)$', 'blog_show', name="blog_show"),
+    
 )

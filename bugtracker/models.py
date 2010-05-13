@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from enumerations.models import ProgramLanguage, Language
 from accounts.models import Tester, Customer
-import blogs.models as blogs
+from blogs.models import Blog
 
 class Project(models.Model):
     """Модель проекта"""
@@ -26,11 +26,18 @@ class Project(models.Model):
                                 verbose_name="заказчик",
                                 editable=False)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
-    #blog = models.OneToOneField(blogs.Blog)
+    blog = models.OneToOneField(Blog)
 
     def add_tester(self, tester):
         self.testers.add(tester)
         self.save(force_update=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Объект создается, не обновляется
+            self.blog = Blog.objects.create(title=self.name)
+            # Вызов "настоящего" save
+        super(Project, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = u"проект"

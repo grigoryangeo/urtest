@@ -1,22 +1,35 @@
 # File encoding: utf-8
 from django.db import models
-from markdown import markdown
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
-
 
 class Blog(models.Model):
     """Модель блога"""
     title = models.CharField("название", max_length=80)
 
-    # Поля для связи Блог-Проект/Юзер через GenericForeignKey
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
-
     class Meta:
         verbose_name = u"блог"
         verbose_name_plural = u"блоги"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blogs.views.blog_show', (), {'blog_id': self.pk, 'entry_number': 0})
+
+    def get_owner(self):
+        try :
+            return self.customer
+        except models.ObjectDoesNotExist:
+            pass
+        try:
+            return self.tester
+        except models.ObjectDoesNotExist:
+            pass
+        try:
+            return self.project
+        except models.ObjectDoesNotExist:
+            pass
+
+    @property
+    def owner(self):
+        return self.get_owner()
 
     def __unicode__(self):
         return self.title
@@ -39,12 +52,6 @@ class BlogEntry(models.Model):
         verbose_name = u"сообщение"
         verbose_name_plural = u"сообщения"
         ordering = ['-submit_date']
-
-    def save(self, force_insert=False, force_update=False):
-        self.entry_html = markdown(self.entry)
-        # Само сохранение
-        super(BlogEntry, self).save(force_insert, force_update)
-
 
     def __unicode__(self):
         return self.title

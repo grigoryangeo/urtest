@@ -27,6 +27,10 @@
             <td>{{ customer.second_name }}</td>
         </tr>
         <tr>
+            <td>Блог:</td>
+            <td><a href="{% url blogs.views.blog_show customer.blog.pk 0 %}">читать</a></td>
+        </tr>
+        <tr>
             <td><h3>Паспортные данные</h3></td>
             <td> </td>
         </tr>
