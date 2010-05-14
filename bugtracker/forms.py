@@ -13,7 +13,11 @@ num_regexp = r'(^\d+$)'
 kiril_regexp = re.compile(u'[А-Яа-я][а-я\s]+', re.UNICODE)
 password_regexp = re.compile(u'^[А-Яа-я0-9a-zA-Z]+$', re.UNICODE)
 sloc_regexp = r'(^\d+$)'
+num_serial = '(^\d\d\d\d$)'
+num_passport = '(^\d\d\d\d\d\d$)'
 generic_error = {"invalid": "Неправильно введены данные"}
+generic_error_serial = {"invalid": "Надо ввести 4 символа"}
+generic_error_passport = {"invalid": "Надо ввести 6 символа"}
 
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание", max_length=100)
@@ -130,8 +134,8 @@ class PhysCustomerForm(UserForm):
     second_name = forms.RegexField(label="Отчество заказчика", max_length=50, required=False, regex=fio_regexp, error_messages=generic_error)
     pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты", queryset=models.PayingType.objects.all(), widget=forms.CheckboxSelectMultiple)
     passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
-    passport_serial = forms.RegexField(label = "Серия паспорта", max_length=4, regex=num_regexp, error_messages=generic_error)
-    passport_number = forms.RegexField(label = "Номер паспорта", max_length=6, regex=num_regexp, error_messages=generic_error)
+    passport_serial = forms.RegexField(label = "Серия паспорта", max_length=4, regex=num_serial, error_messages=generic_error_serial)
+    passport_number = forms.RegexField(label = "Номер паспорта", max_length=6, regex=num_passport, error_messages=generic_error_passport)
     passport_who = forms.CharField(label = "Кем выдан", max_length=100, error_messages=generic_error )
     class Meta:
         model = models.PhysCustomer
