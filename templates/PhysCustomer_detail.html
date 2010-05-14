@@ -9,8 +9,12 @@
             <td></td>
         </tr>
         <tr>
-            <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
-            <td>{{ detail.email }} </td>
+            <td>Контактный e-mail: <br>
+                 {% if user.is_authenticated %}
+                    <p>(Ваш логин авторизации) </p>
+                 {% endif %}
+            </td>
+             <td>{{ detail.email }} </td>
         </tr>
         <tr>
             <td> <h3> Личная информация</h3></td>
