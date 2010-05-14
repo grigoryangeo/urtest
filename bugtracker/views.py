@@ -67,9 +67,6 @@ def project_add_tester(request, project_id):
     """
     project = get_object_or_404(Project, pk=project_id)
 
-    if not request.user.is_authenticated():
-        raise PermissionDenied
-
     if not request.user.is_tester():
         raise PermissionDenied
 
