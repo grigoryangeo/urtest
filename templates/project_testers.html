@@ -25,7 +25,7 @@
 	<TBODY>
 	{% for tester in testers %}
 	    <tr>
-		<td>{{ tester.pk }}</td>
+		<td> {{ forloop.counter }}</td>
 		<td>{{ tester.surname}}</td>
 		<td>{{ tester.first_name}}</td>
 		<td>{{ tester.second_name}} </td>
