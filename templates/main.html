@@ -13,27 +13,28 @@
 Теорема масштабирует лист Мёбиуса, явно демонстрируя всю чушь вышесказанного. Умножение вектора на число непосредственно развивает коллинеарный интеграл от функции, обращающейся в бесконечность в изолированной точке, в итоге приходим к логическому противоречию. Связное множество упорядочивает неопровержимый лист Мёбиуса, что и требовалось доказать. Интеграл по бесконечной области нейтрализует интеграл по поверхности, что известно даже школьникам. Нормаль к поверхности, не вдаваясь в подробности, усиливает положительный криволинейный интеграл, что неудивительно. Сумма ряда, как следует из вышесказанного, последовательно притягивает нормальный максимум, таким образом сбылась мечта идиота - утверждение полностью доказано.</p>
 		<br class="spacer" />
 		<p>
-		<!-- ПРИМЕР ОФОРМЛЕНИЯ ФОРМЫ -->
-		<form action="vars.php" method="post" class="niceform">
-		<fieldset>
-    	<legend>Personal Info</legend>
-        <dl>
-        	<dt><label for="email">Email Address:</label></dt>
-            <dd><input type="text" name="email" id="email" size="32" maxlength="128" /></dd>
-        </dl>
-        <dl>
-        	<br/>
-        	<dt><label for="password">Password:</label></dt>
-            <dd><input type="password" name="password" id="password" size="32" maxlength="32" /></dd>
-        </dl>
-        <br/>
-        <dl>
-        <dd><button type="button" name="test" id="test">клац</button></dd>
-        </dl>
+
+         {% if not user.is_authenticated %}
+
+		 <form method="post" action="{% url django.contrib.auth.views.login %}"  name="login_form" class="niceform">   
+		 <fieldset>
+    	     <legend>Авторизация</legend>
+             <dl>
+        	    <dt><label for="email">Email Address:</label></dt>
+                <dd><input type="text" name="username" value="логин" OnFocus="value=''" id="username" /></dd>
+             </dl>
+             <dl>
+        	 <br/>
+        	     <dt><label for="password">Password:</label></dt>
+                 <dd><input type="password" name="password" value="пароль" OnFocus="value=''" id="password" /></dd>
+             </dl>
+             <br/>
+             <dl>
+                 <dd><input type="submit" value="Войти" /></dd>
+             </dl>
     	</fieldset >
     	</form>
-		<!-- END ПРИМЕР ОФОРМЛЕНИЯ ФОРМЫ -->
-		
+		{% endif %}
 		</p>
 		
 	<br class="spacer" /></div>
@@ -71,12 +72,12 @@
 		<div id="futureContainer">
 			<div class="futureLeft">
 				<ul>
-					<li class="serviece"  onClick="location.href='{% url customer_registration %}'">Я разработчик<br /></li>
+					<li class="serviece" style ="cursor:pointer" onClick="location.href='{% url customer_registration %}'">Я разработчик<br /></li>
 				</ul>
 			</div>
 			<div class="futureRight">
 				<ul>
-					<li class="update"  onClick="location.href='{% url tester_registration%}'">Я тестировщик<br /></li>
+					<li style ="cursor:pointer" class="update"  onClick="location.href='{% url tester_registration%}'">Я тестировщик<br /></li>
 				</ul>
 			</div>
 		</div>	
