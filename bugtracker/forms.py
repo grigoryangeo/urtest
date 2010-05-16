@@ -16,8 +16,8 @@ sloc_regexp = r'(^\d+$)'
 num_serial = '(^\d\d\d\d$)'
 num_passport = '(^\d\d\d\d\d\d$)'
 generic_error = {"invalid": "Неправильно введены данные"}
-generic_error_serial = {"invalid": "Надо ввести 4 символа"}
-generic_error_passport = {"invalid": "Надо ввести 6 символа"}
+generic_error_serial = {"invalid": "Необходимо ввести 4 символа"}
+generic_error_passport = {"invalid": "Необходимо ввести 6 символа"}
 
 class BugForm(forms.ModelForm):
     short_description = forms.CharField(label="Краткое описание", max_length=100)
