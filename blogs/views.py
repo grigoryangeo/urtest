@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 
 from blogs.models import *
 from blogs.forms import *
+from bugtracker.models import Project
 
 def blog_show(request, blog_id, entry_number):
     """
@@ -45,8 +46,12 @@ def blog_show(request, blog_id, entry_number):
     if entry_number_begin > 5:
         number = entry_number_begin-5
 
-    # являемся ли мы хозяином
+    # являемся ли мы хозяином блога
     viewing_self = request.user == blog.owner
+    # являемся ли мы хозяином проекта, чей блог смотрим
+    if isinstance(blog.owner, Project):
+        viewing_self = request.user == blog.owner.customer
+        
 
     if not viewing_self:
         return render_to_request(request, 'blogs/blog_show.html', {'blog': blog,

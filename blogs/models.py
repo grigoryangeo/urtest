@@ -42,12 +42,11 @@ class BlogEntry(models.Model):
     submit_date = models.DateField("дата", auto_now_add=True)
     title = models.CharField("заголовок", max_length=80)
     # в markdown
-    entry = models.TextField("сообщение", blank=True)
+    entry = models.TextField("сообщение")
     # в html
-    entry_html = models.TextField("сообщение", blank=True, editable=False)
+    entry_html = models.TextField("сообщение", editable=False)
 
 
-    
     class Meta:
         verbose_name = u"сообщение"
         verbose_name_plural = u"сообщения"

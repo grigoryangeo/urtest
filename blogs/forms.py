@@ -28,6 +28,8 @@ class BlogEntryForm(forms.ModelForm):
     def save(self, blog, *args, **kwargs):
         Entry = super(BlogEntryForm, self).save(commit=False,*args, **kwargs)
         Entry.entry_html = markdown(Entry.entry)
+        if Entry.title == '':
+            Entry.title = "Сообщение в блог"
         Entry.blog = blog
         Entry.save()
         return Entry
