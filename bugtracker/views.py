@@ -192,6 +192,7 @@ def project_detail(request, pk, page=''):
         for  tester in project.testers.all() :
             if( tester.user == request.user ):
                 project_tester = tester.user
+            
 
     if page == None:
        return render_to_response('project_detail.html', locals(),
@@ -211,7 +212,7 @@ def project_detail(request, pk, page=''):
             raise PermissionDenied
         tester = user.tester
         project.add_tester(tester)
-        return HttpResponseRedirect('/projects/%i/testers' % project.pk)
+        return HttpResponseRedirect('/testers/%i' % tester.pk)
     else:
         raise Http404
 
