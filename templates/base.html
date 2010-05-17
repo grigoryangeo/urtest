@@ -29,7 +29,7 @@
 		    <li><a href="{% url accounts.views.redirect_to_self %}">Личный кабинет</a></li>
 		    {% endif %}
 		    <li><a href="{% url project_list %}" title="Наши проекты">Наши проекты</a></li>
-		    <li><a href="/" title="Контакты">Контакты</a></li>
+		    <li><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
 
 		    {% if user.is_authenticated %}
 		    <li><a href="/" title="О нас">О нас</a></li>
