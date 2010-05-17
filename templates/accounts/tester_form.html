@@ -30,7 +30,7 @@
      <fieldset>
     <legend>Регистрация</legend>
         <input type="checkbox" name="accept" id="id_accept" onClick="this.form.registr.disabled=!this.form.accept.checked;" />
-            Я согласен с условиями <a href="/dogovor" target="_blank">пользовательского договора</a>
+            Я согласен с условиями <a href="{% url dogovor %}" target="_blank">пользовательского договора</a>
     <br/>
 
     <input id="radius" name="registr" type="submit" value="Зарегистрироваться" disabled />

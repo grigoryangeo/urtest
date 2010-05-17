@@ -31,6 +31,8 @@ urlpatterns = patterns('accounts.views',
 
     url(r'thanks$', direct_to_template, {'template': 'accounts/thanks.html'},
         name="post_registration"),
+    url(r'dogovor$', direct_to_template, {'template': 'accounts/dogovor.html'},
+        name="dogovor"),
 
     url(r'^me$', 'redirect_to_self', name="redirect_to_self"),
 )
