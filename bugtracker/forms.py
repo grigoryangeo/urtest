@@ -8,13 +8,13 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 import re
 
 
-fio_regexp = r'(?u)\w+(-\w+)?'
+fio_regexp = re.compile(u'^[А-ЯA-Z][a-zа-я]*(-[A-ZА-Яa-zа-я]+)?$')
 num_regexp = r'(^\d+$)'
 kiril_regexp = re.compile(u'[А-Яа-я][а-я\s]+', re.UNICODE)
 password_regexp = re.compile(u'^[А-Яа-я0-9a-zA-Z]+$', re.UNICODE)
 sloc_regexp = r'(^\d+$)'
-num_serial = '(^\d\d\d\d$)'
-num_passport = '(^\d\d\d\d\d\d$)'
+num_serial = '(^\d{4}$)'
+num_passport = '(^\d{6}$)'
 generic_error = {"invalid": "Неправильно введены данные"}
 generic_error_serial = {"invalid": "Необходимо ввести 4 символа"}
 generic_error_passport = {"invalid": "Необходимо ввести 6 символа"}
