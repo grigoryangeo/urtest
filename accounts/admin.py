@@ -1,5 +1,5 @@
 from django.contrib import admin
-from urtest.accounts.models import Tester, Customer, JurCustomer, PhysCustomer
+from accounts.models import Tester, Customer, JurCustomer, PhysCustomer
 
 class TesterAdmin(admin.ModelAdmin):
     pass

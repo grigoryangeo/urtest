@@ -1,5 +1,5 @@
 from django.contrib import admin
-from urtest.bugtracker.models import Bug, Project
+from bugtracker.models import Bug, Project
 
 class BugAdmin(admin.ModelAdmin):
     pass
