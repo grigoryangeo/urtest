@@ -160,7 +160,8 @@ def dogovor(request):
 def thanks(request):
     return render_to_response('thanks.html', context_instance=RequestContext(request))
 
-# проекты
+
+
 @login_required
 def new_project(request):
 
@@ -178,9 +179,9 @@ def new_project(request):
             return HttpResponseRedirect('/projects/')
     else:
         form = ProjectForm()
-        return render_to_response('new_project.html',{'form': form,
-                                                      'customer': customer},
+    return render_to_response('new_project.html',{'form': form, 'customer': customer},
         context_instance=RequestContext(request))
+
 
 
 def project_detail(request, pk, page=''):
