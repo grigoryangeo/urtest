@@ -1,0 +1,19 @@
+{% extends 'accounts/tester_base.html' %}
+{% block sidebar %}
+          <ul>
+               <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
+               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
+           </ul>
+{% endblock %}
+
+{% block content_title %}
+Фотография тестировщика {{ tester.full_name }}
+{% endblock %}
+
+{% block content %}
+    {{ tester.gravatar }}
+    Аватар предоставлен системой глобально-распознаваемых аватаров GRAVATAR
+    <BR><BR>Для того, чтобы сменить ваш глобально распознаваемый аватар, 
+    выполните шаги инструкции, расположенной по ссылке:
+    <BR><BR><a href="http://ru.gravatar.com/site/signup/" target="gravatar">http://ru.gravatar.com/site/signup/</a>
+{% endblock %}

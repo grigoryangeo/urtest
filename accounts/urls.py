@@ -22,6 +22,7 @@ urlpatterns = patterns('accounts.views',
         name='tester_detail_projects'),
     url(r'^testers/list', object_list, tester_dict, name="tester_list"),
     url(r'^testers/register', 'tester_registration', name="tester_registration"),
+    url(r'^testers/(?P<tester_id>\d+)/photo$', 'tester_photo', name="tester_photo"),
 
     url(r'^customers/(?P<customer_id>\d+)$', 'customer_detail', name="customer_detail"),
     url(r'^customers/(?P<customer_id>\d+)/projects$',
