@@ -45,7 +45,7 @@
     </table>
 <BR>
     
-{% if not project_tester %}
+{% if  project_tester %}
     <form action={% url bugtracker.views.project_detail project.pk "/enlist" %} method="POST">
         <input type="submit" value="Присоединиться к тестированию"/>
     </form>

@@ -190,11 +190,9 @@ def project_detail(request, pk, page=''):
         raise Http404
     testers = project.testers.all()
     bugs = project.bugs.all()
-    if request.user.is_authenticated():
-        for  tester in project.testers.all() :
-            if( tester.user == request.user ):
-                project_tester = tester.user
-            
+    
+    project_tester = request.user.is_authenticated() and  hasattr( request.user, 'tester') and \
+            request.user.tester not in testers
 
     if page == None:
        return render_to_response('project_detail.html', locals(),
