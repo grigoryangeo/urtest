@@ -166,18 +166,20 @@ def new_project(request):
 
     if not hasattr(request.user, 'customer'):
         raise PermissionDenied
+    customer = request.user.customer
 
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
             project = form.save(commit=False)
-            project.customer = get_user(request).customer
+            project.customer = customer
             project.save()
 	    form.save_m2m()
             return HttpResponseRedirect('/projects/')
     else:
         form = ProjectForm()
-    return render_to_response('new_project.html',{'form': form},
+        return render_to_response('new_project.html',{'form': form,
+                                                      'customer': customer},
         context_instance=RequestContext(request))
 
 
