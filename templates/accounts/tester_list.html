@@ -1,11 +1,33 @@
 {% extends 'base.html' %}
-{% block title %}RuTest Tester{% endblock %}
+{% block title %}RuTest testers{% endblock %}
+{% block subbar %}
+{% endblock %}
+{% block content_title%}Наши тестировщики{% endblock %}
 {% block content%}
-
-<h1>Список всех тестировщиков</h1>
-<ul>
+<TABLE border="3">
+    <THEAD>
+	<tr>
+	    <th>Номер тестировщика </th>
+	    <th> Фамилия</th>
+	    <th> Имя </th>
+	    <th> Отчество </th>
+	    <th> Рейтинг</th>
+	    <th> Кол-во тест. проектов</th>
+        <th> интересы</th>
+	</tr>
+    </THEAD>
+     <TBODY>
     {% for tester in tester_list %}
-        <li><a href="/testers/{{ tester.pk }}">{{ tester.name }}</a></li>
-    {% endfor %}
-</ul>
+        <tr>
+	        <td>{{ tester.pk }}</td>
+             <td><a href="{{ tester.get_absolute_url }}">{{ tester.surname}}</a></td>
+             <td>{{ tester.name}}</td>
+             <td>{{ tester.second_name}}</td>
+             <td></td>
+             <td></td>
+             <td></td>
+        </tr>
+	{% endfor %}
+    </TBODY>
+</TABLE>
 {% endblock %}

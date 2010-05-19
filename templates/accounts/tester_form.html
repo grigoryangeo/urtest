@@ -26,10 +26,15 @@
         </table>
     </fieldset>
 
-    <fieldset class="action">
-	<dl>
-	    <dd><input type="submit" name="submit" id="submit" value="Submit" /></dd>
-	</dl>
+
+     <fieldset>
+    <legend>Регистрация</legend>
+        <input type="checkbox" name="accept" id="id_accept" onClick="this.form.registr.disabled=!this.form.accept.checked;" />
+            Я согласен с условиями <a href="{% url dogovor %}" target="_blank">пользовательского договора</a>
+    <br/>
+
+    <input id="radius" name="registr" type="submit" value="Зарегистрироваться" disabled />
+    <input id="radius" type="button" onClick="location.href='/'" value="Не регистрироваться"/>
     </fieldset>
 </form>
 {% endblock %}
