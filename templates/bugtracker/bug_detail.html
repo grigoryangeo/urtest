@@ -60,6 +60,14 @@
              <td>Дата/время установления статуса:</td>
              <td> {{ bug.status_date|date:"d.m.Y H:i" }} </td>
          </tr>
+         <tr>
+            <td>Прикрепленные файлы: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td><a href="{{ bug.get_file_url }}">{{ bug.f_name }}</a> </td>
+            <td> {{ bug.f_comment }} </td>
+        </tr>
     {% endif %}
 </table>
 {% endblock %}

@@ -3,23 +3,11 @@
 {% block content_title %}Добавить баг:{% endblock %}
 {% block content %}
 
-<form action="{% url project_add_bug project_id=project.pk %}" method="post">
+<form action="{% url project_add_bug project_id=project.pk %}" method="post" enctype="multipart/form-data">
     <fieldset>
         <legend>Добавить баг</legend>
     <table>
         {{ form }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="button" onClick=" alert('функция пока не реализована')" value="Прикрепление файла" />
-            </td>
-        </tr>
-        <tr>
-            <td> Комментариии к файлу:</td>
-            <td>
-                <textarea cols="40" rows="5"> </textarea>
-            </td>
-        </tr>
     </table>
      </fieldset>
      <fieldset>

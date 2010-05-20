@@ -25,6 +25,8 @@ class Project(models.Model):
                                 verbose_name="заказчик",
                                 editable=False)
     submit_date = models.DateField("дата размещения", auto_now_add=True)
+    f_name = models.CharField("название файла", max_length=50)
+    f_comment = models.TextField("описание файла", max_length=600)
 
     def add_tester(self, tester):
         self.testers.add(tester)
@@ -37,6 +39,10 @@ class Project(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('bugtracker.views.project_detail', (), {'project_id': self.pk})
+
+    @models.permalink
+    def get_file_url(self):
+        return ('upload/%s_%s' % (self.pk, self.f_name))
 
     def __unicode__(self):
         return self.name
@@ -73,6 +79,8 @@ class Bug(models.Model):
                                 default='new')
     status_comment = models.TextField("примечание к статусу", blank=True, max_length=300)
     status_date = models.DateTimeField("дата/время изменения статуса", auto_now=True)
+    f_name = models.CharField("имя файла", max_length=50)
+    f_comment = models.TextField("описание файла", max_length=600)
 
     class Meta:
         verbose_name = u"баг"
@@ -86,6 +94,11 @@ class Bug(models.Model):
     def get_absolute_url(self):
         return ('bugtracker.views.bug_detail', (), {'bug_id': self.pk})
 
+    @models.permalink
+    def get_file_url(self):
+        return ('upload/%s_%s_%s' % (self.project.pk, self.pk, self.f_name))
+
     def __unicode__(self):
         return self.name
+
 
