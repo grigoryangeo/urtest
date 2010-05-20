@@ -8,7 +8,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 import re
 
 
-fio_regexp = re.compile(u'^[А-ЯA-Z][a-zа-я]*(-[A-ZА-Яa-zа-я]+)*( [А-ЯA-Z][a-zа-я]*(-[A-ZА-Яa-zа-я]+)?)?$')
+fio_regexp = re.compile(u'^[А-ЯA-Z][A-ZА-Яa-zа-я ]*(-[A-ZА-Яa-zа-я ]+)?$')
 num_regexp = r'(^\d+$)'
 kiril_regexp = re.compile(u'[А-Яа-я][а-я\s]+', re.UNICODE)
 password_regexp = re.compile(u'^[А-Яа-я0-9a-zA-Z]+$', re.UNICODE)
