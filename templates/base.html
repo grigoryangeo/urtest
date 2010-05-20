@@ -52,6 +52,7 @@
                                 <td><input type="text" name="username" value="логин" OnFocus="value=''" id="username"></td>
                                 <td><input type="password" name="password" value="пароль" OnFocus="value=''"  id="password"></td>
                                 <td><input type="submit" value="Вход" /></td>
+				{% csrf_token %}
                             </tr>
                         </table>
                         {% if form.errors %}

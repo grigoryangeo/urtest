@@ -69,9 +69,11 @@
             {{form}}
             <tr>
                 <td>
-                    <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                    <input id="radius" type="button"
+                    onClick="location.href='/projects/{{ pk }}/bugs'"
+                    value="Отмена">
                 </td>
-                <td> <input id="radius" type="submit"  value="Изменить"></td>
+                <td> <input id="radius" type="submit"  value="Сохранить изменения"></td>
             </tr>
         </form>
         {% else %}
@@ -102,7 +104,9 @@
              <form>
                  <td>
                  <br>
-                     <input id="radius" type="button"  onClick="location.href='/projects/{{ pk }}/bugs'" value="Обратно">
+                     <input id="radius" type="button"
+                     onClick="location.href='/projects/{{ pk }}/bugs'"
+                     value="Отмена">
                  </td>
              </form>
          </tr>
