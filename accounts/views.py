@@ -50,10 +50,15 @@ def tester_detail_projects(request, tester_id):
     """
     Детали тестера, вкладка со списком проектов тестера
     """
+
     tester = get_object_or_404(Tester, pk=tester_id)
     projects = tester.projects.all()
+    user = request.user
+    viewing_self = user == tester
+    
     return render_to_request(request, 'accounts/tester_detail_projects.html',
-                             {'tester': tester, 'projects': projects})
+                             {'tester': tester, 'projects': projects,
+                             'viewing_self': viewing_self})
 
 
 def tester_registration(request):
