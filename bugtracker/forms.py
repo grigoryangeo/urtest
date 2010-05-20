@@ -32,6 +32,12 @@ class ProjectForm(forms.ModelForm):
         label='Описание проекта',
         required=False)
 
+    file = forms.FileField(label="Прикрепить файл")
+
+    f_comment = UrtestTextAreaField(
+        label='Описание файла',
+        required=False)
+
     def clean_name(self):
         name = self.cleaned_data.get('name')
 
@@ -43,15 +49,16 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['name', 'size', 'program_languages', 'doc_languages', 'description']
+        fields = ['name', 'size', 'program_languages', 'doc_languages', 'description', 'f_comment']
     
-    def save(self, customer, *args, **kwargs):
+    def save(self, customer, f, *args, **kwargs):
         # Проверки типов
         assert isinstance(customer, Customer)
         
         # Установка поля заказчика и сохранение
         project = super(ProjectForm, self).save(commit=False,*args, **kwargs)
         project.customer = customer
+        project.f_name = f.name
         project.save()
         # В форме есть поля много-много, требуется вызывать после сохранения
         self.save_m2m()
@@ -74,11 +81,17 @@ class BugForm(forms.ModelForm):
                                      widget=forms.Textarea,
                                      max_length=600)
 
+    file = forms.FileField(label="Прикрепить файл")
+
+    f_comment = UrtestTextAreaField(
+        label='Описание файла',
+        required=False)
+
     class Meta:
         model = Bug
-        exclude = ['tester', 'status', 'status_comment', 'project']
+        exclude = ['tester', 'status', 'status_comment', 'project', 'f_name']
     
-    def save(self, tester, project, *args, **kwargs):
+    def save(self, tester, project, f, *args, **kwargs):
         # Проверки типов
         assert isinstance(project, Project)
         assert isinstance(tester, Tester)
@@ -91,6 +104,7 @@ class BugForm(forms.ModelForm):
         # Поэтому передаем их как параметры save
         bug.tester = tester
         bug.project = project
+        bug.f_name=f.name
         bug.save()
         return bug
 
@@ -109,4 +123,3 @@ class BugStatusUpdateForm(forms.ModelForm):
     class Meta:
         model = Bug
         fields = ['status', 'status_comment']
-

@@ -13,6 +13,13 @@ from forms import *
 from lib.helpers import render_to_request
 
 
+def handle_uploaded_file(f, s):
+    destination = open('upload/%s_%s' % (s, f.name), 'wb+')
+    for chunk in f.chunks():
+        destination.write(chunk)
+    destination.close()
+
+
 def project_detail(request, project_id):
     """
     Детали проекта, вкладка с информацией
@@ -86,9 +93,11 @@ def project_add(request):
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = ProjectForm(request.POST)
+        form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            project = form.save(customer=user)
+            project = form.save(customer=user, f=request.FILES['file'])
+            str = "%s" % (project.pk)
+            handle_uploaded_file(request.FILES['file'], str)
             return redirect(project)
     else:
         form = ProjectForm()
@@ -105,9 +114,11 @@ def project_add_bug(request, project_id):
     user = request.user
     
     if request.method == 'POST':
-        form = BugForm(request.POST)
+        form = BugForm(request.POST, request.FILES)
         if form.is_valid():
-            bug = form.save(tester=user, project=project)
+            bug = form.save(tester=user, project=project, f=request.FILES['file'])
+            str = "%s_%s" % (bug.project.pk, bug.pk)
+            handle_uploaded_file(request.FILES['file'], str)
             return redirect(bug)
     else:
         form = BugForm()
@@ -139,3 +150,4 @@ def bug_detail(request, bug_id):
                              {'bug': bug,
                               'form':form,
                              })
+

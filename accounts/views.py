@@ -69,6 +69,17 @@ def tester_registration(request):
 
 
 @login_required
+def tester_photo(request, tester_id):
+    """Фотография тестировщика"""
+    tester = get_object_or_404(Tester, pk=tester_id)
+    user = request.user
+
+    viewing_self = user == tester
+
+    return render_to_request(request, 'accounts/tester_photo.html', {'tester': tester, 'viewing_self': viewing_self})
+
+
+@login_required
 def customer_detail(request, customer_id):
     """Детали компании
     

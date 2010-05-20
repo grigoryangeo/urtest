@@ -1,8 +1,8 @@
 {% extends 'accounts/tester_base.html' %}
 {% block sidebar %}
           <ul>
-               <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
-               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
+               <li><a href="{{ tester.get_absolute_url }}">Мои данные</a></li>
+               <li><a href="{% url tester_detail_projects tester_id=tester.id %}">Мои проекты</a></li>
            </ul>
 {% endblock %}
 
@@ -15,6 +15,9 @@
         <tr>
             <td><h3> Личная информация</h3></td>
             <td></td>
+        </tr>
+        <tr>
+            <td><img src="{{ tester.gravatar }}" alt="Здесь должен быть Ваш граватар"></td>
         </tr>
         <tr>
             <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>

@@ -4,20 +4,13 @@
 {% block content_title%}Добавление проекта{{ customer.full_name }}{% endblock %}
 {% block content%}
 <script language='JavaScript' type='text/javascript'>
-function show_file_bug(i) {
-    document.all('file_bug'+i).innerHTML="Данная функциональность находится в процессе разработки";
-}
 </script>
-<form action="{% url project_add%}" method="post">
+<form action="{% url project_add%}" method="post" enctype="multipart/form-data">
      <fieldset>
          <legend>Добавить проект</legend>
          <table>
              {{ form }}
          </table>
-         <input type="button" onClick="show_file_bug(1);" value="Загрузить файл">
-         <div id="file_bug1"></div>
-         <input type="button" onClick="show_file_bug(2);" value="Загрузить исполняемый код">
-         <div id="file_bug2"></div>
      </fieldset>
      <fieldset>
           <legend>Добавить</legend>

@@ -32,6 +32,14 @@
             <td>Описание: </td>
             <td>{{ project.description }} </td>
         </tr>
+        <tr>
+            <td>Прикрепленные файлы: </td>
+            <td></td>
+        </tr>
+         <tr>
+            <td><a href="{{ project.get_file_url }}">{{ project.f_name }}</a> </td>
+            <td> {{ project.f_comment }} </td>
+        </tr>
     </table>
 <BR>
 {% if user_can_enlist %}

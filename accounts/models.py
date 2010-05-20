@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 import enumerations.models as enum
+import hashlib
 
 
 class UserTypeMixin(object):
@@ -70,6 +71,15 @@ class Tester(User, UserTypeMixin):
     @models.permalink
     def get_edit_url(self):
         return ('accounts.views.tester_edit', (), {'tester_id': self.pk})
+
+    @models.permalink
+    def get_photo_url(self):
+        return ('accounts.views.tester_photo', (), {'tester_id': self.pk})
+
+    def gravatar(self, size=100):
+        gravatar_url = "http://www.gravatar.com/avatar"
+        emailHash = hashlib.md5(self.email.lower()).hexdigest()
+        return (("%s/%s.jpg?d=identicon&s=%s") % (gravatar_url, emailHash, size))
 
     class Meta:
         verbose_name = u"тестер"
