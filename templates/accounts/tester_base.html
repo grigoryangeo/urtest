@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block subbar %}
-<li><a href="{{ tester.get_absolute_url }}">Личные данные</a>
+<li><a href="{{ tester.get_absolute_url }}">Личные данные</a></li>
 {% if viewing_self %}
 <li><a href="{{ tester.get_edit_url }}">Редактирование</a></li>
 <li><a href="{{ tester.get_photo_url }}">Фотография</a></li>
 {% endif %}
-</li>
-<li><a href="{% url tester_detail_projects tester_id=tester.id %}">Проекты</a></li>
+<li class="noborder" ><a href="{% url tester_detail_projects tester_id=tester.id %}">Проекты</a></li>
 {% endblock %}

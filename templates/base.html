@@ -29,13 +29,12 @@
 		    <li><a href="{% url accounts.views.redirect_to_self %}">Личный кабинет</a></li>
 		    {% endif %}
 		    <li><a href="{% url project_list %}" title="Наши проекты">Наши проекты</a></li>
-		    <li><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
-
+		    
 		    {% if user.is_authenticated %}
-		    <li><a href="/" title="О нас">О нас</a></li>
+            <li><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
 		    <li class="noborder"><a href="{% url django.contrib.auth.views.logout %}" title="Выход">Выход</a></li>
 		    {% else %}
-		    <li class="noborder"><a href="/" title="О нас">О нас</a></li>
+		    <li class="noborder"><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
 		    {% endif %}
 		    {% endblock %}
 		</ul>
@@ -64,9 +63,8 @@
 	    <div id="footerContainer">
 		<ul>
 		    <li><a href="/" title="Главная">Главная</a>|</li>
-		    <li><a href='/projects' title="Наши проекты">Наши проекты</a>|</li>
-		    <li><a href="/" title="Контакты">Контакты</a>|</li>
-		    <li><a href="/" title="О нас">О нас</a></li>
+		    <li><a href="{% url project_list %}" title="Наши проекты">Наши проекты</a>|</li>
+		    <li><a href="{% url tester_list %}" title="Наши тестировщикиы">Наши тестировщики</a></li>
 		</ul><br class="spacer" />
 		<p>&copy; 2009-2010, К8-221.</p>
 		<br class="spacer" />

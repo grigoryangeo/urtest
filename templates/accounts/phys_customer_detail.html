@@ -1,6 +1,7 @@
 {% extends 'accounts/customer_base.html' %}
-
+{% block content_title%}Личная кабинет компании {{ customer.full_name }}{% endblock %}
 {% block content%}
+
     <table>
         <tr>
             <td><h3> Регистрационные данные </h3> </td>
