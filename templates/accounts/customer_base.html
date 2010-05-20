@@ -3,8 +3,6 @@
 {% block title %}RuTest companies{% endblock %}
 
 {% block subbar %}
-    <li><a href="{{ customer.get_absolute_url }}">Мои данные</a></li>
-    <li><a href="{% url customer_detail_projects customer_id=customer.pk %}">Мои проекты</a></li>
+    <li><a href="{{ customer.get_absolute_url }}">Личные данные</a></li>
+    <li class="noborder"><a href="{% url customer_detail_projects customer_id=customer.pk %}">Проекты</a></li>
 {% endblock %}
-
-{% block content_title%}Личная страница компании {{ customer.full_name }}{% endblock %}
