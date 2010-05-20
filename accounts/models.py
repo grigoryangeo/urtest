@@ -2,13 +2,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django import template
-from django.utils.safestring import mark_safe
 
 import enumerations.models as enum
 import hashlib
 
-register = template.Library()
 
 class UserTypeMixin(object):
     """Mixin с методами для проверки типа пользователя
@@ -79,11 +76,10 @@ class Tester(User, UserTypeMixin):
     def get_photo_url(self):
         return ('accounts.views.tester_photo', (), {'tester_id': self.pk})
 
-    @property
-    def gravatar(self):
+    def gravatar(self, size=100):
         gravatar_url = "http://www.gravatar.com/avatar"
         emailHash = hashlib.md5(self.email.lower()).hexdigest()
-        return mark_safe("<img src='%s/%s.jpg?d=identicon&s=%s' alt='Здесь должен быть Ваш граватар' />" % (gravatar_url, emailHash, 100))
+        return (("%s/%s.jpg?d=identicon&s=%s") % (gravatar_url, emailHash, size))
 
     class Meta:
         verbose_name = u"тестер"

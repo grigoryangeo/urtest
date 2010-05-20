@@ -1,8 +1,8 @@
 {% extends 'accounts/tester_base.html' %}
 {% block sidebar %}
           <ul>
-               <li><a href="/testers/{{ user.tester.pk}}">Мои данные</a></li>
-               <li><a href="/testers/{{ tester.pk }}/projects">Мои проекты</a></li>
+               <li><a href="{{ tester.get_absolute_url }}">Мои данные</a></li>
+               <li><a href="{% url tester_detail_projects tester_id=tester.id %}">Мои проекты</a></li>
            </ul>
 {% endblock %}
 
@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ tester.gravatar }}
+    <img src="{{ tester.gravatar }}" alt="Здесь должен быть Ваш граватар">
     Аватар предоставлен системой глобально-распознаваемых аватаров GRAVATAR
     <BR><BR>Для того, чтобы сменить ваш глобально распознаваемый аватар, 
     выполните шаги инструкции, расположенной по ссылке:
