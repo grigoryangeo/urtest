@@ -5,7 +5,7 @@
 {% block content%}
 <form action="{% url tester_edit tester_id=tester.id %}" method="post" class="niceform">
     <fieldset>
-        <legend>Регистрация тестировщика</legend>
+        <legend>Изменить данные</legend>
         <!--
         {% if form.errors %}
         <p>{{ form.errors }}</p>
@@ -27,7 +27,7 @@
 
     <fieldset class="action">
 	<dl>
-	    <dd><input type="submit" name="submit" id="submit" value="Submit" /></dd>
+	    <dd><input type="submit" name="submit" id="submit" value="Сохранить изменения" /></dd>
 	</dl>
     </fieldset>
 </form>

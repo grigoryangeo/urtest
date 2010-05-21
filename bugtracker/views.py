@@ -133,11 +133,12 @@ def bug_detail(request, bug_id):
     """
 
     bug = get_object_or_404(Bug, pk=bug_id)
+    project=bug.project
     user_is_owner = request.user == bug.project.customer
 
     if not user_is_owner:
         return render_to_request(request, 'bugtracker/bug_detail.html',
-                                 {'bug': bug})
+                                {'bug': bug, 'project':project})
 
     if request.method == 'POST':
         form = BugStatusUpdateForm(request.POST, instance=bug)
@@ -148,6 +149,6 @@ def bug_detail(request, bug_id):
         form = BugStatusUpdateForm(instance=bug)
     return render_to_request(request, 'bugtracker/bug_detail.html',
                              {'bug': bug,
-                              'form':form,
+                              'form':form, 'project':project
                              })
 
