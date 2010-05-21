@@ -18,7 +18,7 @@
 <BR>
     <table id="blog_show">
         <tr>
-            <td id="blog_show_menu">
+            <td class="blog_show_menu">
                 {% if top %}
                 <a href="{% url blogs.views.blog_show blog.pk number1 %}">...</a>
                 <br>
@@ -32,7 +32,7 @@
                 <br>
                 {% endif %}
             </td>
-            <td id="blog_show_entry">
+            <td class="blog_show_entry">
 
                 <table>
                     {% for blog_entry in entries.all %}
