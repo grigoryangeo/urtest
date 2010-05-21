@@ -4,9 +4,9 @@
 {% block content%}
 <br>
 <ul>
-    <TABLE border="3" algin="center">
+    <TABLE class="rutest_table">
         <THEAD>
-           <tr >
+            <tr class="tr0">
                <th> Название</th>
                <th> Размер в SLOC<br>(количество строк кода)</th>
                <th> ЯП</th>
@@ -17,7 +17,7 @@
         </THEAD>
     {% for project in projects %}
         <TBODY>
-            <tr>
+            <tr class="{% cycle 'tr1' 'tr2' %}">
                <td> <a href="{% url project_detail  project_id=project.pk %}"><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}</td>
                <td>
@@ -37,7 +37,7 @@
     {% endfor %}
     </TABLE>
 </ul>
-
+<Br>
 {% if viewing_self %}
     <a href="{% url project_add %}" >Добавить проект</a>
 {% endif %}

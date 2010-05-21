@@ -3,6 +3,10 @@ body{
 	background:url(/site_media/img/bg.gif) repeat-x 0 0 #FFFFFF; color:#5B5B5B;
 	font:normal 15px/21px Arial, Helvetica, sans-serif;
 	margin:0; padding:0;}
+a {
+    color:#6140B3;
+}
+
 div, h1, h2, h3, h4, h5, h6, form, label, input, span, ul, li, p, a{
 	margin:0; padding:0;}
 ul{
@@ -338,7 +342,37 @@ URL: http://www.emblematiq.com/
 select, input, textarea, button {outline:none; resize:none;}
 
 
-
+/* таблицы и чередование цветов */
+.rutest_table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:black;
+    width: 680px;
+    }
+.rutest_table td {
+    border: 1px solid black;
+    }
+.rutest_table th {
+    border: 1px solid black;
+    }
+.tr0 {
+    background: #B87F00;
+    padding: 0px;
+    margin: 0px;
+    color:#FFE8B4
+    }
+.tr1 {
+    background: #FFFBF2;
+    padding: 0px;
+    margin: 0px;
+    }
+.tr2 {
+    background: #FFF0CC;
+    padding: 0px;
+    margin: 0px;
+    }
 
 
 

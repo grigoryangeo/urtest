@@ -4,21 +4,22 @@
 {% endblock %}
 {% block content_title%}Наши тестировщики{% endblock %}
 {% block content%}
-<TABLE border="3">
+<br>
+<TABLE class="rutest_table">
     <THEAD>
-	<tr>
+	<tr class="tr0">
 	    <th>Номер тестировщика </th>
 	    <th> Фамилия</th>
 	    <th> Имя </th>
 	    <th> Отчество </th>
 	    <th> Рейтинг</th>
 	    <th> Кол-во тест. проектов</th>
-        <th> интересы</th>
+            <th> Интересы</th>
 	</tr>
     </THEAD>
      <TBODY>
     {% for tester in tester_list %}
-        <tr>
+        <tr class="{% cycle 'tr1' 'tr2' %}">
 	        <td>{{ tester.pk }}</td>
              <td><a href="{{ tester.get_absolute_url }}">{{ tester.surname}}</a></td>
              <td>{{ tester.name}}</td>

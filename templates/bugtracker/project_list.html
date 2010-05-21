@@ -4,9 +4,10 @@
 {% endblock %}
 {% block content_title%}Проекты в разработке{% endblock %}
 {% block content%}
-<TABLE border="3">
+<br>
+<TABLE class="rutest_table">
     <THEAD>
-	<tr>
+	<tr class="tr0">
 	    <th> №</th>
 	    <th> Название</th>
 	    <th> Заказчик </th>
@@ -17,7 +18,7 @@
     </THEAD>
     <TBODY>
 	{% for project in project_list %}
-	<tr>
+        <tr class="{% cycle 'tr1' 'tr2' %}">
 	    <td>{{ project.pk }}</td>
 	    <td><a href="{% url project_detail project_id=project.pk%}">{{ project.name }}</a></td>
 	    <td>{{ project.customer }}</td>

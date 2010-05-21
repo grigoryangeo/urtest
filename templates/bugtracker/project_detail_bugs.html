@@ -4,9 +4,9 @@
 {% block content %}
 <br>
 <ul>
-    <TABLE border="3">
+    <TABLE class="rutest_table">
 	<THEAD>
-	    <tr>
+	    <tr class="tr0">
 		<th>№</th>
 		<th>Описание</th>
 		<th>Автор</th>
@@ -17,9 +17,9 @@
 	</THEAD>
 	<TBODY>
 	    {% for bug in bugs %}
-	    <tr>
-        <td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.pk }}</a></td>
-		<td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.short_description }}</a></td>
+	    <tr class="{% cycle 'tr1' 'tr2' %}">
+                <td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.pk }}</a></td>
+		<td>{{ bug.short_description }}</td>
 		<td>
 		    {% for tester in bug.tester.name %}
 		        {{ tester }}
@@ -59,9 +59,9 @@
 	</TBODY>
     </TABLE>
 </ul>
-
+<br>
     {% if user_can_add_bug %}
-         <div align="center">
+         <div>
             <form>
               <input id="radius" type="button"onClick="location.href='{% url project_add_bug project_id=project.pk %}'" value="Добавить баг"/>
             </form>

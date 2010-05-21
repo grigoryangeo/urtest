@@ -3,19 +3,25 @@
 {% block content_title %}Проекты тестировщика{% endblock %}
 {% block content %}
 <br>
-    <TABLE border="3">
+    <TABLE class="rutest_table">
         <THEAD>
-             <tr>
+             <tr class="tr0">
                 <th> Название проекта</th>
                 <th> Размер в SLOC</th>
                 <th> ЯП</th>
                 <th> Язык документации </th>
                 <th> Колличество багов</th>
+
+                {% if user.is_authenticated %}
+                      {% if user.tester %}
+                      <th>Действие</th>
+                      {% endif %}
+                {% endif %}
              </tr>
-        </THEAD
-    {% for project in projects %}
+        </THEAD>
         <TBODY>
-            <tr>
+    {% for project in projects %}
+            <tr class="{% cycle 'tr1' 'tr2' %}">
                <td> <a href="{% url project_detail project_id=project.pk %}  "><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}  </td>
                <td>
@@ -29,15 +35,16 @@
                     {% endfor %}
                </td>
                <td> {{ project.bugs.count }}</td>
-               <td >
-                   {% if user.is_authenticated %}
-                      {% if user.tester %}
+               {% if user.is_authenticated %}
+                    {% if user.tester %}
+                    <td >
                        <form >
                          <input id="radius" type="button"onClick="location.href='{% url project_add_bug project_id=project.pk %}'" value="Добавить баг"/>
                         </form>
-                   {% endif %}
-    {% endif %}
-               </td>
+                    </td>
+                    {% endif %}
+               {% endif %}
+               
             </tr>
         </TBODY>
     {% endfor %}
