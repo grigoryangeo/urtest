@@ -36,6 +36,10 @@
             <td>Прикрепленные файлы: </td>
             <td></td>
         </tr>
+        <tr>
+            <td>Блог:</td>
+            <td><a href="{% url blogs.views.blog_show project.blog.pk 0 %}">читать</a></td>
+        </tr>
          <tr>
             <td><a href="{{ project.get_file_url }}">{{ project.f_name }}</a> </td>
             <td> {{ project.f_comment }} </td>

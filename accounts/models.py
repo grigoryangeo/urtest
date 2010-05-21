@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 import enumerations.models as enum
 import hashlib
+from blogs.models import Blog
 
 
 class UserTypeMixin(object):
@@ -55,6 +56,7 @@ class Tester(User, UserTypeMixin):
                                         verbose_name="браузеры")
     description = models.TextField("о себе", blank=True, max_length=300)
     #photo = models.FileField("фотография", upload_to="/home/media", blank=True, max_length=100)
+    blog = models.OneToOneField(Blog)
 
     @property
     def full_name(self):
@@ -81,6 +83,13 @@ class Tester(User, UserTypeMixin):
         emailHash = hashlib.md5(self.email.lower()).hexdigest()
         return (("%s/%s.jpg?d=identicon&s=%s") % (gravatar_url, emailHash, size))
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Объект создается, не обновляется
+            self.blog = Blog.objects.create(title=self.surname+" "+self.name)
+            # Вызов "настоящего" save
+        super(Tester, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = u"тестер"
         verbose_name_plural = u"тестеры"
@@ -98,7 +107,8 @@ class Customer(User, UserTypeMixin):
     type = models.CharField("Лицо", max_length=1, choices=TYPE_CHOICES,
                             default='j')
     user = models.OneToOneField(User, parent_link=True)
-
+    blog = models.OneToOneField(Blog)
+    
     class Meta:
         verbose_name = "заказчик"
         verbose_name_plural = "заказчики"
@@ -125,6 +135,13 @@ class Customer(User, UserTypeMixin):
             return self.detail.full_name
         else:
             return self.user.username
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Объект создается, не обновляется
+            self.blog = Blog.objects.create(title=self.surname+" "+self.name)
+            # Вызов "настоящего" save
+        super(Customer, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):

@@ -7,6 +7,7 @@ from django.forms.widgets import CheckboxSelectMultiple
 from bugtracker.models import Bug, Project
 from accounts.models import Tester, Customer
 from enumerations.models import ProgramLanguage, Language
+from blogs import models
 
 from lib.fields import UrtestTextAreaField
 

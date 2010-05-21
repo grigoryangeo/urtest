@@ -20,6 +20,9 @@ urlpatterns = patterns('',
     # Проекты, баги
     (r'^bugtracker/', include('urtest.bugtracker.urls')),
 
+    # Блоги
+    (r'^blogs/', include('urtest.blogs.urls')),
+
     # Админка
     (r'^admin/', include(admin.site.urls)),
 )

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}RuTest blog{% endblock %}
+{% block content_title %}
+Блог
+{% ifequal blog.type 't' %}
+тестировщика
+{% endifequal %}
+{% ifequal blog.type 'c' %}
+подрядчика
+{% endifequal %}
+{% ifequal blog.type 'p' %}
+проекта
+{% endifequal %}
+{{ blog.title }} {% endblock %}
+{% block content%}
+
+
+<BR>
+    <table id="blog_show">
+        <tr>
+            <td id="blog_show_menu">
+                {% if top %}
+                <a href="{% url blogs.views.blog_show blog.pk number1 %}">...</a>
+                <br>
+                {% endif %}
+                {% for blog_entry in entries.all %}
+                <a href="#{{ blog_entry.pk }}">{{ blog_entry.title }} ({{ blog_entry.submit_date }})</a>
+                <br>
+                {% endfor %}
+                {% if floor %}
+                <a href="{% url blogs.views.blog_show blog.pk number2 %}">...</a>
+                <br>
+                {% endif %}
+            </td>
+            <td id="blog_show_entry">
+
+                <table>
+                    {% for blog_entry in entries.all %}
+                    <tr>
+                        <td>
+                            <a name="{{ blog_entry.pk }}"></a>
+                            <h3>{{ blog_entry.title }}</h3>
+                            ({{ blog_entry.submit_date }})
+                            <br>
+                            <br>
+                            {{ blog_entry.entry_html|safe }}
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if form %}
+                    <tr>
+                        <td>
+                             <form action="{% url blog_add_entry blog_id=blog.pk %}" method="post">
+                                 <h4>Заголовок:</h4>
+                                 {{ form.title }}
+                                 <br><br>
+                                 <h4>Сообщение:</h4>
+                                 {{ form.entry }}
+                                 <br>
+                                 <input type="submit"  value="Добавить">
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                
+            </td>
+        </tr>
+
+    </table>
+
+<BR>
+{% endblock %}
