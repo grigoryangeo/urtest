@@ -127,6 +127,9 @@ class Customer(User, UserTypeMixin):
             return self.user.username
 
     @models.permalink
+    def get_edit_url(self):
+        return ('accounts.views.customer_edit', (), {'customer_id': self.pk})
+    @models.permalink
     def get_absolute_url(self):
         return ('accounts.views.customer_detail', (), {'customer_id': self.pk})
 

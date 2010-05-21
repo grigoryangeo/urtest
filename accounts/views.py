@@ -96,7 +96,8 @@ def customer_detail(request, customer_id):
     # Просмотр деталей компании доступен только самой компании
     if request.user != customer:
         raise PermissionDenied
-
+    
+    viewing_self = request.user == customer
     # Выбор шаблона в зависимости от типа компании
     # TODO: вынести это в сам шаблон/include
     if customer.type == 'p':
@@ -104,8 +105,31 @@ def customer_detail(request, customer_id):
     else:
         template = 'accounts/jur_customer_detail.html'
 
-    return render_to_request(request, template, {'customer': customer.detail})
+    return render_to_request(request, template, {'customer': customer.detail,'viewing_self':viewing_self})
 
+@login_required
+def customer_edit(request, customer_id):
+    """Редактирование деталей заказчика"""
+    customer = get_object_or_404(Customer, pk=customer_id)
+    user = request.user
+
+    viewing_self = user == customer
+
+    if not viewing_self:
+        raise PermissionDenied
+    
+    if customer.type == 'p':
+        return update_object(request, form_class=PhysCustomerChangeForm,
+                           object_id = customer_id,
+                             template_object_name="customer",
+                             template_name='accounts/customer_edit.html',
+                             extra_context={'viewing_self': viewing_self})
+    else:
+        return update_object(request, form_class=JurCustomerChangeForm,
+                           object_id = customer_id,
+                             template_object_name="customer",
+                             template_name='accounts/customer_edit.html',
+                             extra_context={'viewing_self': viewing_self})
 
 @login_required
 def customer_detail_projects(request, customer_id):

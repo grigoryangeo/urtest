@@ -25,6 +25,7 @@ urlpatterns = patterns('accounts.views',
     url(r'^testers/(?P<tester_id>\d+)/photo$', 'tester_photo', name="tester_photo"),
 
     url(r'^customers/(?P<customer_id>\d+)$', 'customer_detail', name="customer_detail"),
+    url(r'^customers/(?P<customer_id>\d+)/edit$', 'customer_edit', name="customer_edit"),
     url(r'^customers/(?P<customer_id>\d+)/projects$',
         'customer_detail_projects', name='customer_detail_projects'),
     url(r'^customers/list$', object_list, customer_dict, name="customer_list"),
