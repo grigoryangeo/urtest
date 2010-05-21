@@ -165,3 +165,108 @@ class TesterChangeForm(forms.ModelForm):
         if password != password_confirm:
             raise forms.ValidationError('Неправильно введены данные')
         return data
+
+
+
+class JurCustomerChangeForm(forms.ModelForm):
+    password = UrtestPasswordField(label='Пароль', required=False)
+    password_confirm = UrtestPasswordField(label='Подтверждение пароля',
+                                           required=False)
+
+    repr_surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
+    repr_name = UrtestFIOField(label="Имя заказчика", max_length=30)
+    repr_second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты",
+                                              queryset=enum.PayType.objects.all())
+    #testing_types = forms.ModelMultipleChoiceField(label="Способ оплаты",
+   #                                                queryset=enum.TestingType.objects.all())
+
+
+    class Meta:
+        model = models.JurCustomer
+        fields = ['password',
+        'password_confirm',
+        'name',
+        'repr_surname',
+        'repr_name',
+        'repr_second_name',
+        'address_ur',
+        'pay_type',
+        'inn',
+        'bank_account',
+        'bank',
+        'kpp',
+        'bik',
+        'correspondent_account',
+        'ogrn',
+        'phone']
+
+    def save(self, *args, **kwargs):
+        """Обновление заказчика с учетом смены пароля"""
+        # Вызов оригинального save
+        data = self.cleaned_data
+        customer = super(JurCustomerChangeForm, self).save(*args, **kwargs)
+        # Проверка на смену пароля
+        if data['password']:
+            # Пароль изменился
+            customer.set_password(data['password'])
+            customer.save()
+        return customer
+
+    def clean(self):
+        # Вызов оригинального clean()
+        data = super(JurCustomerChangeForm, self).clean()
+        password = data.get('password')
+        password_confirm = data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+        return data
+
+class PhysCustomerChangeForm(forms.ModelForm):
+    password = UrtestPasswordField(label='Пароль', required=False)
+    password_confirm = UrtestPasswordField(label='Подтверждение пароля',
+                                           required=False)
+    surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
+    name = UrtestFIOField(label="Имя заказчика", max_length=30)
+    second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
+    passport_when = forms.DateField(label="Дата выдачи", widget=SelectDateWidget(years=range(2010, 1900, -1)))
+    pay_type = forms.ModelMultipleChoiceField(label="Способ оплаты",
+                                            queryset=enum.PayType.objects.all())
+    #testing_types = forms.ModelMultipleChoiceField(label="Способ оплаты",
+   #                                                queryset=enum.TestingType.objects.all())
+
+
+    class Meta:
+        model = models.PhysCustomer
+        fields = ['password', 'password_confirm',
+            'surname',
+            'name',
+            'second_name',
+            'passport_series',
+            'passport_number',
+            'passport_when',
+            'passport_who',
+            'phone',
+            'pay_type',
+            'pay_type']
+    
+    def save(self, *args, **kwargs):
+        """Обновление заказчика с учетом смены пароля"""
+        # Вызов оригинального save
+        data = self.cleaned_data
+        customer = super(PhysCustomerChangeForm, self).save(*args, **kwargs)
+        # Проверка на смену пароля
+        if data['password']:
+            # Пароль изменился
+            customer.set_password(data['password'])
+            customer.save()
+        return customer
+
+    def clean(self):
+        # Вызов оригинального clean()
+        data = super(PhysCustomerChangeForm, self).clean()
+        password = data.get('password')
+        password_confirm = data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Пароль и подтверждение не совпадают')
+        return data

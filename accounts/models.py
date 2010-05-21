@@ -144,6 +144,9 @@ class Customer(User, UserTypeMixin):
         super(Customer, self).save(*args, **kwargs)
 
     @models.permalink
+    def get_edit_url(self):
+        return ('accounts.views.customer_edit', (), {'customer_id': self.pk})
+    @models.permalink
     def get_absolute_url(self):
         return ('accounts.views.customer_detail', (), {'customer_id': self.pk})
 
