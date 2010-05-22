@@ -72,10 +72,10 @@ def add_entry(request, blog_id):
     if request.method == 'POST':
         form = BlogEntryForm(request.POST)
         if form.is_valid():
-            entry = form.save(blog=blog)
+            form.save(blog=blog)
             return blog_show(request, blog_id, 0)
     else:
         form = BlogEntryForm()
-    return blog_show
+    return blog_show(request, blog_id, 0)
 
     

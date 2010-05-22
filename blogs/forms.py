@@ -3,11 +3,10 @@ from django import forms
 
 # все ниже хрень
 
-from django.contrib.auth.models import User
 from markdown import markdown
+from lib.fields import UrtestTextAreaField
 
-from blogs.models import Blog, BlogEntry
-
+from blogs.models import BlogEntry
 
 from lib.fields import UrtestTextAreaField
 
@@ -16,16 +15,15 @@ class BlogEntryForm(forms.ModelForm):
     """
     Форма добавления сообщения
     """
-    title = forms.CharField(label='Заголовок', max_length=50)
-    entry = UrtestTextAreaField(
-        label='сообщение',
-        required=False)
+    title = forms.CharField(label='Заголовок', max_length=50, required=False)
+    entry = UrtestTextAreaField(label='сообщение', required=True)
 
     class Meta:
         model = BlogEntry
         fields = ['title', 'entry']
     
     def save(self, blog, *args, **kwargs):
+        assert(self.is_valid())
         Entry = super(BlogEntryForm, self).save(commit=False,*args, **kwargs)
         Entry.entry_html = markdown(Entry.entry)
         if Entry.title == '':
