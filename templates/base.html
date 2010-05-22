@@ -6,10 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="/site_media/css/base.css" />
 	{{ form.media }}
 	<script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.tablesorter.js"></script>
 	<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/niceforms.js"></script> -->
 
-
-	<title>{% block title %}RuTest - Краудсорс коммьюнити{% endblock %}</title>
+        <title>{% block title %}RuTest - Краудсорс коммьюнити{% endblock %}</title>
     </head>
     <body>
 	<div id="header">

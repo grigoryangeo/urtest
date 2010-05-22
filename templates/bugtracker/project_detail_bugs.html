@@ -2,17 +2,29 @@
 {% block title %}RuTest project{% endblock %}
 {% block content_title %}Баги  проекта {{ project.name }}{% endblock %}
 {% block content %}
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+        // ---- tablesorter -----
+        $("#table_project_detail_bugs").tablesorter({
+                sortList:[[0,0]],
+                widgets: ['zebra']
+        });
+        // ---- tablesorter -----
+        });
+        </script>
+
 <br>
 <ul>
-    <TABLE class="rutest_table">
+    <TABLE class="tablesorter" id="table_project_detail_bugs">
 	<THEAD>
 	    <tr class="tr0">
-		<th>№</th>
-		<th>Описание</th>
-		<th>Автор</th>
-		<th>Критичность </th>
-		<th>Статус</th>
-		<th>Дата</th>
+		<th> №&nbsp;&nbsp;&nbsp;</th>
+		<th> Описание&nbsp;&nbsp;&nbsp;</th>
+		<th> Автор&nbsp;&nbsp;&nbsp;</th>
+		<th> Критичность&nbsp;&nbsp;&nbsp;</th>
+		<th> Статус&nbsp;&nbsp;&nbsp;</th>
+		<th> Дата&nbsp;&nbsp;&nbsp;</th>
 	    </tr>
 	</THEAD>
 	<TBODY>

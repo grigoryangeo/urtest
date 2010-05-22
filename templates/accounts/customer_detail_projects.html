@@ -2,21 +2,33 @@
 {% block title %}RuTest companies{% endblock %}
 {% block content_title%}Проекты компании {{ customer.full_name }}{% endblock %}
 {% block content%}
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+        // ---- tablesorter -----
+        $("#rutest_table1").tablesorter({
+                sortList:[[0,0]],
+                widgets: ['zebra']
+        });
+        // ---- tablesorter -----
+        });
+        </script>
+
 <br>
 <ul>
-    <TABLE class="rutest_table">
+    <TABLE class="tablesorter" id="rutest_table1">
         <THEAD>
             <tr class="tr0">
-               <th> Название</th>
-               <th> Размер в SLOC<br>(количество строк кода)</th>
-               <th> ЯП</th>
-               <th> Язык документации </th>
-               <th> Количество тестировщиков</th>
-               <th> Дата</th>
+               <th> Название&nbsp;&nbsp;&nbsp;</th>
+               <th> Размер в SLOC<br>(количество строк кода)&nbsp;&nbsp;&nbsp;</th>
+               <th> ЯП&nbsp;&nbsp;&nbsp;</th>
+               <th> Язык документации&nbsp;&nbsp;&nbsp;</th>
+               <th> Количество тестировщиков&nbsp;&nbsp;&nbsp;</th>
+               <th> Дата&nbsp;&nbsp;&nbsp;</th>
            </tr>
         </THEAD>
-    {% for project in projects %}
         <TBODY>
+            {% for project in projects %}
             <tr class="{% cycle 'tr1' 'tr2' %}">
                <td> <a href="{% url project_detail  project_id=project.pk %}"><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}</td>
@@ -33,8 +45,9 @@
                <td>  {{ project.testers.count }}</td>
                <td> {{ project.submit_date }}</td>
             </tr>
+            {% endfor %}
         </TBODY>
-    {% endfor %}
+
     </TABLE>
 </ul>
 <Br>

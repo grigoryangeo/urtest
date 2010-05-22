@@ -2,15 +2,28 @@
 {% block title %}RuTest tester{% endblock %}
 {% block content_title %}Проекты тестировщика{% endblock %}
 {% block content %}
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+        // ---- tablesorter -----
+        $("#table_tester_detail_projects").tablesorter({
+                sortList:[[0,0]],
+                widgets: ['zebra'],
+                headers: { 5: { sorter: false} }
+        });
+        // ---- tablesorter -----
+        });
+        </script>
+
 <br>
-    <TABLE class="rutest_table">
+    <TABLE class="tablesorter" id="table_tester_detail_projects">
         <THEAD>
              <tr class="tr0">
-                <th> Название проекта</th>
-                <th> Размер в SLOC</th>
-                <th> ЯП</th>
-                <th> Язык документации </th>
-                <th> Колличество багов</th>
+                <th> Название проекта&nbsp;&nbsp;&nbsp;</th>
+                <th> Размер в SLOC&nbsp;&nbsp;&nbsp;</th>
+                <th> ЯП&nbsp;&nbsp;&nbsp;</th>
+                <th> Язык документации&nbsp;&nbsp;&nbsp;</th>
+                <th> Колличество багов&nbsp;&nbsp;&nbsp;</th>
 
                 {% if user.is_authenticated %}
                       {% if user.tester %}
@@ -20,7 +33,7 @@
              </tr>
         </THEAD>
         <TBODY>
-    {% for project in projects %}
+            {% for project in projects %}
             <tr class="{% cycle 'tr1' 'tr2' %}">
                <td> <a href="{% url project_detail project_id=project.pk %}  "><h4>{{ project.name }}</h4></a></td>
                <td> {{ project.size }}  </td>
@@ -46,8 +59,9 @@
                {% endif %}
                
             </tr>
+            {% endfor %}
         </TBODY>
-    {% endfor %}
+
      </TABLE>
      <br>
 {% endblock %}
