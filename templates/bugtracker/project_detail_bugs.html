@@ -18,7 +18,7 @@
 	<TBODY>
 	    {% for bug in bugs %}
 	    <tr class="{% cycle 'tr1' 'tr2' %}">
-                <td><a href="{% url bug_detail bug_id=bug.pk %}">{{ bug.pk }}</a></td>
+                <td><a href="{% url bug_detail bug_id=bug.pk %}">{{ forloop.counter }}</a></td>
 		<td>{{ bug.short_description }}</td>
 		<td>
 		    {% for tester in bug.tester.name %}
@@ -53,7 +53,7 @@
                     Баг рассмотрен и устранён
                     {% endifequal %}
                 </td>
-		<td> {{ bug.status_date|date:"d.m.Y h:i" }}</td>
+		<td> {{ bug.status_date|date:"d.m.Y H:i" }}</td>
 	    </tr>
 	    {% endfor %}
 	</TBODY>

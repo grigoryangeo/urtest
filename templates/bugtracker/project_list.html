@@ -19,7 +19,7 @@
     <TBODY>
 	{% for project in project_list %}
         <tr class="{% cycle 'tr1' 'tr2' %}">
-	    <td>{{ project.pk }}</td>
+	    <td>{{ forloop.counter }}</td>
 	    <td><a href="{% url project_detail project_id=project.pk%}">{{ project.name }}</a></td>
 	    <td>{{ project.customer }}</td>
 	    <td>{{ project.testers.count }} </td>
