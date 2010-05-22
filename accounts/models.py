@@ -139,7 +139,10 @@ class Customer(User, UserTypeMixin):
     def save(self, *args, **kwargs):
         if not self.id:
             # Объект создается, не обновляется
-            self.blog = Blog.objects.create(title=self.surname+" "+self.name)
+            if self.type=='p':
+                self.blog = Blog.objects.create(title=self.surname+" "+self.name)
+            if self.type=='j':
+                self.blog = Blog.objects.create(title=self.name)
             # Вызов "настоящего" save
         super(Customer, self).save(*args, **kwargs)
 
