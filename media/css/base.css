@@ -368,7 +368,49 @@ select, input, textarea, button {outline:none; resize:none;}
     margin: 0px;
     }
 
+/* Стили для таблицы */
+table.tablesorter {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #CDCDCD;
+        margin:10px 0pt 15px;
+	font-size: 10pt;
+	width: 100%;
+        color: black;
+	text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #B87F00;
+	font-size: 10pt;
+        vertical-align: middle;
 
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	background-image: url(/site_media/img/tablesorter-bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+        vertical-align: middle;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#FFF0CC;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(/site_media/img/tablesorter-asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(/site_media/img/tablesorter-desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #D89F20;
+}
+/* Стили для таблицы */
 
 
 

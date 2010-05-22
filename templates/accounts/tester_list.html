@@ -4,21 +4,32 @@
 {% endblock %}
 {% block content_title%}Наши тестировщики{% endblock %}
 {% block content%}
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+        // ---- tablesorter -----
+        $("#table_tester_list").tablesorter({
+                sortList:[[0,0]],
+                widgets: ['zebra']
+        });
+        // ---- tablesorter -----
+        });
+        </script>
 <br>
-<TABLE class="rutest_table">
+<TABLE class="tablesorter" id="table_tester_list">
     <THEAD>
 	<tr class="tr0">
-	    <th>Номер тестировщика </th>
-	    <th> Фамилия</th>
-	    <th> Имя </th>
-	    <th> Отчество </th>
-	    <th> Рейтинг</th>
-	    <th> Кол-во тест. проектов</th>
-            <th> Интересы</th>
+	    <th> Номер тестировщика&nbsp;&nbsp;&nbsp;</th>
+	    <th> Фамилия&nbsp;&nbsp;&nbsp;</th>
+	    <th> Имя&nbsp;&nbsp;&nbsp;</th>
+	    <th> Отчество&nbsp;&nbsp;&nbsp;</th>
+	    <th> Рейтинг&nbsp;&nbsp;&nbsp;</th>
+	    <th> Кол-во тест. проектов&nbsp;&nbsp;&nbsp;</th>
+            <th> Интересы&nbsp;&nbsp;&nbsp;</th>
 	</tr>
     </THEAD>
      <TBODY>
-    {% for tester in tester_list %}
+        {% for tester in tester_list %}
         <tr class="{% cycle 'tr1' 'tr2' %}">
 	        <td>{{ forloop.counter }}</td>
              <td><a href="{{ tester.get_absolute_url }}">{{ tester.surname}}</a></td>
