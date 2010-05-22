@@ -25,7 +25,7 @@
 	<TBODY>
 	{% for tester in testers %}
 	    <tr class="{% cycle 'tr1' 'tr2' %}">
-		<td>{{ tester.pk }}</td>
+		<td>{{ forloop.counter }}</td>
 		<td>{{ tester.surname}}</td>
 		<td>{{ tester.name}}</td>
 		<td>{{ tester.second_name}} </td>

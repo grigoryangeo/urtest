@@ -8,7 +8,11 @@
             <td></td>
         </tr>
         <tr>
-            <td>Контактный e-mail: <br> <p>(Ваш логин авторизации) </p> </td>
+            <td>Контактный e-mail:<br>
+            {% if viewing_self %}
+                <p>(Ваш логин авторизации) </p>
+            {% endif %}
+            </td>
             <td>{{ customer.email }} </td>
         </tr>
         <tr>
