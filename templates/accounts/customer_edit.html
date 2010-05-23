@@ -1,0 +1,35 @@
+{% extends 'accounts/customer_base.html' %}
+
+{% block content_title %}Редактирование личных данных{% endblock %}
+
+{% block content%}
+<form action="{% url customer_edit customer_id=customer.id %}" method="post" class="niceform">
+    <fieldset>
+        <legend>Изменить данные</legend>
+        <!--
+        {% if form.errors %}
+        <p>{{ form.errors }}</p>
+        {% endif %}
+        {% for field in form %}
+            <dl>
+                <dt>{{ field.label_tag }}</dt>
+                <dd>{{ field }}</dd>
+                {% if field.errors %}
+                <p>{{ field.errors }}</p>
+                {% endif %}
+            </dl>
+        {% endfor %}
+        -->
+        <table>
+            {{ form }}
+        </table>
+    </fieldset>
+
+    <fieldset class="action">
+	<dl>
+	    <dd><input type="submit" name="submit" id="submit" value="Сохранить изменения" /></dd>
+	</dl>
+    </fieldset>
+</form>
+
+{% endblock %}
