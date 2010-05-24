@@ -52,7 +52,9 @@
 </ul>
 <Br>
 {% if viewing_self %}
-    <a href="{% url project_add %}" >Добавить проект</a>
+<form>
+   <input TYPE=BUTTON  value="Добавить проект" onclick="location.href='{% url project_add %}'">
+</form>
 {% endif %}
 <br>
 {% endblock %}}
