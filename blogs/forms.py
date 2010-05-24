@@ -13,7 +13,7 @@ class BlogEntryForm(forms.ModelForm):
     """
     Форма добавления сообщения
     """
-    title = forms.CharField(label='Заголовок', max_length=50, required=False)
+    title = forms.CharField(label='Заголовок', max_length=50, required=True)
     entry = UrtestTextAreaField(label='сообщение', required=True)
 
     class Meta:
@@ -24,8 +24,6 @@ class BlogEntryForm(forms.ModelForm):
         assert(self.is_valid())
         Entry = super(BlogEntryForm, self).save(commit=False,*args, **kwargs)
         Entry.entry_html = markdown(Entry.entry)
-        if Entry.title == '':
-            Entry.title = "Сообщение в блог"
         Entry.blog = blog
         Entry.save()
         return Entry

@@ -59,14 +59,19 @@
                     {% if form %}
                     <tr>
                         <td>
-                             <form action="{% url blog_add_entry blog_id=blog.pk %}" method="post">
-                                 <h4>Заголовок:</h4>
-                                 {{ form.title }}
-                                 <br><br>
-                                 <h4>Сообщение:</h4>
-                                 {{ form.entry }}
-                                 <br>
-                                 <input type="submit"  value="Добавить">
+                            <form action="{% url blog_show blog_id=blog.pk entry_number=0 %}" method="post">
+                                <h4>Заголовок:</h4>
+                                {{ form.title.errors }}
+                                {{ form.title }}
+                                <br><br>
+                                <h4>Сообщение:</h4>
+                                {{ form.entry.errors }}
+                                {{ form.entry }}
+                                <br>
+                                Форматирование текста: <a href="/blogs/wiki" onclick="window.open('/blogs/wiki', '_blank', 'scrollbars=yes,top=50,left=100,width=410,height=600 '); return false;">Помощь</a>
+                                <br>
+                                <input type="submit"  value="Добавить">
+                                <br>
                             </form>
                         </td>
                     </tr>
