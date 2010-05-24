@@ -1,8 +1,6 @@
 # File encoding: utf-8
 from django import forms
 
-# все ниже хрень
-
 from markdown import markdown
 from lib.fields import UrtestTextAreaField
 
