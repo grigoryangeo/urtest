@@ -44,7 +44,7 @@ class UserForm(forms.ModelForm):
 
 
 class JurCustomerRegForm(UserForm):
-    type = forms.CharField(widget=forms.HiddenInput, initial='j')
+    #type = forms.CharField(widget=forms.HiddenInput, initial='j')
     address_ur = UrtestTextAreaField(label="Юридический адрес компании")
     description = UrtestTextAreaField(label="Информация о компании")
     repr_surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
@@ -56,7 +56,7 @@ class JurCustomerRegForm(UserForm):
 
     class Meta:
         model = models.JurCustomer
-        fields = ['type', 'email', 'password', 'password_confirm'] + [
+        fields = ['email', 'password', 'password_confirm'] + [
             'name',
             'inn',
             'bank_account',
@@ -78,7 +78,7 @@ class JurCustomerRegForm(UserForm):
 
 
 class PhysCustomerRegForm(UserForm):
-    type = forms.CharField(widget=forms.HiddenInput, initial='p')
+    #type = forms.CharField(widget=forms.HiddenInput, initial='p')
     surname = UrtestFIOField(label="Фамилия заказчика", max_length=80)
     name = UrtestFIOField(label="Имя заказчика", max_length=30)
     second_name = UrtestFIOField(label="Отчество заказчика", max_length=50, required=False)
@@ -88,7 +88,7 @@ class PhysCustomerRegForm(UserForm):
     class Meta:
         model = models.PhysCustomer
         exclude = ['customer']
-        fields = ['type', 'email', 'password', 'password_confirm'] + [
+        fields = ['email', 'password', 'password_confirm'] + [
             'surname',
             'name',
             'second_name',

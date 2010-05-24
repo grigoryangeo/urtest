@@ -17,9 +17,30 @@
 <form action="{% url customer_registration customer_type=type %}" method="post" class="niceform">
     <fieldset>
     <legend>Детали лица</legend>
-    <table>
-        {{ form }}
-    </table>
+  <table>
+       {% for field in form %}
+       <tr>
+
+            <td valign="top">
+               <h4> {{ field.label_tag }}</h4>
+            </td>
+             <td>
+                 {% if field.errors %}
+                 <table>
+                     <tr>
+                         <td>{{ field }}</td>
+                         <td>{{ field.errors }}</td>
+                     </tr>
+                 </table>
+                 {% else %}
+                 {{ field }}
+                 {% endif %}
+
+             </td>
+       </tr>
+        {% endfor %}
+      </table>
+
     </fieldset>
     <fieldset>
     <legend>Регистрация</legend>

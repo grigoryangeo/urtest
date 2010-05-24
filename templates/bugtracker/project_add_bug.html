@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'bugtracker/bugtracker_base.html' %}
 {% block title %}Добавить баг{% endblock %}
 {% block content_title %}Добавить баг:{% endblock %}
 {% block content %}
@@ -7,8 +7,28 @@
     <fieldset>
         <legend>Добавить баг</legend>
     <table>
-        {{ form }}
-    </table>
+       {% for field in form %}
+       <tr>
+
+            <td valign="top">
+               <h4> {{ field.label_tag }}</h4>
+            </td>
+             <td>
+                 {% if field.errors %}
+                 <table>
+                     <tr>
+                         <td>{{ field }}</td>
+                         <td>{{ field.errors }}</td>
+                     </tr>
+                 </table>
+                 {% else %}
+                 {{ field }}
+                 {% endif %}
+
+             </td>
+       </tr>
+        {% endfor %}
+      </table>
      </fieldset>
      <fieldset>
 
