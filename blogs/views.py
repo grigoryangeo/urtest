@@ -57,25 +57,19 @@ def blog_show(request, blog_id, entry_number):
         return render_to_request(request, 'blogs/blog_show.html', {'blog': blog,
                 'entries': entries, 'top': top, 'floor': floor,
                 'number1': number, 'number2': entry_number_end})
-                
-    return render_to_request(request, 'blogs/blog_show.html', {'blog': blog,
-                'entries': entries, 'top': top, 'floor': floor,
-                'number1': number, 'number2': entry_number_end,
-                'form': BlogEntryForm() })
 
-
-def add_entry(request, blog_id):
-    """Добавление сообщения"""
-    
-    blog = get_object_or_404(Blog, pk=blog_id)
-
+    # добавление сообщения
     if request.method == 'POST':
         form = BlogEntryForm(request.POST)
         if form.is_valid():
             form.save(blog=blog)
-            return blog_show(request, blog_id, 0)
+            return redirect('blog_show', blog_id=blog_id, entry_number=0)
     else:
         form = BlogEntryForm()
-    return blog_show(request, blog_id, 0)
+                
+    return render_to_request(request, 'blogs/blog_show.html', {'blog': blog,
+                'entries': entries, 'top': top, 'floor': floor,
+                'number1': number, 'number2': entry_number_end,
+                'form': form })
 
-    
+

@@ -48,6 +48,13 @@
                             <br>
                         </td>
                     </tr>
+                    {% empty %}
+                    <tr>
+                        <td>
+                            <em>Блог пока что пуст...</em>
+                            <br><br>
+                        </td>
+                    </tr>
                     {% endfor %}
                     {% if form %}
                     <tr>

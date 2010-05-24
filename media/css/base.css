@@ -1,4 +1,9 @@
 /* CSS Document */
+
+.errorlist {
+    color:#AA0000;
+    }
+
 body{
 	background:url(/site_media/img/bg.gif) repeat-x 0 0 #FFFFFF; color:#5B5B5B;
 	font:normal 15px/21px Arial, Helvetica, sans-serif;
