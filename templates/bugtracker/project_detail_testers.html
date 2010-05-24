@@ -37,10 +37,10 @@
 	{% for tester in testers %}
 	    <tr class="{% cycle 'tr1' 'tr2' %}">
 		<td>{{ forloop.counter }}</td>
-		<td>{{ tester.surname}}</td>
+        <td><a href="{% url tester_detail tester_id=tester.pk %}">{{ tester.surname}}</a></td>
 		<td>{{ tester.name}}</td>
 		<td>{{ tester.second_name}} </td>
-		<td><a href="{% url tester_detail tester_id=tester.pk %}">{{ tester.name}}</a></td>
+		<td>{{ tester.name}}</td>
 		<td>{{ tester.bugs.count }}</td>
 	    </tr>
 	{% endfor %}
