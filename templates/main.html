@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block subbar %}
-<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
+<li><a href="{% url customer_registration %}">Регистрация заказчика</a></li>
 <li class="noborder"><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
 {% endblock %}
 
@@ -72,7 +72,7 @@
 <div id="lefutur">	
 	<div id="catagory">
 	  <div class="testimonial">
-                <h2>Для разработчика</h2>
+                <h2>Для заказчика</h2>
                 <ol>
                     <li>Ведение проекта </li>
                     <li>Обеспечение безопасности передаваемых в систему данных</li>
@@ -106,7 +106,7 @@
 		<div id="futureContainer">
 			<div class="futureLeft">
 				<ul>
-					<li class="serviece" style ="cursor:pointer" onClick="location.href='{% url customer_registration %}'">Я разработчик<br /></li>
+					<li class="serviece" style ="cursor:pointer" onClick="location.href='{% url customer_registration %}'">Я заказчик<br /></li>
 				</ul>
 			</div>
 			<div class="futureRight">
