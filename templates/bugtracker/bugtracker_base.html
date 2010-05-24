@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}RuTest companies{% endblock %}
 {% block subbar %}
+<div id='sidebar_refs'>
     <li><a href="{% url project_detail project_id=project.pk %}">Описание</a></li>
     <li><a href="{% url project_detail_bugs project_id=project.pk %}">Баги</a></li>
-    <li><a href="{% url project_detail_testers project_id=project.pk %}">Тестировщики</a></li>
+    <li class="noborder"><a href="{% url project_detail_testers project_id=project.pk %}">Тестировщики</a></li>
+</div>    
 {% endblock %}

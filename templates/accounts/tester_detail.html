@@ -1,9 +1,11 @@
 {% extends 'accounts/tester_base.html' %}
 {% block sidebar %}
+<div id='sidebar_refs'>
           <ul>
                <li><a href="{{ tester.get_absolute_url }}">Мои данные</a></li>
                <li><a href="{% url tester_detail_projects tester_id=tester.id %}">Мои проекты</a></li>
            </ul>
+</div>           
 {% endblock %}
 
 {% block content_title %}

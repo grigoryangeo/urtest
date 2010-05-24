@@ -3,9 +3,11 @@
 {% block title %}RuTest companies{% endblock %}
 
 {% block subbar %}
+<div id='sidebar_refs'>
     <li><a href="{{ customer.get_absolute_url }}">Личные данные</a></li>
     {% if viewing_self %}
         <li><a href="{{ customer.get_edit_url }}">Редактирование</a></li>
     {% endif %}
     <li class="noborder"><a href="{% url customer_detail_projects customer_id=customer.pk %}">Проекты</a></li>
+</div>    
 {% endblock %}

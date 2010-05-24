@@ -1,0 +1,85 @@
+{% load webdesign %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+     
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="/site_media/css/base.css" />
+	{{ form.media }}
+	<script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.tablesorter.js"></script>
+	<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/niceforms.js"></script> -->
+
+     <link rel="icon" href="/site_media/img/favicon.ico" type="image/x-icon">
+     <link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon">
+        <title>{% block title %}RuTest - Краудсорс коммьюнити{% endblock %}</title>
+ 
+    </head>
+    <body>
+	<div id="header">
+
+	    <a href="/" title="RuTest"><img src="/site_media/img/logo.jpg" alt="RuTest" width="272" height="87" /></a>
+	    <h1>{% block header %}{% endblock %}</h1>
+
+	    {% if not user.is_authenticated %}
+	    <a href="{% url django.contrib.auth.views.login %}" title="Авторизация" class="login">Авторизация</a>
+	    {% endif %}
+
+	    <div id="topbar">
+		<ul>
+		    {% block topbar %}
+		    <li><a href="/" title="Главная">Главная</a></li>
+		    {% if user.is_authenticated %}
+		    <li><a href="{% url accounts.views.redirect_to_self %}">Личный кабинет</a></li>
+		    {% endif %}
+		    <li><a href="{% url project_list %}" title="Наши проекты">Наши проекты</a></li>
+		    
+		    {% if user.is_authenticated %}
+            <li><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
+		    <li class="noborder"><a href="{% url django.contrib.auth.views.logout %}" title="Выход">Выход</a></li>
+		    {% else %}
+		    <li class="noborder"><a href="{% url tester_list %}" title="Наши тестировщики">Наши тестировщики</a></li>
+		    {% endif %}
+		    {% endblock %}
+		</ul>
+	    </div>
+	    <div id="subbar">
+        	<ul>
+        	   {% block subbar %}
+            	{% endblock %}
+        	</ul>
+    	</div>
+	</div>
+	
+
+	<div id="body">
+
+        <h2>{% block content_title %}Title{% endblock %}</h2><br class="spacer"/>
+	    {% block content %}
+	    <p>{% lorem %}</p>
+	    {% endblock %}
+
+	    <br class="spacer" />
+	</div>
+
+	<div id="footer">
+	    {% block footer %}
+	    <div id="footerContainer">
+		<ul>
+		    <li><a href="/" title="Главная">Главная</a>|</li>
+		    <li><a href="{% url project_list %}" title="Наши проекты">Наши проекты</a>|</li>
+		    <li><a href="{% url tester_list %}" title="Наши тестировщикиы">Наши тестировщики</a></li>
+		</ul><br class="spacer" />
+		<p>&copy; 2009-2010, К8-221.</p>
+		<br class="spacer" />
+		<div class="valid">
+		    <a href="http://validator.w3.org/check?uri=referer" target="_blank" class="xhtnl" title="Valid XHTML">xhtml</a>
+		    <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank" class="css" title="Valid CSS">css</a>
+		</div>
+		<br class="spacer" />
+	    </div>
+	    {% endblock %}
+	</div>
+    </body>
+</html>

@@ -12,12 +12,13 @@
         // ---- tablesorter -----
         });
         </script>
-
+<div id='sidebar_refs'>
 <ul>
     <li><a href="/projects/{{ project.pk}}">Описание</a></li>
     <li><a href="/projects/{{ project.pk }}/bugs">Баги</a></li>
     <li><a href="/projects/{{ project.pk }}/testers">Тестировщики</a></li>
 </ul>
+</div>
 {% endblock %}
 {% block content%}
 <br>

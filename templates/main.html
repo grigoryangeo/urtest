@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 
+
 {% block subbar %}
-<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
-<li class="noborder"><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
+	<div id='sidebar_refs'>
+		<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
+		<br/>
+		<li><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
+		
+	</div>
 {% endblock %}
 
-
-{% block content_title %}Краудсорсинг-коммьюнити RuTest{% endblock %}
-
-{% block content %}
-		<p>
+	<div>
+		<div>
+		{% block content_title %}Краудсорсинг-коммьюнити RuTest{% endblock %}
+		
+		
+		{% block content %}
+				<p>
 Модель краудсорсинга можно применить для организации тестирования програмного обеспечения. Данная система является перспективной,
 поскольку тестирование в России является развивающимся направлением в области программного продукта.Производители
 программных продуктов осознают,  что понятие качества становится наиболее приоритетной направляющей в разработке информационных систем,
@@ -17,7 +24,7 @@
                 </p>
 
                 
-                <h1>Преимущества разрабатываемой системы</h1>
+                <h1 style="text-align:left">Преимущества разрабатываемой системы</h1>
                 
 		<p>
 Быстрая и недорогая возможность набрать команду тестировщиков. Причем Заказчик в праве самостоятельно их выбрать, а
@@ -37,8 +44,7 @@
 качество продукта и внести свои предложения по интересующим его характеристикам продукта  на специально отведенных блогах
 проектов
                 </p>
-                
-<br class="spacer" />
+				<br class="spacer" />
 
 		<p>
 
@@ -49,12 +55,12 @@
     	     <legend>Авторизация</legend>
              <dl>
         	    <dt><label for="email">Email Address:</label></dt>
-                <dd><input type="text" name="username" value="логин" OnFocus="value=''" id="username" /></dd>
+                <dd><input type="text" name="username" value="логин" maxlength="50"  OnFocus="value=''" id="username" /></dd>
              </dl>
              <dl>
         	 <br/>
         	     <dt><label for="password">Password:</label></dt>
-                 <dd><input type="password" name="password" value="пароль" OnFocus="value=''" id="password" /></dd>
+                 <dd><input type="password" name="password"  maxlength="30" value="пароль" OnFocus="value=''" id="password" /></dd>
              </dl>
              <br/>
              <dl>
@@ -66,14 +72,13 @@
 		{% endif %}
 		</p>
 		
-	<br class="spacer" /></div>
-
-	
+	<br class="spacer" />
+		</div>
 <div id="lefutur">	
 	<div id="catagory">
 	  <div class="testimonial">
-                <h2>Для разработчика</h2>
-                <ol>
+                <h2>Для заказчика</h2>
+                <ul>
                     <li>Ведение проекта </li>
                     <li>Обеспечение безопасности передаваемых в систему данных</li>
                     <li>Различные виды тестирования</li>
@@ -81,17 +86,17 @@
                     <li>Предоставление фокус-групп для бета-тестирования</li>
                     <li>Проверка текстов документации и программ на соответствие принятым нормам языка</li>
                     <li>Предоставление репозитория для каждого проекта</li>
-                </ol>
+                </ul>
                          
 	  </div>
 	  
 	  <div class="solution">
 	  	<h2>Для тестировщика</h2>
-                <ol>
+                <ul>
                     <li>Список тестируемых проектов (стоимость различных типов проблем, количество найденных проблем) </li>
                     <li>Личный кабинет с данными о найденных проблемах, переведенных текстах (заработанная сумма, дата выплаты, сумма выплаты) </li>
                     <li>Клиентское приложение, предоставляющее тестировщику ряд инструментов для удаленного тестирования (написание тест-скриптов, загрузка на сервер, исполнение)</li>
-                </ol>
+                </ul>
 
 	  </div>
 </div>	  
@@ -106,7 +111,7 @@
 		<div id="futureContainer">
 			<div class="futureLeft">
 				<ul>
-					<li class="serviece" style ="cursor:pointer" onClick="location.href='{% url customer_registration %}'">Я разработчик<br /></li>
+					<li class="serviece" style ="cursor:pointer" onClick="location.href='{% url customer_registration %}'">Я заказчик<br /></li>
 				</ul>
 			</div>
 			<div class="futureRight">
@@ -117,4 +122,5 @@
 		</div>	
 	</div>	
 	<br class="spacer" />
+	
 {% endblock %}

@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block subbar %}
+<div id='sidebar_refs'>
 <li><a href="{{ tester.get_absolute_url }}">Личные данные</a></li>
 {% if viewing_self %}
 <li><a href="{{ tester.get_edit_url }}">Редактирование</a></li>
 <li><a href="{{ tester.get_photo_url }}">Фотография</a></li>
 {% endif %}
 <li class="noborder" ><a href="{% url tester_detail_projects tester_id=tester.id %}">Проекты</a></li>
+</div>
 {% endblock %}

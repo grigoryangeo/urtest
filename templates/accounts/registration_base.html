@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block subbar %}
-<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
-<li><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
+<div id='sidebar_refs'>
+		<li><a href="{% url customer_registration %}">Регистрация подрядчика</a></li>
+		<br/>
+		<li><a href="{% url tester_registration %}">Регистрация тестировщика</a></li>
+		
+	</div>
 {% endblock %}
